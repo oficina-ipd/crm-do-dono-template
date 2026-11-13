@@ -6,15 +6,17 @@ import { irPara, useSearchParams } from "../../link";
 import { Button, ButtonLink, EmptyState, FaixaTopo } from "../../ui";
 import { BriefingPainel, CabecalhoFicha, ColunaPrincipal, ContatoPainel, NegocioPainel, NotasPainel, PainelPorQue, ProximaAcao } from "./partes";
 import { EmailPainel, PropostaPagamentoPainel } from "./proposta";
+import { ResumoComportamento } from "./resumo-360";
 import { destinoCurto, destinoVoltar } from "./voltar";
 import "../../styles/telas/conversas.css";
 import "../../styles/telas/ficha.css";
 
 /**
  * Ficha da pessoa. Faixa do topo com voltar, nome, quem é e as ações (Abrir conversa, Ligar,
- * Criar tarefa, Mover para…); coluna principal com a conversa (a mesma de Conversas) e uma linha
- * do tempo única filtrável; coluna lateral com por que pediu uma pessoa, próxima ação, contato,
- * negócio (só o que tem dado), briefing recolhível, proposta e pagamento, notas e e-mail.
+ * Criar tarefa, Mover para…); coluna principal com a conversa (a mesma de Conversas) e o histórico
+ * 360 (linha do tempo única por dia, filtrável); coluna lateral com por que pediu uma pessoa, o
+ * resumo de comportamento, próxima ação, contato (identidade), negócio (só o que tem dado),
+ * briefing recolhível, proposta e pagamento, notas e e-mail.
  */
 export function TelaFicha({ contatoId }: { contatoId: string }) {
   const { contato, estado } = useCRM();
@@ -59,6 +61,7 @@ export function TelaFicha({ contatoId }: { contatoId: string }) {
         <aside className="v4-fi-lateral v4-panel" aria-label={`Resumo de ${c.nome}`}>
           <div className="v4-fi-lateral__rolagem">
             <PainelPorQue c={c} />
+            <ResumoComportamento c={c} />
             <ProximaAcao c={c} />
             <ContatoPainel c={c} />
             <NegocioPainel c={c} />

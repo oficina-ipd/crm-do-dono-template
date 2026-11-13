@@ -6,26 +6,15 @@ import { etapaDe } from "@/domain/funil";
 import { dataHora, oportunidadePrincipal, proximasAcoes } from "@/domain/rules";
 import type { Briefing, ContatoCompleto, Termometro } from "@/domain/types";
 import { irPara, useRouter, useSearchParams } from "../../link";
-import { Button, ButtonLink, Checkbox, Dialog, FaixaTopo, Icon, Input, Panel, SegmentedControl, Select, Tabs, Tag, Textarea } from "../../ui";
+import { Button, ButtonLink, Checkbox, Dialog, FaixaTopo, Input, Panel, SegmentedControl, Select, Tabs, Tag, Textarea } from "../../ui";
 import { useAlturaNoPai } from "../../ui/flutuante";
 import { FormNota, FormTarefa, MenuMoverEtapa, RevelarDado } from "../conversas/acoes";
 import { PorQuePediu } from "../conversas/contexto";
 import { ConversaTpl, useNomesConversa } from "../conversas/conversa";
 import { condutorDe, haQuanto, horaCurta, mascararEmail, mascararTelefone, motivoDoHandoff, nomeDoOperador } from "../conversas/modelo";
-import {
-  camposNegocio,
-  camposPreenchidos,
-  contarPorTipo,
-  filtroLinhaValido,
-  metaDaFicha,
-  montarLinhaDoTempo,
-  ROTULO_FILTRO_LINHA,
-  rotuloSalvar,
-  TIPOS_EVENTO,
-  validarBriefing,
-  type EstadoSalvar,
-  type FiltroLinha,
-} from "./modelo";
+import { dataCurta, filtro360Valido, identidadeDaPessoa, montarHistorico, ROTULO_FILTRO_360, TIPOS_DO_FILTRO } from "./historico";
+import { Linha360 } from "./linha-360";
+import { camposNegocio, camposPreenchidos, metaDaFicha, rotuloSalvar, validarBriefing, type EstadoSalvar } from "./modelo";
 import { destinoCurto, destinoVoltar, hrefConversaDe } from "./voltar";
 
 function useSoLeitura() {
@@ -105,15 +94,18 @@ function useLarguraDasAbas() {
 }
 
 export function ColunaPrincipal({ c }: { c: ContatoCompleto }) {
-  const { estado } = useCRM();
+  const { estado, agora } = useCRM();
   const nomes = useNomesConversa();
   const router = useRouter();
   const sp = useSearchParams();
   const aba = sp.get("aba") === "linha" ? "linha" : "conversa";
-  const filtro = filtroLinhaValido(sp.get("mostrar") ?? "tudo");
-  const linha = useMemo(() => montarLinhaDoTempo(c, { ...nomes, funis: estado.funis }), [c, nomes, estado.funis]);
-  const contagem = useMemo(() => contarPorTipo(linha), [linha]);
-  const eventos = useMemo(() => (filtro === "tudo" ? linha : linha.filter((e) => e.tipo === filtro)), [linha, filtro]);
+  const filtro = filtro360Valido(sp.get("mostrar") ?? "tudo");
+  // O relógio de 30 s refaz a linha só para "Atrasada" nas tarefas; o resto vem do estado.
+  const linha = useMemo(
+    () => montarHistorico(c, { ...nomes, funis: estado.funis, produtos: estado.produtos, agora }),
+    [c, nomes, estado.funis, estado.produtos, agora],
+  );
+  const naTela = useMemo(() => (filtro === "tudo" ? linha.length : linha.filter((e) => TIPOS_DO_FILTRO[filtro].includes(e.tipo)).length), [linha, filtro]);
   const painel = useLarguraDasAbas();
   const topo = useAlturaNoPai("--v4-cv-topo-h");
 
@@ -129,9 +121,11 @@ export function ColunaPrincipal({ c }: { c: ContatoCompleto }) {
   const quemConduz = condutor.tipo === "robo" ? `${nomes.nomeRobo} está conduzindo` : condutor.tipo === "voce" ? "Você está conduzindo" : `${condutor.nome} está conduzindo`;
   const subtitulo =
     aba === "linha"
-      ? filtro === "tudo"
-        ? `${linha.length} ${linha.length === 1 ? "registro" : "registros"}`
-        : `${eventos.length} de ${linha.length} · ${ROTULO_FILTRO_LINHA[filtro]}`
+      ? linha.length === 0
+        ? "Sem registros ainda"
+        : filtro === "tudo"
+          ? `${linha.length} ${linha.length === 1 ? "registro" : "registros"}`
+          : `${naTela} de ${linha.length} · ${ROTULO_FILTRO_360[filtro]}`
       : `${quemConduz}${c.handoffPendente ? " · pediu uma pessoa" : ""}`;
 
   return (
@@ -159,41 +153,7 @@ export function ColunaPrincipal({ c }: { c: ContatoCompleto }) {
               <ConversaTpl key={c.id} c={c} modo="embutida" />
             </div>
             <div hidden={ativa !== "linha"} className="v4-fi-aba">
-              <div className="v4-fi-bloco v4-fi-linha">
-                <SegmentedControl
-                  label="Mostrar na linha do tempo"
-                  value={filtro}
-                  onChange={(v) => {
-                    const f = filtroLinhaValido(v);
-                    trocar("mostrar", f === "tudo" ? null : f);
-                  }}
-                  options={(["tudo", ...TIPOS_EVENTO] as FiltroLinha[]).map((f) => ({
-                    value: f,
-                    label: ROTULO_FILTRO_LINHA[f],
-                    count: contagem[f],
-                    disabled: f !== "tudo" && contagem[f] === 0,
-                  }))}
-                />
-                {eventos.length === 0 ? (
-                  <p className="v4-t-ui v4-t-2">{filtro === "tudo" ? "Nada registrado ainda." : `Nenhum registro de ${ROTULO_FILTRO_LINHA[filtro].toLowerCase()}.`}</p>
-                ) : (
-                  <ol className="v4-fi-eventos">
-                    {eventos.map((e) => (
-                      <li key={e.id} className={`v4-fi-evento v4-fi-evento--${e.tipo}`}>
-                        <Icon name={e.tipo === "mensagem" ? "conversas" : e.tipo === "ligacao" ? "telefone" : e.tipo === "nota" ? "nota" : e.tipo === "tarefa" ? "tarefas" : "funil"} />
-                        <div className="v4-fi-evento__corpo">
-                          <p className="v4-t-ui v4-t-medium">{e.titulo}</p>
-                          {e.texto && <p className="v4-t-ui v4-t-2 v4-fi-evento__texto">{e.texto}</p>}
-                          <p className="v4-t-meta">
-                            <time dateTime={e.em}>{dataHora(e.em)}</time>
-                            {e.autor ? ` · ${e.autor}` : ""}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </div>
+              <Linha360 eventos={linha} filtro={filtro} agora={agora} aoMudarFiltro={(f) => trocar("mostrar", f === "tudo" ? null : f)} />
             </div>
           </>
         )}
@@ -292,7 +252,9 @@ const TERMOMETRO: Array<{ value: string; label: string }> = [
 ];
 
 export function ContatoPainel({ c }: { c: ContatoCompleto }) {
-  const { despachar } = useCRM();
+  const { despachar, estado } = useCRM();
+  const identidade = identidadeDaPessoa(c, estado.funis);
+  const temTelefone = Boolean(c.telefone.replace(/\D/g, ""));
   const nomes = useNomesConversa();
   const soLeitura = useSoLeitura();
   const [editando, setEditando] = useState(false);
@@ -312,6 +274,36 @@ export function ContatoPainel({ c }: { c: ContatoCompleto }) {
       }
     >
       <dl className="v4-fi-dl">
+        {identidade.map((x) => (
+          <div key={x.rotulo}>
+            <dt>{x.rotulo}</dt>
+            <dd className={x.tipo === "data" ? "v4-tabular" : undefined}>
+              {x.tipo === "telefone" ? (
+                <RevelarDado key={`${c.id}-tel`} rotulo="WhatsApp" mascarado={mascararTelefone(x.valor)} completo={x.valor} numero />
+              ) : x.tipo === "email" ? (
+                <RevelarDado key={`${c.id}-email`} rotulo="E-mail" mascarado={mascararEmail(x.valor)} completo={x.valor} />
+              ) : x.tipo === "data" ? (
+                <time dateTime={x.valor} title={dataHora(x.valor)}>
+                  {dataCurta(x.valor)}
+                </time>
+              ) : (
+                x.valor
+              )}
+            </dd>
+          </div>
+        ))}
+        {!temTelefone && (
+          <div>
+            <dt>WhatsApp</dt>
+            <dd className="v4-t-2">Sem WhatsApp</dd>
+          </div>
+        )}
+        {!c.email.trim() && (
+          <div>
+            <dt>E-mail</dt>
+            <dd className="v4-t-2">Sem e-mail</dd>
+          </div>
+        )}
         <div>
           <dt>Tipo</dt>
           <dd>{c.categoria === "cliente" ? "Cliente" : "Lead"}</dd>
@@ -319,14 +311,6 @@ export function ContatoPainel({ c }: { c: ContatoCompleto }) {
         <div>
           <dt>Conduz</dt>
           <dd>{conduz}</dd>
-        </div>
-        <div>
-          <dt>WhatsApp</dt>
-          <dd>{c.telefone.replace(/\D/g, "") ? <RevelarDado key={`${c.id}-tel`} rotulo="WhatsApp" mascarado={mascararTelefone(c.telefone)} completo={c.telefone} numero /> : <span className="v4-t-2">Sem WhatsApp</span>}</dd>
-        </div>
-        <div>
-          <dt>E-mail</dt>
-          <dd>{c.email ? <RevelarDado key={`${c.id}-email`} rotulo="E-mail" mascarado={mascararEmail(c.email)} completo={c.email} /> : <span className="v4-t-2">Sem e-mail</span>}</dd>
         </div>
       </dl>
       {soLeitura ? (

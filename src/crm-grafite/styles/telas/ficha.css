@@ -65,20 +65,123 @@
   border-bottom: 1px solid var(--v4-border-divider);
 }
 
-/* Linha do tempo */
+/* ==========================================================================
+   Histórico 360 (porte do IPD #340): linha do tempo única na aba "Linha do
+   tempo" e resumo de comportamento no topo da lateral. Uma linha por evento,
+   agrupadas por dia; o detalhe abre embaixo da linha. Sem cor nova: o estado é
+   texto, e só a falha usa a cor de erro.
+   ========================================================================== */
 .crm-v4-root .v4-fi-linha .v4-seg { flex-wrap: wrap; }
-.crm-v4-root .v4-fi-eventos { display: grid; margin: 0; padding: 0; list-style: none; }
-.crm-v4-root .v4-fi-evento {
+.crm-v4-root .v4-l360-dia { display: grid; min-width: 0; }
+.crm-v4-root .v4-l360-eventos { display: grid; margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-l360-evento { min-width: 0; }
+.crm-v4-root .v4-l360-linha {
   display: grid;
-  grid-template-columns: var(--v4-c-icon) minmax(0, 1fr);
+  grid-template-columns: var(--v4-c-icon) minmax(0, 1fr) auto auto 16px;
+  align-items: center;
   gap: var(--v4-space-3);
-  padding-block: var(--v4-space-3);
-  border-top: 1px solid var(--v4-border-divider);
+  width: 100%;
+  min-height: 40px;
+  padding: var(--v4-space-1) var(--v4-space-2);
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
-.crm-v4-root .v4-fi-evento:first-child { border-top: 0; padding-top: var(--v4-space-1); }
-.crm-v4-root .v4-fi-evento > .v4-icon { margin-top: 1px; color: var(--v4-text-3); }
-.crm-v4-root .v4-fi-evento__corpo { display: grid; gap: 2px; min-width: 0; }
-.crm-v4-root .v4-fi-evento__texto { max-width: 70ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+.crm-v4-root .v4-l360-linha:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-l360-linha:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: calc(-1 * var(--v4-focus-width)); }
+.crm-v4-root .v4-l360-linha > .v4-icon { color: var(--v4-text-2); }
+.crm-v4-root .v4-l360-titulo {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crm-v4-root .v4-l360-linha[aria-expanded="true"] .v4-l360-titulo { overflow: visible; white-space: normal; overflow-wrap: anywhere; }
+.crm-v4-root .v4-l360-estado,
+.crm-v4-root .v4-l360-hora {
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  white-space: nowrap;
+}
+/* Colunas fixas: linha sem estado mantém a hora e a seta no mesmo lugar das outras */
+.crm-v4-root .v4-l360-estado { grid-column: 3; }
+.crm-v4-root .v4-l360-hora { grid-column: 4; }
+.crm-v4-root .v4-l360-linha > .v4-icon:last-child { grid-column: 5; }
+.crm-v4-root .v4-l360-estado--bom,
+.crm-v4-root .v4-l360-estado--atencao { color: var(--v4-text-1); font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-l360-estado--erro { color: var(--v4-danger); font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-l360-detalhe:not([hidden]) {
+  display: grid;
+  gap: 2px;
+  max-width: 78ch;
+  padding: 0 var(--v4-space-2) var(--v4-space-3) calc(var(--v4-space-2) + var(--v4-c-icon) + var(--v4-space-3));
+}
+.crm-v4-root .v4-l360-detalhe p { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.crm-v4-root .v4-l360-fim {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2) var(--v4-space-3);
+  padding-top: var(--v4-space-2);
+}
+.crm-v4-root .v4-l360-nota { max-width: 78ch; margin: 0; }
+.crm-v4-root .v4-l360-vazio { margin: 0; padding-block: var(--v4-space-3); }
+
+/* Resumo de comportamento (lateral) */
+.crm-v4-root .v4-r360-sinal { display: grid; justify-items: start; gap: var(--v4-space-1); }
+.crm-v4-root .v4-r360-sinal__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  min-height: var(--v4-c-control-h-sm);
+  margin-left: calc(-1 * var(--v4-space-2));
+  padding: 0 var(--v4-space-2);
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-1);
+  font: inherit;
+  cursor: pointer;
+}
+.crm-v4-root .v4-r360-sinal__botao:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-r360-sinal__botao:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: var(--v4-focus-offset); }
+.crm-v4-root .v4-r360-sinal__botao > .v4-icon { color: var(--v4-text-2); }
+/* Três marcas: quente enche as três, morno duas, frio uma; sem sinal, nenhuma */
+.crm-v4-root .v4-r360-pontos { display: inline-flex; gap: 3px; }
+.crm-v4-root .v4-r360-pontos i { width: 8px; height: 8px; border: 1.5px solid currentColor; border-radius: var(--v4-radius-pill); }
+.crm-v4-root .v4-r360-pontos--quente i,
+.crm-v4-root .v4-r360-pontos--morno i:nth-child(-n + 2),
+.crm-v4-root .v4-r360-pontos--frio i:first-child { background: currentColor; }
+.crm-v4-root .v4-r360-regra:not([hidden]) { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-r360-regra p { margin: 0; color: var(--v4-text-1); }
+.crm-v4-root .v4-r360-regra ul { display: grid; gap: 2px; margin: 0; padding-left: var(--v4-space-4); }
+.crm-v4-root .v4-r360-dica { display: grid; gap: 2px; max-width: 280px; }
+
+@media (pointer: coarse) {
+  .crm-v4-root .v4-l360-linha,
+  .crm-v4-root .v4-r360-sinal__botao { min-height: 44px; }
+}
+/* Tela estreita: o estado desce para baixo do título, para o título não sumir */
+@media (max-width: 767px) {
+  .crm-v4-root .v4-l360-linha {
+    grid-template-columns: var(--v4-c-icon) minmax(0, 1fr) auto 16px;
+    row-gap: 0;
+    min-height: 44px;
+  }
+  .crm-v4-root .v4-l360-linha > .v4-icon:first-child { grid-row: 1 / span 2; }
+  .crm-v4-root .v4-l360-estado { grid-column: 2; grid-row: 2; }
+  .crm-v4-root .v4-l360-hora { grid-column: 3; grid-row: 1; }
+  .crm-v4-root .v4-l360-linha > .v4-icon:last-child { grid-column: 4; grid-row: 1; }
+  .crm-v4-root .v4-r360-sinal__botao { min-height: 44px; }
+}
 
 /* Coluna lateral */
 .crm-v4-root .v4-fi-tarefas { display: grid; gap: var(--v4-space-2); margin: 0; padding: 0; list-style: none; }
@@ -290,9 +393,6 @@
   scroll-padding-top: var(--v4-cv-topo);
 }
 .crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-fi-linha .v4-seg { justify-self: start; flex-wrap: nowrap; }
-.crm-v4-root[data-visual="grafite"] .v4-fi-evento { padding-inline: var(--v4-space-2); border-top: 0; border-radius: var(--v4-radius-control); }
-.crm-v4-root[data-visual="grafite"] .v4-fi-evento:first-child { padding-top: var(--v4-space-3); }
-.crm-v4-root[data-visual="grafite"] .v4-fi-evento > .v4-icon { color: var(--v4-text-2); }
 
 /* ---------- Painel lateral: um vidro só (placa parada), dados rolando por dentro ---------- */
 .crm-v4-root[data-visual="grafite"] .v4-fi-lateral.v4-panel {

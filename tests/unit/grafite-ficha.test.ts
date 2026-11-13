@@ -5,10 +5,7 @@ import {
   autorDoMovimento,
   camposNegocio,
   camposPreenchidos,
-  contarPorTipo,
-  filtroLinhaValido,
   metaDaFicha,
-  montarLinhaDoTempo,
   mostraPropostaPagamento,
   rotuloSalvar,
   textoInicialProposta,
@@ -38,7 +35,11 @@ describe("ficha · voltar", () => {
   it("voltar devolve à origem com o rótulo certo; sem origem, Pessoas", () => {
     expect(destinoVoltar("/conversas?filtro=precisa&c=c1")).toEqual({ href: "/conversas?filtro=precisa&c=c1", rotulo: "Voltar para Conversas", daOrigem: true });
     expect(destinoVoltar("/funil").rotulo).toBe("Voltar para o Funil");
-    expect(destinoVoltar("/").rotulo).toBe("Voltar para a Fila");
+    expect(destinoVoltar("/fila").rotulo).toBe("Voltar para a Fila");
+    expect(destinoVoltar("/hoje").rotulo).toBe("Voltar para a Fila");
+    expect(destinoVoltar("/").rotulo).toBe("Voltar para o Painel");
+    expect(destinoVoltar("/painel").rotulo).toBe("Voltar para o Painel");
+    expect(destinoCurto("Voltar para o Painel")).toBe("Painel");
     expect(destinoVoltar(null)).toEqual({ href: "/pessoas", rotulo: "Voltar para Pessoas", daOrigem: false });
     expect(destinoCurto("Voltar para o Funil")).toBe("Funil");
     expect(destinoCurto("Voltar para Conversas")).toBe("Conversas");
@@ -50,39 +51,11 @@ describe("ficha · voltar", () => {
   });
 });
 
-describe("ficha · linha do tempo", () => {
-  it("junta mensagens, ligações, notas, movimentos e tarefas, da mais recente para a mais antiga", () => {
-    const c = contato("c2");
-    const ev = montarLinhaDoTempo(c, nomes);
-    for (let i = 1; i < ev.length; i++) expect(ev[i - 1].em >= ev[i].em).toBe(true);
-    const n = contarPorTipo(ev);
-    expect(n.ligacao).toBe(1);
-    expect(n.nota).toBe(1);
-    expect(n.tarefa).toBe(2);
-    // 7 mensagens, uma delas o aviso de troca (vira movimento)
-    expect(n.mensagem).toBe(6);
-    expect(n.tudo).toBe(ev.length);
-    expect(ev.find((e) => e.tipo === "ligacao")?.titulo).toBe("Ligação · 10 min · quente");
-    expect(ev.find((e) => e.titulo === "Uma pessoa assumiu a conversa")?.tipo).toBe("movimento");
-    expect(ev.find((e) => e.titulo === "Chegou pelo funil Live semanal")).toBeTruthy();
-    expect(ev.some((e) => e.titulo === "Handoff → Briefing feito" && e.autor === "Otávio")).toBe(true);
-  });
-  it("perda, proposta e pagamento entram como movimento", () => {
-    const sonia = montarLinhaDoTempo(contato("c11"), nomes);
-    expect(sonia.find((e) => e.titulo === "Oportunidade perdida")?.texto).toBe("preço");
-    const renata = montarLinhaDoTempo(contato("c5"), nomes);
-    expect(renata.some((e) => e.titulo.startsWith("Link de pagamento (Pix)"))).toBe(true);
-    expect(renata.some((e) => e.titulo === "Proposta enviada por WhatsApp")).toBe(true);
-  });
-  it("autor do movimento", () => {
+describe("ficha · autor do movimento", () => {
+  it("robô, automático ou operador", () => {
     expect(autorDoMovimento("robo", { ...nomes, nomeRobo: "Bia" })).toBe("Bia");
     expect(autorDoMovimento("sistema", nomes)).toBe("Automático");
     expect(autorDoMovimento(IDS.dono, nomes)).toBe("Você");
-  });
-  it("filtro inválido vira 'tudo'", () => {
-    expect(filtroLinhaValido("nota")).toBe("nota");
-    expect(filtroLinhaValido("xyz")).toBe("tudo");
-    expect(filtroLinhaValido(undefined)).toBe("tudo");
   });
 });
 
@@ -90,10 +63,11 @@ describe("ficha · lateral", () => {
   it("negócio só com campos preenchidos", () => {
     const c = contato("c3");
     const campos = camposNegocio(c, estado);
-    expect(campos.map((x) => x.rotulo)).toEqual(["Empresa", "Segmento", "Cidade", "Origem", "Nota que se deu", "Produto", "Valor"]);
+    // Empresa e origem ficam no bloco Contato (identidade), sem repetir em Negócio
+    expect(campos.map((x) => x.rotulo)).toEqual(["Segmento", "Cidade", "Nota que se deu", "Produto", "Valor"]);
     expect(campos.find((x) => x.rotulo === "Valor")?.valor).toMatch(/1\.997/);
     const vazio = camposNegocio({ ...c, empresa: "", segmento: " ", cidade: "", nota: null, oportunidades: [] }, estado);
-    expect(vazio.map((x) => x.rotulo)).toEqual(["Origem"]);
+    expect(vazio).toEqual([]);
   });
   it("quem é numa linha", () => {
     expect(metaDaFicha(contato("c1"))).toBe("Clínica Exemplo Vida · Lead · Handoff");

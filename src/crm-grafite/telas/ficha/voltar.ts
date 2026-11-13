@@ -35,7 +35,8 @@ const ROTULOS: Array<[RegExp, string]> = [
   [/^\/(pessoas|leads|clientes|buscar|contatos)(\/|$)/, "Voltar para Pessoas"],
   [/^\/funil(\/|$)/, "Voltar para o Funil"],
   [/^\/(tarefas|trabalho)(\/|$)/, "Voltar para Tarefas"],
-  [/^\/(fila|hoje)?$/, "Voltar para a Fila"],
+  [/^\/(fila|hoje)$/, "Voltar para a Fila"],
+  [/^\/(painel)?$/, "Voltar para o Painel"],
 ];
 
 /** Para onde "Voltar" leva. Com origem válida: ela. Sem origem: Pessoas. */
