@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Navegação por hash compatível com a casca CRM v3 (produção usa App Router).
+ * Navegação por hash do CRM: o app roda no navegador e as rotas ficam depois do #.
  * Paths no estilo produção: #/, #/funil, #/conversas?c=…, #/contatos/:id.
  */
 import * as React from "react";
@@ -56,7 +56,7 @@ export function useCrmRouter() {
   );
 }
 
-/** Drop-in de next/link para telas CRM v3 em modo hash. */
+/** Drop-in de next/link em modo hash. */
 export function CrmLink({
   href,
   children,

@@ -6,7 +6,7 @@
  * `next/link` e `next/navigation` para os componentes vindos do CRM do IPD.
  */
 import * as React from "react";
-import { CrmLink, irPara, lerHashPath, pathSemQuery, queryDoHash, useCrmPath, useCrmRouter } from "@/crm-v3/hash-nav";
+import { CrmLink, irPara, lerHashPath, pathSemQuery, queryDoHash, useCrmPath, useCrmRouter } from "./hash-nav";
 
 export { irPara, lerHashPath, pathSemQuery, queryDoHash, useCrmPath };
 

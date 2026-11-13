@@ -3,8 +3,8 @@
 import Link from "@/crm-grafite/link";
 import { usePathname } from "@/crm-grafite/link";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
-import { ROTULO_PAPEL } from "@/crm-v3/nav";
 import {
+  ROTULO_PAPEL,
   badgeDoItemV4,
   caminhoV4,
   gruposNavV4,

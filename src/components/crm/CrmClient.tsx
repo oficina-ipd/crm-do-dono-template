@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { App } from "@/screens/App";
+import { App } from "./App";
 import { criarRepositorio } from "@/repo/criar";
 import type { RepositorioCRM } from "@/repo";
 

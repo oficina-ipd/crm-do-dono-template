@@ -199,3 +199,10 @@ html:has(.crm-v4-root) { scroll-padding-top: 80px; }
   min-height: 100dvh;
   padding: var(--v4-space-6);
 }
+
+/* Fora da raiz (rolagem elástica, bordas da janela): o mesmo fundo do Grafite, sem faixa clara. */
+html:has(.crm-v4-root[data-visual="grafite"]),
+html:has(.crm-v4-root[data-visual="grafite"]) body {
+  background: #12141b;
+  color-scheme: dark;
+}

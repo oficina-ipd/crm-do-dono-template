@@ -1,12 +1,18 @@
 /**
- * Navegação da casca v4, por papel. Mesma regra do v3 (`_v3/nav.ts`, que não muda):
+ * Navegação da casca, por papel:
  * gestor vê tudo; vendedor não vê os itens marcados `gestor`; tráfego só vê resultados.
  * Puro (sem React), para o servidor, a casca e os testes usarem o mesmo mapa.
  */
-import type { CrmPapelNav } from "@/crm-v3/nav";
 import type { IconeV4 } from "./ui/icon";
 
-export type { CrmPapelNav };
+/** Papel na navegação: gestor (dono) vê tudo; vendedor não vê os itens de gestor; tráfego só resultados. */
+export type CrmPapelNav = "gestor" | "vendedor" | "trafego";
+
+export const ROTULO_PAPEL: Record<CrmPapelNav, string> = {
+  gestor: "dono",
+  vendedor: "vendedor",
+  trafego: "tráfego",
+};
 
 export type BadgeChave = "fila" | "conversas" | "tarefas";
 
