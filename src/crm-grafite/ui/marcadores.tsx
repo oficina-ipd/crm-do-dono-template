@@ -34,7 +34,8 @@ export function Badge({ n, suaVez, rotulo }: { n: number; suaVez?: boolean; rotu
 }
 
 export function iniciaisV4(nome: string): string {
-  const partes = nome.trim().split(/\s+/).filter(Boolean);
+  // "João (dono)" → "J": o que vem entre parênteses é rótulo, não nome.
+  const partes = nome.replace(/\([^)]*\)/g, " ").trim().split(/\s+/).filter((p) => /\p{L}/u.test(p));
   if (partes.length === 0) return "?";
   const a = partes[0][0] ?? "";
   const b = partes.length > 1 ? partes[partes.length - 1][0] ?? "" : "";
@@ -48,7 +49,7 @@ export function Avatar({ nome, claudio, tamanho }: { nome: string; claudio?: boo
       aria-hidden="true"
       className={["v4-avatar", claudio ? "v4-avatar--claudio" : "", tamanho ? `v4-avatar--${tamanho}` : ""].filter(Boolean).join(" ")}
     >
-      {claudio ? "C" : iniciaisV4(nome)}
+      {claudio ? (nome.trim()[0] ?? "C").toUpperCase() : iniciaisV4(nome)}
     </span>
   );
 }

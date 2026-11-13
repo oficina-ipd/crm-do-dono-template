@@ -1,19 +1,19 @@
 "use client";
 import * as React from "react";
-import { Card } from "@/ds";
+import { ErrorState } from "@/crm-grafite/ui/states";
 import { CRMProvider, useCRM } from "@/components/crm/provider";
 import type { EstadoCRM } from "@/domain/types";
 import type { RepositorioCRM } from "@/repo";
-import { WhatsAppOnboarding } from "@/components/crm/WhatsAppOnboarding";
+import { PainelWhatsApp } from "@/crm-grafite/telas/integrar/whatsapp";
 // A raiz vem antes do app: o CSS base do Grafite carrega antes do CSS de cada tela.
 import { RaizGrafite, type PreferenciasGrafite } from "@/crm-grafite/shell/raiz";
 import { CrmGrafiteApp } from "@/crm-grafite/app";
 import { useToast as useAvisoGrafite } from "@/crm-grafite/ui/toast";
 import { TelaEntrar } from "@/crm-grafite/telas/entrar";
-import { ModalLigacao } from "./modais/Ligacao";
-import { ModalDiscagem } from "./modais/Discagem";
+import { ModalLigacaoGrafite as ModalLigacao } from "@/crm-grafite/telas/ligacoes/modal-ligacao";
+import { ModalDiscagemGrafite as ModalDiscagem } from "@/crm-grafite/telas/ligacoes/modal-discagem";
 
-/** Raiz: carrega o estado do repositório, pede o operador e monta o shell v3. */
+/** Raiz: carrega o estado do repositório, pede o operador e monta o CRM no visual Grafite. */
 export function App({ repo }: { repo: RepositorioCRM }) {
   const [estado, setEstado] = React.useState<EstadoCRM | null>(null);
   const [erro, setErro] = React.useState<string | null>(null);
@@ -24,24 +24,26 @@ export function App({ repo }: { repo: RepositorioCRM }) {
     repo.carregar().then(setEstado).catch((e) => setErro(String(e.message ?? e)));
   }, [repo]);
 
-  if (erro) {
+  if (erro || !estado) {
     return (
-      <div className="ds-gate">
-        <Card className="ds-gate__card">
-          <h1 style={{ margin: 0 }}>Não consegui carregar o CRM</h1>
-          <p>{erro}</p>
-          <p className="ds-muted">
-            Se você definiu NEXT_PUBLIC_API_URL, confira se o servidor está no ar (<code>npm run dev</code>).
-          </p>
-        </Card>
-      </div>
-    );
-  }
-  if (!estado) {
-    return (
-      <div className="ds-gate">
-        <span className="ds-label">Carregando…</span>
-      </div>
+      <RaizGrafite>
+        {() => (
+          <main className="v4-entrada-estado" data-v4-tela="carregando">
+            {erro ? (
+              <ErrorState
+                nivel={1}
+                titulo="Não consegui carregar o CRM"
+                texto={`${erro}. Se você definiu NEXT_PUBLIC_API_URL, confira se o servidor está no ar (npm run dev).`}
+                aoTentar={() => window.location.reload()}
+              />
+            ) : (
+              <p className="v4-t-meta" role="status">
+                Carregando o CRM…
+              </p>
+            )}
+          </main>
+        )}
+      </RaizGrafite>
     );
   }
 
@@ -89,7 +91,7 @@ function Interno({ prefs }: { prefs: PreferenciasGrafite }) {
         nomeEmpresa={crm.estado.config.nomeEmpresa}
         operadores={crm.estado.operadores.filter((o) => o.tipo === "humano" && o.ativo)}
         aoEntrar={crm.entrar}
-        rodape={<WhatsAppOnboarding compact />}
+        rodape={<PainelWhatsApp compacto />}
       />
     );
   }

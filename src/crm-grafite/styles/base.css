@@ -191,3 +191,11 @@ html:has(.crm-v4-root) { scroll-padding-top: 80px; }
   font-size: var(--v4-fs-ui);
   line-height: var(--v4-lh-ui);
 }
+
+/* Carregando / erro ao abrir o CRM (antes de existir casca) */
+.crm-v4-root .v4-entrada-estado {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--v4-space-6);
+}

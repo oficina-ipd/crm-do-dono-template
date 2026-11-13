@@ -259,3 +259,9 @@
   .crm-v4-root .v4-tarefa__quando { justify-self: start; }
   .crm-v4-root .v4-nova__quando { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Mudar data (diálogo) */
+.crm-v4-root .v4-tarefas__mudar {
+  display: grid;
+  gap: var(--v4-space-3);
+}

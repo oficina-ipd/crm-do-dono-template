@@ -24,6 +24,7 @@ import {
   type Situacao,
   type TarefaLinha,
 } from "./logica";
+import { MudarData } from "./mudar-data";
 import { NovaTarefa } from "./nova-tarefa";
 import "../../styles/telas/tarefas.css";
 
@@ -58,12 +59,14 @@ function LinhaTarefa({
   nomeRobo,
   podeEscrever,
   aoAlternar,
+  aoMudarData,
 }: {
   t: TarefaLinha;
   agora: Date;
   nomeRobo: string;
   podeEscrever: boolean;
   aoAlternar: () => Promise<unknown>;
+  aoMudarData: () => void;
 }) {
   const vencida = atrasada(t, agora);
   const origem = rotuloOrigem(t.origem, nomeRobo);
@@ -95,6 +98,11 @@ function LinhaTarefa({
               <span className="v4-sr"> {t.titulo}</span>
             </Button>
           )}
+          {podeEscrever && !t.feita && (
+            <Button variant="ghost" icon="relogio" onClick={aoMudarData}>
+              Mudar data<span className="v4-sr"> de {t.titulo}</span>
+            </Button>
+          )}
           {t.contato && (
             <ButtonLink href={`/contatos/${encodeURIComponent(t.contato.id)}`} variant="ghost" icon="pessoas">
               Abrir ficha<span className="v4-sr"> de {t.contato.nome}</span>
@@ -109,7 +117,7 @@ function LinhaTarefa({
 /**
  * Tarefas: atrasadas, hoje, próximas e sem data; concluir e reabrir na própria linha; criar
  * tarefa ligada a uma pessoa no lugar. Busca e situação na faixa do topo. Tudo pelo estado real
- * do CRM (`criarTarefa`, `concluirTarefa`); quem tem papel de leitura só lê.
+ * do CRM (`criarTarefa`, `concluirTarefa`, `reagendarTarefa`); quem tem papel de leitura só lê.
  */
 export function TelaTarefas() {
   const { estado, agora: agoraIso, operador, despachar, contato } = useCRM();
@@ -129,6 +137,7 @@ export function TelaTarefas() {
   // tarefa recém-criada: o foco vai para a linha dela assim que ela aparece na lista
   const [focar, setFocar] = useState<string | null>(null);
   const botaoNova = useRef<HTMLButtonElement>(null);
+  const [mudando, setMudando] = useState<TarefaLinha | null>(null);
 
   // #/trabalho?nova=1[&contato=ID]: abre "Nova tarefa" (com a pessoa, se veio da ficha) e limpa o endereço
   const pedidoNova = params.get("nova") === "1";
@@ -173,6 +182,16 @@ export function TelaTarefas() {
       return despachar({ tipo: "concluirTarefa", tarefaId: t.id, feita }, feita ? `Tarefa concluída: ${t.titulo}` : `Tarefa reaberta: ${t.titulo}`);
     },
     [despachar, agora],
+  );
+
+  const reagendar = useCallback(
+    async (venceEm: string | null) => {
+      if (!mudando) return false;
+      const r = await despachar({ tipo: "reagendarTarefa", tarefaId: mudando.id, venceEm }, `Data alterada: ${mudando.titulo}`);
+      if (r) setFocar(mudando.id);
+      return r !== null;
+    },
+    [despachar, mudando],
   );
 
   const fecharNova = useCallback(() => {
@@ -274,7 +293,7 @@ export function TelaTarefas() {
               <p className="v4-tarefas__ajuda">{AJUDA_GRUPO[g]}</p>
               <ul className="v4-tarefas__lista">
                 {itens.map((t) => (
-                  <LinhaTarefa key={t.id} t={t} agora={agora} nomeRobo={nomeRobo} podeEscrever={podeEscrever} aoAlternar={() => alternar(t)} />
+                  <LinhaTarefa key={t.id} t={t} agora={agora} nomeRobo={nomeRobo} podeEscrever={podeEscrever} aoAlternar={() => alternar(t)} aoMudarData={() => setMudando(t)} />
                 ))}
               </ul>
             </>
@@ -314,6 +333,7 @@ export function TelaTarefas() {
         )}
         {corpo}
       </div>
+      <MudarData tarefa={mudando} aoFechar={() => setMudando(null)} aoSalvar={reagendar} />
     </div>
   );
 }
