@@ -23,6 +23,7 @@ export type TelaId =
   | "equipe"
   | "modelos"
   | "playbook"
+  | "conta"
   | "especimes"
   | "desconhecida";
 
@@ -61,6 +62,7 @@ const FIXAS: Record<string, TelaId> = {
   "/config/equipe": "equipe",
   "/config/modelos": "modelos",
   "/config/playbook": "playbook",
+  "/conta": "conta",
   "/especimes": "especimes",
 };
 

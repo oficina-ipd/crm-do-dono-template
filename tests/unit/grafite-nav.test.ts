@@ -43,13 +43,13 @@ describe("navegação do Grafite", () => {
     const ids = itensNavV4("vendedor").map((i) => i.id);
     expect(ids).not.toContain("metas");
     expect(ids).not.toContain("sessao");
-    expect(itensMenuUsuarioV4("vendedor")).toEqual([]);
+    expect(itensMenuUsuarioV4("vendedor").map((i) => i.id)).toEqual(["conta"]);
   });
 
   it("gestor tem Relance e Ligações no menu e configuração no menu do usuário", () => {
     const ids = itensNavV4("gestor").map((i) => i.id);
     expect(ids).toEqual(expect.arrayContaining(["fila", "conversas", "funil", "pessoas", "tarefas", "agentes", "relance", "ligacoes"]));
-    expect(itensMenuUsuarioV4("gestor").map((i) => i.id)).toEqual(["produtos", "equipe", "modelos", "playbook", "integrar"]);
+    expect(itensMenuUsuarioV4("gestor").map((i) => i.id)).toEqual(["conta", "produtos", "equipe", "modelos", "playbook", "integrar"]);
     expect(gruposNavV4("gestor").map((g) => g.id)).toEqual(["inicio", "atender", "vender", "agentes", "resultados", "rotina"]);
   });
 

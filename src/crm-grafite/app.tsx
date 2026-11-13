@@ -15,6 +15,7 @@ import { PermissionState } from "./ui/states";
 import { FaixaTopo } from "./ui/estrutura";
 import { TelaPendente } from "./telas/pendente";
 import { TelaPainel } from "./telas/painel";
+import { TelaConta } from "./telas/conta";
 import { TelaAgentes } from "./telas/agentes";
 import { TelaConversas } from "./telas/conversas";
 import { TelaEquipe } from "./telas/equipe";
@@ -61,6 +62,7 @@ const TELAS: Record<Exclude<TelaId, "ficha" | "especimes" | "desconhecida">, () 
   equipe: () => <TelaEquipe />,
   modelos: () => <TelaModelos />,
   playbook: () => <TelaPlaybook />,
+  conta: () => <TelaConta />,
 };
 
 /** Casca Grafite + a tela da rota atual. O operador já entrou. */

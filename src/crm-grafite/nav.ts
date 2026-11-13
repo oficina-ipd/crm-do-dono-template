@@ -87,6 +87,9 @@ const EQUIPE: ItemNavV4 = { id: "equipe", label: "Equipe", href: "/config/equipe
 const MODELOS: ItemNavV4 = { id: "modelos", label: "Modelos de mensagem", href: "/config/modelos", icone: "modelo", gestor: true };
 const PLAYBOOK: ItemNavV4 = { id: "playbook", label: "Playbook", href: "/config/playbook", icone: "livro", gestor: true };
 
+/** Minha conta: senha e sessões (só faz sentido com login pelo Supabase; a tela explica no modo local). */
+export const ITEM_CONTA: ItemNavV4 = { id: "conta", label: "Minha conta", href: "/conta", icone: "cadeado" };
+
 /** Integrações (WhatsApp, IA, MCP e acesso de agentes). Fica no menu do usuário, não na barra lateral. */
 export const ITEM_INTEGRACAO: ItemNavV4 = {
   id: "integrar",
@@ -121,7 +124,7 @@ export function itensNavV4(papel: CrmPapelNav, relanceLigado = true, ligacoesLig
 
 /** Itens do menu do usuário que levam a uma tela: a configuração do CRM (só gestor). */
 export function itensMenuUsuarioV4(papel: CrmPapelNav): ItemNavV4[] {
-  return papel === "gestor" ? [PRODUTOS, EQUIPE, MODELOS, PLAYBOOK, ITEM_INTEGRACAO] : [];
+  return papel === "gestor" ? [ITEM_CONTA, PRODUTOS, EQUIPE, MODELOS, PLAYBOOK, ITEM_INTEGRACAO] : [ITEM_CONTA];
 }
 
 function normalizarCaminho(pathBruto: string): string {
@@ -152,6 +155,7 @@ export function caminhoV4(
   const grupos = gruposNavV4(papel, relanceLigado, ligacoesLigadas);
   const itens = grupos.flatMap((g) => g.itens);
   const ativo = idAtivoV4([...itens, ...itensMenuUsuarioV4(papel)], pathBruto);
+  if (ativo === ITEM_CONTA.id) return { grupo: "Conta", item: ITEM_CONTA.label };
   const configuracao = itensMenuUsuarioV4(papel).find((i) => i.id === ativo);
   if (configuracao) return { grupo: "Configuração", item: configuracao.label };
   for (const g of grupos) {
