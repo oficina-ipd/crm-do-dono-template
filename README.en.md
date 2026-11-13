@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/desktop-fila.png" alt="CRM do dono — Queue screen, Grafite look" width="920" />
+  <img src="docs/screenshots/desktop-painel.png" alt="CRM do dono — Dashboard, Grafite look" width="920" />
 </p>
 
 <p align="center">
@@ -79,6 +79,12 @@ Market CRMs solve for large teams with process and spare people. I wanted the op
 
 A work tool, not a demo dashboard. It opens on what needs you, and the list, the board and the conversation take the whole screen. The look (**Grafite**) is the same one we use every day in the IA para Donos community CRM: dark, calm, with amber only on people waiting for a human. You can switch the colour to your brand: see [docs/DESIGN.md](docs/DESIGN.md) (Portuguese).
 
+### Dashboard (Painel)
+
+<img src="docs/screenshots/desktop-painel.png" alt="Dashboard" width="860" />
+
+Where you land: month revenue and sales with the pace to month end, who is waiting for a person, how the bot is answering, lead sources, today's conversations and the funnel, by period, compared with the same stretch of the previous period. What the CRM doesn't measure shows as "not measured", never as zero.
+
 ### Queue (Fila): what needs you now
 
 <img src="docs/screenshots/desktop-fila.png" alt="Queue" width="860" />
@@ -105,7 +111,7 @@ Leads and customers in one sortable, filterable table. WhatsApp numbers are mask
 
 ### And also
 
-Contact page (conversation, single timeline, briefing, proposal, payment link), Tasks, Agents and Relance (the Ember opportunity recycler, which only sends with your AI key and inside your limits), Results, Lead sources, Settings (products, team, message templates, playbook, integrations), ⌘K search, solid mode and density.
+Contact page (conversation, 360 history by day, behaviour summary, briefing, proposal, payment link), email-and-password sign-in with My account (with Supabase), Tasks, Agents and Relance (the Ember opportunity recycler, which only sends with your AI key and inside your limits), Results, Lead sources, Settings (products, team, message templates, playbook, integrations), ⌘K search, solid mode and density.
 
 ---
 

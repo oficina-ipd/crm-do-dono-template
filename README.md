@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/desktop-fila.png" alt="Tela Fila do CRM do dono, no visual Grafite" width="920" />
+  <img src="docs/screenshots/desktop-painel.png" alt="Painel do CRM do dono, no visual Grafite" width="920" />
 </p>
 
 <p align="center">
@@ -79,6 +79,12 @@ CRM de mercado resolve para time grande, com processo e gente sobrando. Eu queri
 
 Uma ferramenta de trabalho, não um painel de demonstração. Abre no que precisa de você, e a lista, o quadro e a conversa ocupam a tela inteira. O visual (**Grafite**) é o mesmo do CRM que a gente usa no dia a dia da comunidade IA para Donos: escuro, calmo, com âmbar só em quem está esperando uma pessoa. Dá para trocar a cor pela da sua marca: veja [docs/DESIGN.md](docs/DESIGN.md).
 
+### Painel: o mês num olhar
+
+<img src="docs/screenshots/desktop-painel.png" alt="Painel" width="860" />
+
+A tela onde você cai ao entrar. Receita e vendas do mês com o ritmo até o fim do mês, quem está esperando uma pessoa agora, como o robô está respondendo, de onde vêm os leads, as conversas de hoje e o funil, com período (hoje, 7 dias, 30 dias, mês atual) e comparação com o mesmo trecho do período anterior. Cada número leva à tela que o compõe. O que o CRM não mede aparece como "sem medição", nunca como zero.
+
 ### Fila: o que pede você agora
 
 <img src="docs/screenshots/desktop-fila.png" alt="Fila" width="860" />
@@ -105,11 +111,12 @@ Uma tabela só, com etapa, última conversa, quem conduz e origem. Ordena por co
 
 ### E mais
 
-- **Ficha da pessoa**: a conversa, uma linha do tempo única, briefing, proposta, link de pagamento e termômetro.
+- **Ficha da pessoa**: a conversa, o histórico 360 (tudo o que aconteceu com a pessoa, dia a dia, num lugar só), o comportamento dela (quente, morna ou fria; quando costuma escrever; quanto demora para responder), briefing, proposta, link de pagamento e termômetro.
 - **Tarefas**: atrasadas, hoje, próximas; concluir, reabrir e mudar data na própria linha.
 - **Agentes** e **Relance**: sete papéis claros (**Cláudio** conversa e não fecha; **Scout**, **Scribe**, **Ledger** que nunca cobra, **Pilot**, **Eco** e **Ember**, o reciclador de oportunidades). O Ember só manda mensagem com chave de IA, dentro dos seus freios (ritmo, janela comercial, opt-out e parada de emergência). Cláudio e Pilot só trabalham sozinhos se você ligar; vem tudo desligado. Veja [docs/AGENTES-AUTOMATICOS.md](docs/AGENTES-AUTOMATICOS.md).
 - **Resultados** e **Origem dos leads**: números do período, custo por lead e por venda, gasto por criativo.
 - **Configuração** (menu do usuário): produtos, equipe, modelos de mensagem, playbook e integrações (WhatsApp, IA, MCP, chaves e backup dos dados).
+- **Entrar com e-mail e senha** (com o Supabase ligado) e **Minha conta** para trocar a senha e sair de todos os aparelhos.
 - **⌘K**: busca qualquer pessoa ou tela de qualquer lugar.
 - **Modo sólido** e **densidade** no menu do usuário, para quem prefere sem o efeito de vidro.
 

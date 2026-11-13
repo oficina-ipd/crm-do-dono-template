@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.3.0 — 2026-11-13
+
+### Novidades do CRM da comunidade (IPD, 12 e 13/11/2026)
+
+- **Painel** (#341 no CRM do IPD) é a nova tela de entrada (`#/`); a Fila passa para `#/fila` (o `#/hoje` antigo também leva a ela). Grade de cartões com:
+  - receita e vendas do mês, com o ritmo até o fim do mês;
+  - quem está esperando uma pessoa, com o motivo e "Abrir conversa";
+  - a 1ª resposta do robô e os pedidos de pessoa;
+  - gráfico do mês (receita, vendas, conversas), origem dos leads, e-mails enviados, conversas de hoje e funil;
+  - período (hoje, 7 dias, 30 dias, mês atual) e comparação com o mesmo trecho do período anterior. Tudo calculado do que o CRM tem; o que não é medido aparece como "sem medição".
+- **Ficha: histórico 360** (#340):
+  - uma linha do tempo única, por dia, com conversas, ligações, e-mails, propostas, pagamentos, etapas, tarefas, notas e ocorrências. Um dia só com mensagens nossas diz "Sem resposta no dia";
+  - painel **Comportamento**: quente, morna, fria ou "sem sinal ainda"; quando costuma escrever; quanto demora para responder.
+- **Entrar com e-mail e senha** e **Minha conta** (#342), com o Supabase ligado:
+  - `/entrar` no visual Grafite, com senha ou link por e-mail;
+  - só entra operador ativo, com a mesma recusa para qualquer erro, tempo mínimo de resposta e limite de tentativas;
+  - Minha conta troca a senha (pedindo a atual) e sai de todos os dispositivos. Como liberar alguém: `IMPLEMENTAR.md`, passo 3.
+- **Correções:**
+  - filtros de Pessoas à vista entre 768 e 1279 px (rolavam para o lado);
+  - o foco da tabela de Pessoas não fica mais sob o topo fixo;
+  - link de entrada vencido volta para `/entrar` com aviso;
+  - o pedido de link por e-mail responde igual para qualquer endereço.
+
+### Fica de fora (o template não tem esses dados)
+
+- Cartão Comunidade.
+- Abertura e clique de e-mail.
+- Meta de vendas ou faturamento no Painel.
+- Visitas ao site e junção de cadastros na Ficha.
+- Link de senha gerado pelo dono e bloqueio de tentativas gravado no banco. O caminho para cada um está descrito no PR.
+
 ## 1.2.0 — 2026-11-12
 
 ### Visual Grafite em todo o CRM
