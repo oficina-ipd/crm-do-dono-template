@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/desktop-hoje.png" alt="Tela Hoje do CRM do dono" width="920" />
+  <img src="docs/screenshots/desktop-fila.png" alt="Tela Fila do CRM do dono, no visual Grafite" width="920" />
 </p>
 
 <p align="center">
@@ -77,51 +77,41 @@ CRM de mercado resolve para time grande, com processo e gente sobrando. Eu queri
 
 ## O que o CRM do dono faz
 
-Cinco telas que eu uso de verdade. O resto existe, mas estas são o coração.
+Uma ferramenta de trabalho, não um painel de demonstração. Abre no que precisa de você, e a lista, o quadro e a conversa ocupam a tela inteira. O visual (**Grafite**) é o mesmo do CRM que a gente usa no dia a dia da comunidade IA para Donos: escuro, calmo, com âmbar só em quem está esperando uma pessoa. Dá para trocar a cor pela da sua marca: veja [docs/DESIGN.md](docs/DESIGN.md).
 
-### Hoje — o que pede você agora
+### Fila: o que pede você agora
 
-<img src="docs/screenshots/desktop-hoje.png" alt="Hoje no desktop" width="860" />
+<img src="docs/screenshots/desktop-fila.png" alt="Fila" width="860" />
 
-<img src="docs/screenshots/mobile-hoje.png" alt="Hoje no celular" width="280" />
+Três grupos numa lista só: quem pediu uma pessoa (com o motivo e o prazo), tarefas de hoje e atrasadas, e oportunidades paradas além do prazo da etapa. Cada item resolve ali ou diz para onde leva. Do lado, o resumo do dia em texto, só com número que o CRM sabe calcular.
 
-Bom dia com o que estourou: handoff esperando, tarefa vencendo, card parado. Sem dashboard de vaidade. Sem gráfico que não muda a sua manhã.
+### Conversas: quem está falando com quem
 
-### Funil — onde cada pessoa está
+<img src="docs/screenshots/desktop-conversas.png" alt="Conversas" width="860" />
 
-<img src="docs/screenshots/desktop-funil.png" alt="Funil no desktop" width="860" />
+Lista com todas as conversas, busca e filtros (Precisa de você, Com humano, Com o robô, Paradas). A conversa ao centro, com "carregar anteriores" nas longas. Ao lado, o porquê do pedido de ajuda, a etapa, a próxima tarefa e as notas. **Assumir** mostra antes o aviso exato que o contato vai receber; **Devolver** volta para o robô. Atalhos: `J`/`K` na lista, `/` busca, `⌘Enter` envia.
 
-Etapas do seu negócio (não as de um manual americano). Taxa por etapa com a **sua** meta. Quadro sem arrastar por esporte: o card anda quando a validação aconteceu.
+### Funil: onde cada pessoa está
 
-### Conversas — quem está falando com quem
+<img src="docs/screenshots/desktop-funil.png" alt="Funil" width="860" />
 
-<img src="docs/screenshots/desktop-conversas.png" alt="Conversas no desktop" width="860" />
+Etapas do seu negócio. O quadro ocupa a tela, cada coluna rola sozinha. "Mover para…" no cartão (por menu ou teclado), perda com motivo obrigatório, filtros de parados e de "bateu na trave", taxa por etapa com "amostra pequena" em vez de percentual enganoso.
 
-<img src="docs/screenshots/desktop-conversas-aberta.png" alt="Conversa aberta" width="860" />
+### Pessoas: leads e clientes numa tabela
 
-Histórico do Cláudio e da equipe no mesmo lugar. Assumir avisa o contato. Devolver devolve o robô. Sem “copia e cola do WhatsApp Web”.
+<img src="docs/screenshots/desktop-pessoas.png" alt="Pessoas" width="860" />
 
-### Leads — quem ainda não comprou
+Uma tabela só, com etapa, última conversa, quem conduz e origem. Ordena por coluna, filtra, busca. O WhatsApp aparece mascarado; "Revelar" mostra um número por vez.
 
-<img src="docs/screenshots/desktop-leads.png" alt="Lista de leads" width="860" />
+### E mais
 
-Lista limpa. Contato completo quando você busca por nome. Ficha com o essencial para ligar, escrever e não perder o fio.
-
-### Agentes — o time que trabalha com você
-
-<img src="docs/screenshots/desktop-agentes.png" alt="Agentes" width="860" />
-
-Sete papéis claros: **Cláudio** (conversa, não fecha), **Scout**, **Scribe**, **Ledger** (nunca cobra sozinho), **Pilot**, **Eco** e **Ember** (reciclador de oportunidades). Você escolhe o modo e pode dedicar um modelo mais forte só ao Ember. A chave de IA, se existir, é a **sua**.
-
-### Relance — garimpo de leads parados com contexto
-
-Em **Relance** (`#/relance`), o **Ember** entra conversa por conversa no que esfriou, cruza o histórico real com a base de conteúdo do negócio e decide se vale abordar agora ou se calar é mais inteligente. Quando vale, dispara a primeira mensagem dentro dos seus freios (ritmo, janela comercial, opt-out e parada de emergência) — sem aprovar mensagem por mensagem e sem aceitar lista fria só com telefone. Sem chave de IA, ele não envia nada.
-
-Cláudio e Pilot também podem trabalhar sozinhos, mas só se você ligar. Vem tudo desligado. Veja [docs/AGENTES-AUTOMATICOS.md](docs/AGENTES-AUTOMATICOS.md).
-
-No celular, a casca cabe no bolso: Hoje · Funil · Conversas · Leads · Mais.
-
-<img src="docs/screenshots/mobile-mais-sheet.png" alt="Menu Mais no celular" width="280" />
+- **Ficha da pessoa**: a conversa, uma linha do tempo única, briefing, proposta, link de pagamento e termômetro.
+- **Tarefas**: atrasadas, hoje, próximas; concluir, reabrir e mudar data na própria linha.
+- **Agentes** e **Relance**: sete papéis claros (**Cláudio** conversa e não fecha; **Scout**, **Scribe**, **Ledger** que nunca cobra, **Pilot**, **Eco** e **Ember**, o reciclador de oportunidades). O Ember só manda mensagem com chave de IA, dentro dos seus freios (ritmo, janela comercial, opt-out e parada de emergência). Cláudio e Pilot só trabalham sozinhos se você ligar; vem tudo desligado. Veja [docs/AGENTES-AUTOMATICOS.md](docs/AGENTES-AUTOMATICOS.md).
+- **Resultados** e **Origem dos leads**: números do período, custo por lead e por venda, gasto por criativo.
+- **Configuração** (menu do usuário): produtos, equipe, modelos de mensagem, playbook e integrações (WhatsApp, IA, MCP, chaves e backup dos dados).
+- **⌘K**: busca qualquer pessoa ou tela de qualquer lugar.
+- **Modo sólido** e **densidade** no menu do usuário, para quem prefere sem o efeito de vidro.
 
 ---
 
@@ -263,7 +253,7 @@ Isto não é consultoria jurídica. É o mínimo de higiene que eu exijo do meu 
 Não. Clone, `npm run dev` ou `docker compose up`, use o demo.
 
 **Funciona sem WhatsApp?**  
-Sim. Funil, Hoje, contatos e agentes (com regras) funcionam. WhatsApp é o próximo passo, não o ingresso.
+Sim. Fila, Funil, Pessoas, Tarefas e agentes (com regras) funcionam. WhatsApp é o próximo passo, não o ingresso.
 
 **Funciona sem chave de IA?**  
 Sim. Os agentes caem para regras locais. Com chave Anthropic, o tom melhora — a lógica de negócio continua no código.
@@ -284,9 +274,10 @@ Ainda não. Está no [roadmap](#roadmap) e em [`docs/EM-BREVE.md`](./docs/EM-BRE
 
 ## Roadmap
 
-O que **já está** neste template (v3 instalável):
+O que **já está** neste template:
 
-- Telas Hoje, Funil, Conversas, Leads/Clientes, Agentes e casca mobile
+- Visual Grafite (o mesmo do CRM da comunidade) em todas as telas: Fila, Conversas, Ficha, Funil, Pessoas, Tarefas, Agentes, Relance, Resultados, Origem dos leads, Metas, Sessão fechada, Ocorrências, Ligações e configuração
+- Busca ⌘K, atalhos de teclado, modo sólido, densidade e telas que funcionam no celular
 - Domínio de funil, handoff, tarefas, ocorrências
 - Seis agentes com DecisionEngine; LLM opcional
 - MCP para Cursor / GrokBot
@@ -317,7 +308,7 @@ Discussão de produto e live: comunidade **IA para Donos**. Código e bugs: GitH
 
 ## Licença
 
-[MIT](./LICENSE). Use, adapte, venda o **seu** CRM em cima. O design system 2027 e as fontes Geist (OFL) acompanham o template.
+[MIT](./LICENSE). Use, adapte, venda o **seu** CRM em cima. O design system e as fontes Onest e Geist (OFL) acompanham o template.
 
 ---
 
@@ -328,7 +319,7 @@ Discussão de produto e live: comunidade **IA para Donos**. Código e bugs: GitH
 Feito com teimosia de dono, não com deck de investidor.
 
 - Template e live: João (IA para Donos)
-- Design System 2027 · export CRM v3
+- Visual Grafite: redesign do CRM da comunidade IA para Donos (nov/2026)
 - WPP Engine: integração OneClient
 
 Se isto te ajudou a não perder mais um lead no “vou pensar”, conta na comunidade. Se quebrou, abre issue. Os dois movimentos me servem.

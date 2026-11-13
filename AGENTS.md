@@ -15,13 +15,13 @@ Você está editando o CRM do dono (IA para Donos). O usuário é empreendedor, 
 | Config da empresa / produtos / funis | `crm.config.ts` |
 | Regras puras (preço, nota, prazo) | `src/domain/rules.ts` |
 | 8 etapas + playbook | `src/domain/funil.ts` |
-| Telas | `src/screens/` e `src/crm-v3/` |
+| Telas (visual Grafite) | `src/crm-grafite/telas/<area>/` · rotas em `src/crm-grafite/rotas.ts` e `app.tsx` · menu em `nav.ts` |
 | Agentes (Cláudio, Scout, Scribe, Ledger, Pilot, Eco, Ember) | `src/lib/agents/` |
-| Relance · Reciclador de oportunidades (Ember) | `src/domain/reciclador.ts` · `src/lib/reciclador/` · `src/crm-v3/relance.tsx` · `src/app/api/reciclador/` |
+| Relance · Reciclador de oportunidades (Ember) | `src/domain/reciclador.ts` · `src/lib/reciclador/` · `src/crm-grafite/telas/relance/` · `src/app/api/reciclador/` |
 | MCP (Cursor / GrokBot) | `src/lib/mcp/` + `src/app/api/mcp/crm/` |
 | WhatsApp (WPP Engine padrão) | `src/lib/whatsapp/` · contrato `docs/wpp-engine-contrato.md` · WAHA opcional `docker-compose.waha.yml` |
 | Migrations | `supabase/migrations/` |
-| Design system | `src/design-system-2027/` |
+| Design system (cores, componentes, regras) | `docs/DESIGN.md` · `src/crm-grafite/styles/tokens.css` · `src/crm-grafite/ui/` |
 
 ## Nunca mude sem perguntar
 
@@ -35,7 +35,7 @@ Você está editando o CRM do dono (IA para Donos). O usuário é empreendedor, 
 
 Toda ação de tela nova precisa de ferramenta em `src/lib/mcp/tools.ts`. Níveis: `leitura` | `escrita` | `admin`.
 
-Caso clássico da live: “na tela de funil, ponha farol vermelho nas oportunidades com problema com o Cláudio” → ferramenta `crm_farol_funil` + CSS `.ds-farol-vermelho`.
+Caso clássico da live: “na tela de funil, ponha farol vermelho nas oportunidades com problema com o Cláudio” → ferramenta `crm_farol_funil` + estilo em `src/crm-grafite/styles/telas/funil.css` (cor só por `var(--v4-…)`).
 
 ## Como criar um agente novo (2–3 h)
 
@@ -43,7 +43,7 @@ Caso clássico da live: “na tela de funil, ponha farol vermelho nas oportunida
 2. Implemente em `src/lib/agents/index.ts` (entrada → saída + `requerAprovacao`).
 3. Seed em `crm_agentes` (migration aditiva).
 4. Exponha `crm_agente_executar` (já cobre qualquer slug do enum — atualize o Zod).
-5. Card na tela `src/screens/Agentes.tsx`.
+5. Linha na tela `src/crm-grafite/telas/agentes/` (catálogo em `agentes-logica.ts`).
 6. Teste unitário em `tests/unit/agents.test.ts`.
 
 ## Stack

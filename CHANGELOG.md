@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.2.0 — 2026-11-12
+
+### Visual Grafite em todo o CRM
+
+O redesign do CRM da comunidade IA para Donos (10 a 12/11/2026) chega ao template. Ele foi auditado em acessibilidade e usabilidade antes de vir para cá.
+
+- **Novo visual Grafite** (escuro, vidro controlado, luz verde, âmbar só em "precisa de você"). Todas as cores ficam num bloco só (`src/crm-grafite/styles/tokens.css`). Para trocar pela cor da sua marca, veja [docs/DESIGN.md](docs/DESIGN.md).
+- **Moldura fixa:** a página não rola, só a lista, a tabela, o quadro ou a conversa. Há um menu de ícones (com opção de mostrar os nomes) e uma faixa única no topo, com título, contagem, busca e filtros.
+- **Telas refeitas pela tarefa:**
+  - **Fila** (antes Hoje): quem pediu uma pessoa, tarefas e oportunidades paradas, mais o resumo do dia.
+  - **Conversas:** todas as conversas, busca, filtros, "carregar anteriores", barra de posse (Assumir mostra o aviso antes) e o contexto ao lado.
+  - **Ficha:** conversa, linha do tempo única, briefing, proposta, link de pagamento e termômetro.
+  - **Funil:** quadro em altura cheia, "Mover para…" por menu e teclado, perda com motivo, filtros de parados e "bateu na trave", taxa por etapa com "amostra pequena".
+  - **Pessoas** (antes Leads e Clientes): tabela com ordenação, filtros e WhatsApp mascarado.
+  - **Tarefas:** concluir, reabrir e **mudar data** na linha.
+  - **Agentes**, **Relance**, **Resultados**, **Origem dos leads**, **Metas**, **Sessão fechada**, **Ocorrências** e **Ligações**.
+  - **Configuração** no menu do usuário: Produtos, Equipe, Modelos de mensagem, Playbook e Integrações.
+- **⌘K** busca pessoa por nome ou telefone e vai para qualquer tela. Atalhos `J`/`K`, `/` e `⌘Enter`.
+- **Modo sólido** (sem vidro) e **densidade** compacta ou confortável no menu do usuário.
+- **Acessibilidade:** nenhum texto abaixo de 12 px, foco visível próprio, alvo de 44 px em toque, `Esc` fecha e devolve o foco, movimento e transparência reduzidos respeitados.
+- **Fonte Onest** empacotada (`@fontsource-variable/onest`); funciona sem internet.
+- **Novo comando `reagendarTarefa`** e ferramenta MCP `crm_tarefas_reagendar`. O mapa de telas do MCP (`crm_mapa_telas`) aponta para os arquivos novos.
+- **Correções:**
+  - O código de funil gerado a partir de nome com acento saía quebrado ("Perpétuo" virava "perpe-tuo").
+  - As iniciais do avatar ignoram o que está entre parênteses.
+
+### Removido
+
+- A casca v3 (`src/crm-v3/`) e as telas antigas (`src/screens/`). O app agora fica em `src/components/crm/App.tsx` e as telas em `src/crm-grafite/telas/`.
+- Os scripts de captura de tela da v3 e as capturas antigas.
+
 ## 1.1.0 — 2026-11-04
 
 ### Relance · Agente Ember (Reciclador de oportunidades)

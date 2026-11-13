@@ -4,7 +4,7 @@ Cada afirmação da live e onde está no repo. Critério de “tudo que falei é
 
 | # | Afirmação | Onde | Como testar | Status |
 | --- | --- | --- | --- | --- |
-| 1 | CRM v3 com telas operacionais (Hoje, Funil, Conversas, Contatos, Demanda, Placar) | `src/screens/*` | `npm run dev` → navegar sidebar | verdade |
+| 1 | CRM com telas operacionais no visual Grafite (Fila, Funil, Conversas, Pessoas, Origem dos leads, Resultados) | `src/crm-grafite/telas/*` | `npm run dev` → navegar sidebar | verdade |
 | 2 | Seis agentes: Cláudio, Scout, Scribe, Ledger, Pilot, Eco | `crm.config.ts`, `src/lib/agents/`, tela Agentes | `#/agentes` → Executar exemplo | verdade |
 | 3 | Cláudio nunca fala preço | `src/domain/rules.ts` `mencionaPreco` / `podeRoboEnviar`; agente claudio | `npm test`; POST `/api/agents/claudio` com preço no rascunho | verdade |
 | 4 | Scout acha oportunidade por conversa ou silêncio | `src/lib/agents` scout + `decision-engine` | Executar Scout com nota 9 / silêncio 36h | verdade |

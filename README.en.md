@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/desktop-hoje.png" alt="CRM do dono — Today screen" width="920" />
+  <img src="docs/screenshots/desktop-fila.png" alt="CRM do dono — Queue screen, Grafite look" width="920" />
 </p>
 
 <p align="center">
@@ -77,49 +77,35 @@ Market CRMs solve for large teams with process and spare people. I wanted the op
 
 ## What CRM do dono does
 
-Five screens I actually use. The rest exists, but these are the heart.
+A work tool, not a demo dashboard. It opens on what needs you, and the list, the board and the conversation take the whole screen. The look (**Grafite**) is the same one we use every day in the IA para Donos community CRM: dark, calm, with amber only on people waiting for a human. You can switch the colour to your brand: see [docs/DESIGN.md](docs/DESIGN.md) (Portuguese).
 
-### Today (Hoje) — what needs you now
+### Queue (Fila): what needs you now
 
-<img src="docs/screenshots/desktop-hoje.png" alt="Today on desktop" width="860" />
+<img src="docs/screenshots/desktop-fila.png" alt="Queue" width="860" />
 
-<img src="docs/screenshots/mobile-hoje.png" alt="Today on mobile" width="280" />
+Three groups in one list: who asked for a person (with the reason and the deadline), today's and overdue tasks, and deals stalled past their stage deadline. A side column summarises the day in plain text, only with numbers the CRM can really compute.
 
-A good morning with what broke: handoff waiting, task due, stuck card. No vanity dashboard. No chart that doesn’t change your morning.
+### Conversations (Conversas)
 
-### Funnel (Funil) — where each person is
+<img src="docs/screenshots/desktop-conversas.png" alt="Conversations" width="860" />
 
-<img src="docs/screenshots/desktop-funil.png" alt="Funnel on desktop" width="860" />
+Every conversation in the list, with search and filters. The thread in the middle ("load earlier" on long ones) and the context on the side. **Take over** shows the exact notice the contact will get before it happens; **Hand back** returns it to the bot. Shortcuts: `J`/`K`, `/` to search, `⌘Enter` to send.
 
-Stages of **your** business (not a textbook). Conversion per stage against **your** target. A board you don’t drag for sport: the card moves when the validation happened.
+### Funnel (Funil)
 
-### Conversations (Conversas) — who’s talking to whom
+<img src="docs/screenshots/desktop-funil.png" alt="Funnel" width="860" />
 
-<img src="docs/screenshots/desktop-conversas.png" alt="Conversations on desktop" width="860" />
+Your own stages, full-height board, "Move to…" from the card (menu or keyboard), loss with a required reason, stalled and "almost closed" filters, stage rates that say "small sample" instead of a misleading percentage.
 
-<img src="docs/screenshots/desktop-conversas-aberta.png" alt="Open conversation" width="860" />
+### People (Pessoas)
 
-Cláudio and the team in one place. Taking over notifies the contact. Handing back returns the bot. No “copy-paste from WhatsApp Web”.
+<img src="docs/screenshots/desktop-pessoas.png" alt="People" width="860" />
 
-### Leads — who hasn’t bought yet
+Leads and customers in one sortable, filterable table. WhatsApp numbers are masked; "Reveal" shows one at a time.
 
-<img src="docs/screenshots/desktop-leads.png" alt="Leads list" width="860" />
+### And also
 
-A clean list. Full contact when you search by name. A record with enough to call, write, and keep the thread.
-
-### Agents (Agentes) — the team that works with you
-
-<img src="docs/screenshots/desktop-agentes.png" alt="Agents" width="860" />
-
-Seven clear roles: **Cláudio** (talks, doesn’t close), **Scout**, **Scribe**, **Ledger** (never charges alone), **Pilot**, **Eco**, and **Ember** (opportunity recycler). You pick the mode and can dedicate a stronger model specifically to Ember. The AI key, if any, is **yours**.
-
-### Relance — mining stalled leads with real context
-
-In **Relance** (`#/relance`), **Ember** reads stalled conversations one by one, crosses real history with your business content, and decides whether to reach out now or stay silent. When worth it, it sends the opening message inside your guardrails (rate limits, business hours, opt-out, and emergency stop) — without per-message approval and without accepting phone-only cold lists. Without an AI key, it never sends anything.
-
-On the phone, the shell fits in a pocket: Today · Funnel · Conversations · Leads · More.
-
-<img src="docs/screenshots/mobile-mais-sheet.png" alt="More menu on mobile" width="280" />
+Contact page (conversation, single timeline, briefing, proposal, payment link), Tasks, Agents and Relance (the Ember opportunity recycler, which only sends with your AI key and inside your limits), Results, Lead sources, Settings (products, team, message templates, playbook, integrations), ⌘K search, solid mode and density.
 
 ---
 
