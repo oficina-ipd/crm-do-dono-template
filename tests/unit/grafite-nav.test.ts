@@ -4,7 +4,9 @@ import { rotaDoCaminho, SO_GESTOR } from "@/crm-grafite/rotas";
 
 describe("rotas do Grafite", () => {
   it("início e rotas antigas do v3 continuam valendo", () => {
-    expect(rotaDoCaminho("/").tela).toBe("fila");
+    expect(rotaDoCaminho("/").tela).toBe("painel");
+    expect(rotaDoCaminho("/fila").tela).toBe("fila");
+    expect(rotaDoCaminho("/painel").tela).toBe("painel");
     expect(rotaDoCaminho("/hoje").tela).toBe("fila");
     expect(rotaDoCaminho("/leads").tela).toBe("pessoas");
     expect(rotaDoCaminho("/clientes?q=ana").tela).toBe("pessoas");
@@ -53,7 +55,9 @@ describe("navegação do Grafite", () => {
 
   it("item ativo e caminho do cabeçalho", () => {
     const itens = itensNavV4("gestor");
-    expect(idAtivoV4(itens, "/")).toBe("fila");
+    expect(idAtivoV4(itens, "/")).toBe("painel");
+    expect(idAtivoV4(itens, "/fila")).toBe("fila");
+    expect(idAtivoV4(itens, "/hoje")).toBe("fila");
     expect(idAtivoV4(itens, "/leads")).toBe("pessoas");
     expect(caminhoV4("gestor", "/contatos/c1")).toEqual({ grupo: "Pessoas", item: "Ficha" });
     expect(caminhoV4("gestor", "/config/produtos")).toEqual({ grupo: "Configuração", item: "Produtos" });

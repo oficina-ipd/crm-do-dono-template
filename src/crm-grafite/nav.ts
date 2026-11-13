@@ -31,9 +31,10 @@ export type ItemNavV4 = {
 
 export type GrupoNavV4 = { id: string; label: string; itens: ItemNavV4[] };
 
-const FILA: ItemNavV4 = { id: "fila", label: "Fila", href: "/", icone: "fila", badge: "fila", badgeSuaVez: true, tambem: ["/fila"] };
+const FILA: ItemNavV4 = { id: "fila", label: "Fila", href: "/fila", icone: "fila", badge: "fila", badgeSuaVez: true, tambem: ["/hoje"] };
 /** Painel de entrada: números do período num olhar só (grade bento). */
-const PAINEL: ItemNavV4 = { id: "painel", label: "Painel", href: "/painel", icone: "painel" };
+/** Painel de entrada: a tela onde se cai ao entrar (`/`), com os números do período. */
+const PAINEL: ItemNavV4 = { id: "painel", label: "Painel", href: "/", icone: "painel", tambem: ["/painel"] };
 const CONVERSAS: ItemNavV4 = {
   id: "conversas",
   label: "Conversas",

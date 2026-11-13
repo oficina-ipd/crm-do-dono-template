@@ -29,7 +29,7 @@ export type TelaId =
 export type RotaGrafite = { tela: TelaId; id?: string };
 
 const FIXAS: Record<string, TelaId> = {
-  "/": "fila",
+  "/": "painel",
   "/hoje": "fila",
   "/fila": "fila",
   "/painel": "painel",

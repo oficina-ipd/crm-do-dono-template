@@ -95,7 +95,7 @@ export function acessoConfigV4(tela: string, papel: "gestor" | "vendedor" | "tra
     ok: false,
     titulo: `${tela} é só para gestores`,
     texto: "Seu acesso ao CRM não inclui esta configuração. Se precisa mudar algo aqui, peça a um gestor da equipe.",
-    voltar: papel === "trafego" ? { href: "/demanda", label: "Ir para Origem dos leads" } : { href: "/", label: "Voltar para a Fila" },
+    voltar: papel === "trafego" ? { href: "/demanda", label: "Ir para Origem dos leads" } : { href: "/fila", label: "Voltar para a Fila" },
   };
 }
 

@@ -26,7 +26,7 @@ export function CabecalhoTela({ titulo, meta, acoes, caminho }: { titulo: string
 }
 
 /** Sem permissão, com a condição de acesso e um caminho de volta (nunca redirecionamento mudo). */
-export function SemPermissaoV4({ titulo, texto, voltar = { href: "/", label: "Voltar para a Fila" } }: { titulo: string; texto: string; voltar?: { href: string; label: string } }) {
+export function SemPermissaoV4({ titulo, texto, voltar = { href: "/fila", label: "Voltar para a Fila" } }: { titulo: string; texto: string; voltar?: { href: string; label: string } }) {
   return (
     <TelaV4 area="sem-permissao">
       <div className="v4-tela__estado">
