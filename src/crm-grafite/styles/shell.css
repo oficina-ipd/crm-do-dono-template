@@ -1,0 +1,660 @@
+/* ==========================================================================
+   CRM v4 · casca: navegação (232 / 64 / gaveta), cabeçalho de contexto (56), paleta ⌘K.
+   ========================================================================== */
+
+.crm-v4-root .v4-app {
+  display: grid;
+  grid-template-columns: var(--v4-c-nav-w) minmax(0, 1fr);
+  min-height: 100dvh;
+}
+
+.crm-v4-root .v4-skip {
+  position: absolute;
+  left: var(--v4-space-3);
+  top: var(--v4-space-3);
+  z-index: var(--v4-z-toast);
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-action);
+  color: var(--v4-text-on-action);
+  font-weight: var(--v4-weight-semibold);
+  text-decoration: none;
+  translate: 0 -200%;
+}
+@media (pointer: coarse) {
+  .crm-v4-root .v4-skip { display: inline-flex; align-items: center; min-height: 44px; }
+}
+.crm-v4-root .v4-skip:focus-visible {
+  translate: 0 0;
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+
+/* Estrutura: vidro (88% + desfoque 16) só aqui e no cabeçalho */
+.crm-v4-root .v4-side {
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-structure);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-width: 0;
+  border-right: 1px solid var(--v4-border-deco);
+  background: var(--v4-surface-structure);
+  backdrop-filter: blur(var(--v4-blur-structure));
+  -webkit-backdrop-filter: blur(var(--v4-blur-structure));
+}
+.crm-v4-root .v4-side__brand {
+  display: flex;
+  align-items: center;
+  height: var(--v4-c-header-h);
+  padding: 0 var(--v4-space-4);
+  border-bottom: 1px solid var(--v4-border-divider);
+  flex: none;
+}
+.crm-v4-root .v4-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  min-height: var(--v4-c-control-h);
+  color: var(--v4-text-1);
+  text-decoration: none;
+  font-weight: var(--v4-weight-semibold);
+  border-radius: var(--v4-radius-control);
+}
+.crm-v4-root .v4-brand:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+.crm-v4-root .v4-brand__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--v4-control-border);
+  border-radius: 8px;
+  color: var(--v4-text-1);
+  font-size: var(--v4-fs-meta);
+  line-height: 1;
+  font-weight: var(--v4-weight-semibold);
+}
+.crm-v4-root .v4-brand__name { white-space: nowrap; }
+
+.crm-v4-root .v4-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--v4-space-2) var(--v4-space-3) var(--v4-space-4);
+  display: grid;
+  align-content: start;
+  gap: var(--v4-space-4);
+}
+.crm-v4-root .v4-nav__group { display: grid; gap: 0; }
+.crm-v4-root .v4-nav__label {
+  margin: 0;
+  padding: var(--v4-space-2) var(--v4-space-2) var(--v4-space-1);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root .v4-nav__list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-3);
+  width: 100%;
+  min-height: var(--v4-c-nav-item-h);
+  padding: 0 var(--v4-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-2);
+  font-family: inherit;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-medium);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out), color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-nav__item:is(:hover, .is-hover) { background: var(--v4-surface-hover); color: var(--v4-text-1); }
+.crm-v4-root .v4-nav__item:is(:active, .is-pressed) { background: var(--v4-surface-pressed); }
+.crm-v4-root .v4-nav__item:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: -2px;
+}
+/* Local atual: preenchimento + contorno + peso + marcador (não só cor) */
+.crm-v4-root .v4-nav__item[aria-current="page"] {
+  background: var(--v4-surface-selected);
+  border-color: var(--v4-control-border);
+  color: var(--v4-text-1);
+  font-weight: var(--v4-weight-semibold);
+}
+.crm-v4-root .v4-nav__item[aria-current="page"]::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  flex: none;
+  border-radius: var(--v4-radius-pill);
+  background: var(--v4-text-1);
+}
+.crm-v4-root .v4-nav__item[aria-current="page"] .v4-badge { margin-left: 0; }
+.crm-v4-root .v4-nav__item .v4-badge { margin-left: auto; }
+.crm-v4-root .v4-nav__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.crm-v4-root .v4-side__foot {
+  flex: none;
+  display: grid;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-2) var(--v4-space-3) var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-side__expand { display: none; }
+.crm-v4-root .v4-user {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--v4-space-1) var(--v4-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-user:is(:hover, .is-hover) { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-user[aria-expanded="true"] { background: var(--v4-surface-selected); border-color: var(--v4-control-border); }
+.crm-v4-root .v4-user:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: -2px;
+}
+.crm-v4-root .v4-user__meta { display: grid; min-width: 0; flex: 1; }
+.crm-v4-root .v4-user__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-user__role { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+.crm-v4-root .v4-user > .v4-icon { color: var(--v4-text-3); }
+
+/* Palco: cabeçalho de contexto + trabalho */
+.crm-v4-root .v4-stage {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
+}
+.crm-v4-root .v4-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-structure);
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-3);
+  height: var(--v4-c-header-h);
+  padding: 0 var(--v4-c-page-pad);
+  border-bottom: 1px solid var(--v4-border-deco);
+  background: var(--v4-surface-structure);
+  backdrop-filter: blur(var(--v4-blur-structure));
+  -webkit-backdrop-filter: blur(var(--v4-blur-structure));
+}
+.crm-v4-root .v4-header__menu { display: none; }
+.crm-v4-root .v4-header__where { min-width: 0; flex: 1; }
+.crm-v4-root .v4-header__where .v4-crumbs ol { font-size: var(--v4-fs-ui); line-height: var(--v4-lh-ui); flex-wrap: nowrap; }
+.crm-v4-root .v4-header__where .v4-crumbs li { white-space: nowrap; }
+.crm-v4-root .v4-header__where .v4-crumbs li:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.crm-v4-root .v4-header__where .v4-crumbs [aria-current="page"] { color: var(--v4-text-1); font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-header__search {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  width: min(360px, 40vw);
+  min-height: var(--v4-c-control-h);
+  padding: 0 var(--v4-space-1) 0 var(--v4-c-control-px);
+  border: 1px solid var(--v4-control-border);
+  border-radius: var(--v4-radius-field);
+  background: var(--v4-surface-field);
+  color: var(--v4-text-3);
+  font: inherit;
+  text-align: left;
+  cursor: text;
+  transition: border-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-header__search:is(:hover, .is-hover) { border-color: var(--v4-control-border-hover); color: var(--v4-text-2); }
+.crm-v4-root .v4-header__search:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+.crm-v4-root .v4-header__search > span:first-of-type { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.crm-v4-root .v4-main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--v4-c-page-pad);
+}
+.crm-v4-root .v4-main:focus { outline: none; }
+
+/* Gaveta (< 768) e painel de navegação expandida (768–1199) */
+.crm-v4-root .v4-drawer .v4-dialog__body { padding: var(--v4-space-2) var(--v4-space-3); gap: var(--v4-space-4); }
+.crm-v4-root .v4-drawer .v4-nav { padding: 0; overflow: visible; }
+.crm-v4-root .v4-drawer__prefs { display: grid; gap: var(--v4-space-3); padding-top: var(--v4-space-3); border-top: 1px solid var(--v4-border-divider); }
+.crm-v4-root .v4-drawer__prefs .v4-t-meta { padding-inline: var(--v4-space-2); }
+
+/* Intermediário: barra recolhida em 64 px, só ícones, nomes acessíveis e dica.
+   Só no visual neutro: o Grafite tem o próprio menu de ícones (abaixo). */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-app { grid-template-columns: var(--v4-c-nav-w-collapsed) minmax(0, 1fr); }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side__brand { justify-content: center; padding: 0; }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-brand__name,
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__label,
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__text,
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-user__meta,
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-user > .v4-icon {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav { padding: var(--v4-space-2) var(--v4-space-2) var(--v4-space-4); gap: var(--v4-space-2); }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__group + .v4-nav__group { padding-top: var(--v4-space-2); border-top: 1px solid var(--v4-border-divider); }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__item { justify-content: center; padding: 0; gap: 0; min-height: 40px; }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__item[aria-current="page"]::after {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 4px;
+    height: 4px;
+  }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side .v4-nav__item .v4-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+  }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side__foot { padding: var(--v4-space-2); justify-items: center; }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-side__expand { display: flex; justify-content: center; padding: 0; gap: 0; }
+  .crm-v4-root:not(:where([data-visual="grafite"])) .v4-user { justify-content: center; padding: var(--v4-space-1); }
+}
+
+/* Pequeno: navegação em menu (gaveta) */
+@media (max-width: 767px) {
+  .crm-v4-root .v4-app { grid-template-columns: minmax(0, 1fr); }
+  .crm-v4-root .v4-side { display: none; }
+  .crm-v4-root .v4-header { gap: var(--v4-space-2); }
+  .crm-v4-root .v4-header__menu { display: inline-flex; }
+  .crm-v4-root .v4-header__search { width: auto; padding-right: var(--v4-space-1); }
+  .crm-v4-root .v4-header__search > span:first-of-type,
+  .crm-v4-root .v4-header__search .v4-kbd {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .crm-v4-root .v4-header__search { width: var(--v4-c-control-h); padding: 0; justify-content: center; cursor: pointer; }
+}
+
+/* ---------- Paleta ⌘K ---------- */
+.crm-v4-root .v4-palette {
+  width: min(640px, calc(100vw - 32px));
+  margin-top: min(12vh, 120px);
+  margin-bottom: auto;
+}
+.crm-v4-root .v4-palette__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border-bottom: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-palette__search > .v4-icon { color: var(--v4-text-3); }
+.crm-v4-root .v4-palette__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--v4-text-1);
+  font-family: inherit;
+  font-size: var(--v4-fs-read);
+  line-height: var(--v4-lh-read);
+}
+.crm-v4-root .v4-palette__input::placeholder { color: var(--v4-text-3); opacity: 1; }
+.crm-v4-root .v4-palette__input:focus { outline: none; }
+.crm-v4-root .v4-palette__search:has(.v4-palette__input:focus-visible) {
+  box-shadow: inset 0 -2px 0 var(--v4-focus);
+}
+.crm-v4-root .v4-palette__list {
+  max-height: min(56dvh, 460px);
+  overflow-y: auto;
+  padding: var(--v4-space-1) var(--v4-space-2) var(--v4-space-2);
+}
+.crm-v4-root .v4-palette__group {
+  margin: 0;
+  padding: var(--v4-space-3) var(--v4-space-2) var(--v4-space-1);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root .v4-palette__opt {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-3);
+  min-height: var(--v4-c-control-h);
+  padding: var(--v4-space-1) var(--v4-space-2);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--v4-text-1);
+  cursor: pointer;
+}
+.crm-v4-root .v4-palette__opt > .v4-icon { color: var(--v4-text-3); }
+.crm-v4-root .v4-palette__opt:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-palette__opt[aria-selected="true"] {
+  background: var(--v4-surface-selected);
+  border-color: var(--v4-control-border);
+}
+.crm-v4-root .v4-palette__opt-main { display: grid; min-width: 0; flex: 1; }
+.crm-v4-root .v4-palette__opt-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crm-v4-root .v4-palette__opt-sub { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crm-v4-root .v4-palette__note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--v4-space-2);
+  margin: 0;
+  padding: var(--v4-space-2);
+  color: var(--v4-text-3);
+}
+.crm-v4-root .v4-palette__note--erro { color: var(--v4-danger); }
+.crm-v4-root .v4-palette__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v4-space-2) var(--v4-space-4);
+  padding: var(--v4-space-2) var(--v4-space-4);
+  border-top: 1px solid var(--v4-border-divider);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-palette__foot span { display: inline-flex; align-items: center; gap: var(--v4-space-1); }
+
+/* ==========================================================================
+   Grafite · casca: moldura fixa (a página não rola, só o conteúdo), menu de ícones
+   56 → 184 com os nomes, faixa única no topo e luz de fundo (tokens em grafite.css).
+   ========================================================================== */
+
+/* Moldura: a página nunca rola. Só com a casca (a tela de entrada, sem casca, rola normal). */
+html:has(.crm-v4-root[data-visual="grafite"] .v4-app) { overflow: hidden; overscroll-behavior: none; }
+/* clip (e não hidden): âncora (#secao) e scrollIntoView também não conseguem rolar a moldura */
+.crm-v4-root[data-visual="grafite"]:has(.v4-app) {
+  height: 100dvh;
+  min-height: 0;
+  overflow: clip;
+}
+.crm-v4-root[data-visual="grafite"] .v4-app {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--v4-c-region-gap);
+  height: 100dvh;
+  min-height: 0;
+  padding: var(--v4-c-page-pad);
+  overflow: clip;
+}
+
+/* ---------- Menu de ícones (vidro) ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-side {
+  --v4-c-icon-nav: 18px;
+  position: relative;
+  top: auto;
+  gap: var(--v4-space-1);
+  width: var(--v4-c-nav-w-collapsed);
+  height: auto;
+  min-height: 0;
+  padding: var(--v4-space-2);
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+  backdrop-filter: var(--v4-g-glass-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-glass-backdrop);
+  overflow: clip;
+  transition: width var(--v4-dur-menu) var(--v4-ease-out);
+}
+.crm-v4-root[data-visual="grafite"][data-menu="nomes"] .v4-side { width: var(--v4-c-nav-w); }
+.crm-v4-root[data-visual="grafite"] .v4-side__brand {
+  height: auto;
+  margin-bottom: var(--v4-space-1);
+  padding: 0;
+  border-bottom: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-brand { gap: var(--v4-space-2); width: 100%; border-radius: var(--v4-radius-control); }
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-brand__mark {
+  width: 38px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--v4-radius-control);
+}
+.crm-v4-root[data-visual="grafite"] .v4-side :is(.v4-brand__name, .v4-nav__text, .v4-user__meta, .v4-user > .v4-icon) {
+  opacity: 0;
+  transition: opacity var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root[data-visual="grafite"][data-menu="nomes"] .v4-side :is(.v4-brand__name, .v4-nav__text, .v4-user__meta, .v4-user > .v4-icon) { opacity: 1; }
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav {
+  gap: var(--v4-space-1);
+  padding: 0;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+/* Grupos separados por um fio, sem rótulo visível (o rótulo segue para leitor de tela) */
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__group + .v4-nav__group {
+  padding-top: var(--v4-space-1);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__list { gap: var(--v4-space-1); }
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__item {
+  gap: 10px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__item[aria-current="page"] {
+  background: var(--v4-g-action-fill);
+  color: var(--v4-g-action-on);
+  box-shadow: var(--v4-g-action-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__item[aria-current="page"]::after { display: none; }
+/* Contador: no canto do ícone com o menu fechado; no fim da linha com os nomes */
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__item .v4-badge {
+  position: absolute;
+  top: 1px;
+  left: 20px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+}
+.crm-v4-root[data-visual="grafite"][data-menu="nomes"] .v4-side .v4-nav__item .v4-badge {
+  position: static;
+  margin-left: auto;
+}
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-nav__item[aria-current="page"] .v4-badge:not(.v4-badge--suavez) {
+  background: var(--v4-g-action-on);
+  color: var(--v4-text-1);
+}
+.crm-v4-root[data-visual="grafite"] .v4-side__foot {
+  gap: var(--v4-space-1);
+  padding: var(--v4-space-1) 0 0;
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root[data-visual="grafite"] .v4-side__names { display: flex; }
+.crm-v4-root[data-visual="grafite"] .v4-side__names[aria-pressed="true"] { color: var(--v4-text-1); }
+.crm-v4-root[data-visual="grafite"] .v4-side .v4-user {
+  gap: 10px;
+  min-height: 44px;
+  padding: var(--v4-space-1) 5px;
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  overflow: hidden;
+}
+
+/* ---------- Palco: faixa do topo + conteúdo (só o conteúdo rola) ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-stage {
+  position: relative;
+  display: grid;
+  grid-template-rows: var(--v4-c-band-h) minmax(0, 1fr);
+  gap: var(--v4-c-region-gap);
+  min-height: 0;
+}
+/* Véu de leitura atrás do conteúdo: começa nas folgas (12 px acima e à esquerda), com a
+   borda esfumada, para não aparecer emenda com a luz da faixa e do menu. */
+.crm-v4-root[data-visual="grafite"] .v4-stage { isolation: isolate; }
+.crm-v4-root[data-visual="grafite"] .v4-stage::after {
+  content: "";
+  position: absolute;
+  inset: var(--v4-c-band-h) calc(-1 * var(--v4-c-page-pad)) calc(-1 * var(--v4-c-page-pad)) calc(-1 * var(--v4-c-region-gap));
+  z-index: var(--v4-z-behind);
+  background: var(--v4-g-veil);
+  mask-image: linear-gradient(to bottom, transparent 0, black var(--v4-c-region-gap)), linear-gradient(to right, transparent 0, black var(--v4-c-region-gap));
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  pointer-events: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-header {
+  position: relative;
+  top: auto;
+  gap: 10px;
+  height: var(--v4-c-band-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-header__where { padding-left: var(--v4-space-1); }
+.crm-v4-root[data-visual="grafite"] .v4-header__where .v4-crumbs ol { font-size: var(--v4-fs-section); line-height: var(--v4-lh-section); }
+/* Texto solto sobre a luz (sem painel): só o nível 1 fecha 4,5:1 no ponto mais claro. A
+   hierarquia do caminho e da contagem vem do peso e do tamanho, não do tom. */
+.crm-v4-root[data-visual="grafite"] .v4-header__where .v4-crumbs :is(ol, li, a, [aria-current="page"]) { color: var(--v4-text-1); }
+.crm-v4-root[data-visual="grafite"] .v4-header__where .v4-crumbs li + li::before { color: var(--v4-text-1); }
+.crm-v4-root[data-visual="grafite"] .v4-faixa__contagem { color: var(--v4-text-1); }
+.crm-v4-root[data-visual="grafite"] .v4-header__search {
+  width: min(var(--v4-c-search-w), 40vw);
+  /* Altura do controle: 36 px no compacto e 44 px em toque (alvo mínimo), como o resto da casca */
+  min-height: var(--v4-c-control-h);
+  padding: 0 6px 0 14px;
+  border-color: var(--v4-control-border);
+  background: var(--v4-g-glass-fill);
+  box-shadow: inset 0 1px 0 var(--v4-g-glass-border);
+}
+/* Com a faixa da tela no lugar, a busca ⌘K fica compacta à direita */
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-faixa) .v4-header__where { visibility: hidden; }
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-faixa) .v4-header__search {
+  width: var(--v4-c-search-compact-w);
+  margin-left: auto;
+}
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-faixa) .v4-header__search > span:first-of-type {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.crm-v4-root[data-visual="grafite"] .v4-main {
+  min-width: 0;
+  min-height: 0;
+  /* folga de 4 px para o anel de foco não ser cortado pela rolagem; a margem devolve a geometria */
+  margin: -4px;
+  padding: 4px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---------- Faixa única do topo (preenchida pela tela com <FaixaTopo>) ---------- */
+.crm-v4-root .v4-faixa {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-3);
+  min-width: 0;
+  min-height: var(--v4-c-control-h);
+  margin-bottom: var(--v4-space-4);
+}
+.crm-v4-root .v4-faixa__titulo {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--v4-fs-title);
+  line-height: var(--v4-lh-title);
+  font-weight: var(--v4-weight-semibold);
+  letter-spacing: var(--v4-tracking-title);
+}
+.crm-v4-root .v4-faixa__contagem {
+  flex: none;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* O que não cabe rola para o lado dentro da faixa (nada cortado); folga para o foco */
+.crm-v4-root .v4-faixa__controles {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--v4-space-2);
+  min-width: 0;
+  margin: -4px;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.crm-v4-root .v4-faixa__controles > .v4-search { flex: 1 1 200px; min-width: 160px; max-width: 300px; }
+.crm-v4-root .v4-faixa__controles > :not(.v4-search) { flex: none; }
+.crm-v4-root[data-visual="grafite"] .v4-faixa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: calc(var(--v4-c-search-compact-w) + var(--v4-c-region-gap));
+  z-index: var(--v4-z-structure);
+  height: var(--v4-c-band-h);
+  margin: 0;
+  padding-left: var(--v4-space-1);
+}
+
+/* Pequeno: sem menu lateral; o botão de menu abre a gaveta e a faixa começa depois dele */
+@media (max-width: 767px) {
+  .crm-v4-root[data-visual="grafite"] .v4-app { grid-template-columns: minmax(0, 1fr); }
+  .crm-v4-root[data-visual="grafite"] .v4-side { display: none; }
+  .crm-v4-root[data-visual="grafite"] .v4-header__search { width: var(--v4-c-control-h); padding: 0; }
+  .crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-faixa) .v4-header__search { width: var(--v4-c-control-h); }
+  .crm-v4-root[data-visual="grafite"] .v4-faixa {
+    left: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    right: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    padding-left: 0;
+  }
+}

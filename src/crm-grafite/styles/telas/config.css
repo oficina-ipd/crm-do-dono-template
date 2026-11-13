@@ -1,0 +1,94 @@
+/* ==========================================================================
+   CRM v4 · Metas, Sessão fechada, Ocorrências, Integração GrokBot e Ligações
+   ========================================================================== */
+
+.crm-v4-root .v4-metas__lista { display: grid; gap: var(--v4-space-4); }
+.crm-v4-root .v4-metas__lista .v4-input { max-width: 200px; }
+
+/* Sessão fechada: nome do convidado à esquerda, resultado à direita */
+.crm-v4-root .v4-sessao__lista { display: grid; }
+.crm-v4-root .v4-sessao__lista > .v4-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+  align-items: center;
+  gap: var(--v4-space-1) var(--v4-space-4);
+  min-height: var(--v4-c-row-h);
+  padding-block: var(--v4-space-1);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-sessao__lista > .v4-field:first-child { border-top: 0; }
+.crm-v4-root .v4-sessao__lista > .v4-field > .v4-field__label { font-weight: var(--v4-weight-medium); color: var(--v4-text-1); }
+@media (max-width: 559px) {
+  .crm-v4-root .v4-sessao__lista > .v4-field { grid-template-columns: minmax(0, 1fr); padding-block: var(--v4-space-2); }
+}
+
+/* Ocorrências */
+.crm-v4-root .v4-ocor__filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--v4-space-2) var(--v4-space-3);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad);
+  border-bottom: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-ocor__filtro > .v4-field { flex: 0 1 220px; }
+.crm-v4-root .v4-ocor__filtro > .v4-btn { margin-top: calc(var(--v4-lh-ui) + var(--v4-space-1)); }
+.crm-v4-root .v4-ocor__trecho { display: block; min-width: 24ch; max-width: 48ch; color: var(--v4-text-2); }
+.crm-v4-root .v4-tela--ocorrencias .v4-table td.is-wrap { vertical-align: top; padding-block: var(--v4-space-2); }
+
+/* Integração GrokBot */
+.crm-v4-root .v4-integ__copiar { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--v4-space-2) var(--v4-space-3); }
+.crm-v4-root .v4-integ__copiar > .v4-field { flex: 1 1 260px; }
+.crm-v4-root .v4-integ__copiar > .v4-btn { margin-top: calc(var(--v4-lh-ui) + var(--v4-space-1)); }
+.crm-v4-root .v4-integ__token {
+  display: grid;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-3);
+  border: 1px dashed var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-field);
+}
+.crm-v4-root .v4-integ__codigo { overflow-wrap: anywhere; color: var(--v4-text-1); }
+.crm-v4-root .v4-integ__vazio { padding: var(--v4-space-4) var(--v4-c-panel-pad); }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): formulários e tabelas no padrão novo.
+   Base comum (faixa, vidro, tabela com cabeçalho fixo, tela cheia) em base-demais.css.
+   ========================================================================== */
+
+/* Metas: cada meta é uma linha (nome e ajuda à esquerda, campo à direita), como uma tabela */
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista { gap: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 160px);
+  align-items: center;
+  gap: 2px var(--v4-space-4);
+  padding-block: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field:first-child { padding-top: 0; border-top: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field > .v4-field__label { grid-column: 1; grid-row: 1; }
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field > .v4-input {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  max-width: none;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field > .v4-field__help { grid-column: 1; grid-row: 2; margin: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field > .v4-field__error { grid-column: 1 / -1; grid-row: 3; }
+@media (max-width: 559px) {
+  .crm-v4-root[data-visual="grafite"] .v4-metas__lista > .v4-field { grid-template-columns: minmax(0, 1fr) 96px; }
+}
+
+/* Ocorrências: linha de 38 px com o conteúdo no meio (trecho e motivo quebram, sem desalinhar) */
+.crm-v4-root[data-visual="grafite"] .v4-tela--ocorrencias .v4-table td.is-wrap { vertical-align: middle; }
+.crm-v4-root[data-visual="grafite"] .v4-ocor__filtro { padding-block: var(--v4-space-3) var(--v4-space-4); }
+
+/* Integração: token novo em vidro afundado (aparece uma vez), sem caixa tracejada */
+.crm-v4-root[data-visual="grafite"] .v4-integ__token {
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-g-sunken-fill);
+  box-shadow: var(--v4-g-sunken-shadow);
+}

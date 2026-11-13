@@ -1,0 +1,193 @@
+/* ==========================================================================
+   CRM v4 · base
+   Só a raiz .crm-v4-root e classes v4-*. Nenhuma regra por elemento solto, para não
+   tocar nas telas v3 que ainda vivem dentro da casca (.crm-v4-legado).
+   ========================================================================== */
+
+.crm-v4-root {
+  min-height: 100dvh;
+  color-scheme: dark;
+  background-color: var(--v4-surface-ambient);
+  background-image: var(--v4-surface-ambient-image);
+  background-attachment: fixed;
+  color: var(--v4-text-1);
+  font-family: var(--v4-font-sans);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-regular);
+  font-synthesis: none;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  accent-color: var(--v4-action);
+  caret-color: var(--v4-action);
+  scrollbar-color: var(--v4-p-ink-550) transparent;
+  scrollbar-width: thin;
+  text-wrap: pretty;
+}
+
+.crm-v4-root *,
+.crm-v4-root *::before,
+.crm-v4-root *::after {
+  box-sizing: border-box;
+}
+
+.crm-v4-root ::selection {
+  background: var(--v4-selection);
+  color: var(--v4-text-1);
+}
+
+/* Telas v3 dentro da casca v4: devolvem o que a raiz v4 herdaria. */
+.crm-v4-root .crm-v4-legado {
+  text-wrap: wrap;
+  caret-color: auto;
+  accent-color: auto;
+  scrollbar-color: auto;
+  border-radius: var(--v4-radius-panel);
+  min-height: calc(100dvh - var(--v4-c-header-h) - (2 * var(--v4-c-page-pad)));
+  isolation: isolate;
+}
+.crm-v4-root .crm-v4-legado ::selection {
+  background: Highlight;
+  color: HighlightText;
+}
+
+/* Tela v4 dentro do invólucro das telas v3: regra ÚNICA para todas as telas v4. A raiz de cada
+   tela (e do seu esqueleto de carregamento) leva [data-v4-tela]; o invólucro sai da caixa
+   (display: contents: sem fundo, raio e altura do v3) e devolve a herança da raiz v4, que o
+   .ds-root do v3 tinha trocado. Some junto com a casca v3 (PR de remoção). */
+.crm-v4-root .crm-v4-legado:has([data-v4-tela]) {
+  display: contents;
+  /* sem caixa, mas o estilo computado também fica neutro (ferramentas que leem o invólucro
+     não o confundem com um cartão em volta da tela) */
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  --focus: var(--v4-focus);
+  color: var(--v4-text-1);
+  font-family: var(--v4-font-sans);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-regular);
+  letter-spacing: normal;
+  text-wrap: pretty;
+  caret-color: var(--v4-action);
+  accent-color: var(--v4-action);
+  scrollbar-color: var(--v4-p-ink-550) transparent;
+}
+.crm-v4-root .crm-v4-legado:has([data-v4-tela]) ::selection {
+  background: var(--v4-selection);
+  color: var(--v4-text-1);
+}
+
+/* Foco nunca por baixo do cabeçalho fixo (WCAG 2.4.11): a rolagem do DOCUMENTO reserva a altura
+   do cabeçalho de contexto (56 px no compacto, 64 no confortável) e uma folga. Só o <html> que
+   contém a raiz v4 (site e casca v3 não mudam). Não usar scroll-margin nos controles: valeria
+   também dentro das regiões com rolagem própria (lista de conversas, colunas do Funil), que não
+   ficam sob o cabeçalho, e deixaria um vão acima do item focado. */
+html:has(.crm-v4-root) { scroll-padding-top: 80px; }
+
+/* Texto visível só para leitor de tela */
+.crm-v4-root .v4-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Tipografia por papel */
+.crm-v4-root .v4-t-title {
+  margin: 0;
+  font-size: var(--v4-fs-title);
+  line-height: var(--v4-lh-title);
+  font-weight: var(--v4-weight-semibold);
+  letter-spacing: var(--v4-tracking-title);
+  text-wrap: balance;
+}
+.crm-v4-root .v4-t-section {
+  margin: 0;
+  font-size: var(--v4-fs-section);
+  line-height: var(--v4-lh-section);
+  font-weight: var(--v4-weight-semibold);
+  text-wrap: balance;
+}
+.crm-v4-root .v4-t-read {
+  margin: 0;
+  font-size: var(--v4-fs-read);
+  line-height: var(--v4-lh-read);
+  max-width: 70ch;
+  text-wrap: pretty;
+}
+.crm-v4-root .v4-t-ui {
+  margin: 0;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+}
+.crm-v4-root .v4-t-meta {
+  margin: 0;
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  color: var(--v4-text-3);
+}
+.crm-v4-root .v4-t-2 { color: var(--v4-text-2); }
+.crm-v4-root .v4-t-3 { color: var(--v4-text-3); }
+.crm-v4-root .v4-t-strong { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-t-medium { font-weight: var(--v4-weight-medium); }
+/* Números comparados em coluna: única função da monoespaçada */
+.crm-v4-root .v4-num {
+  font-family: var(--v4-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--v4-weight-regular);
+}
+.crm-v4-root .v4-tabular { font-variant-numeric: tabular-nums; }
+
+/* Foco próprio: anel claro com folga, nunca cópia do hover */
+.crm-v4-root .v4-focusable:focus-visible,
+.crm-v4-root .v4-focusable.is-focus {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+
+/* Link de texto */
+.crm-v4-root .v4-link {
+  color: var(--v4-text-1);
+  text-decoration: underline;
+  text-decoration-color: var(--v4-control-border);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-radius: var(--v4-radius-check);
+  transition: text-decoration-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-link:hover { text-decoration-color: var(--v4-text-1); }
+.crm-v4-root .v4-link:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+
+/* Movimento reduzido.
+   O site tem um corte global (`* { transition-duration: .01ms !important }`) que apagaria
+   todo retorno de hover e foco. Aqui a v4 devolve só as transições de cor e opacidade,
+   curtas, e deixa sem transição o que desloca (transform). */
+@media (prefers-reduced-motion: reduce) {
+  .crm-v4-root [class*="v4-"],
+  .crm-v4-root [class*="v4-"]::before,
+  .crm-v4-root [class*="v4-"]::after {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, opacity, box-shadow !important;
+    transition-duration: var(--v4-dur-hover) !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Bloco com densidade própria (espécimes, prévias lado a lado) */
+.crm-v4-root [data-density] {
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+}

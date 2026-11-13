@@ -1,0 +1,131 @@
+/* ==========================================================================
+   CRM v4 · Agentes: fila de sugestões, rodar agente, configuração em tabela
+   ========================================================================== */
+
+.crm-v4-root .v4-sug { display: grid; margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-sug__item {
+  display: grid;
+  gap: var(--v4-space-2);
+  padding-block: var(--v4-space-4);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-sug__item:first-child { border-top: 0; padding-top: var(--v4-space-1); }
+.crm-v4-root .v4-sug__topo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v4-space-2); }
+.crm-v4-root .v4-sug__acoes { display: flex; flex-wrap: wrap; gap: var(--v4-space-2); padding-top: var(--v4-space-1); }
+
+.crm-v4-root .v4-sug__historico {
+  border-top: 1px solid var(--v4-border-divider);
+  padding-top: var(--v4-space-3);
+}
+.crm-v4-root .v4-sug__historico > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--v4-c-control-h-sm);
+  padding-inline: var(--v4-space-1);
+  border-radius: var(--v4-radius-check);
+  color: var(--v4-text-2);
+  font-weight: var(--v4-weight-medium);
+  cursor: pointer;
+}
+.crm-v4-root .v4-sug__historico > summary:hover { color: var(--v4-text-1); }
+.crm-v4-root .v4-sug__historico > summary:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+.crm-v4-root .v4-sug__historico ul { display: grid; gap: var(--v4-space-2); margin: var(--v4-space-2) 0 0; padding: 0; list-style: none; }
+
+/* Rodar agente */
+.crm-v4-root .v4-ag__lead { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-ag__escolhido {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 var(--v4-space-2);
+  padding: var(--v4-space-2) var(--v4-space-2) var(--v4-space-2) var(--v4-space-3);
+  border: 1px solid var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-field);
+}
+.crm-v4-root .v4-ag__escolhido > .v4-t-meta { grid-column: 1 / -1; }
+.crm-v4-root .v4-ag__leads {
+  display: grid;
+  margin: var(--v4-space-1) 0 0;
+  padding: var(--v4-space-1);
+  list-style: none;
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-menu);
+  background: var(--v4-surface-float);
+  max-height: 260px;
+  overflow-y: auto;
+}
+.crm-v4-root .v4-ag__lead-opcao {
+  display: grid;
+  width: 100%;
+  min-height: var(--v4-c-control-h);
+  padding: var(--v4-space-1) var(--v4-space-2);
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-1);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-ag__lead-opcao:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-ag__lead-opcao:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: calc(-1 * var(--v4-focus-width));
+}
+.crm-v4-root .v4-ag__resultado { display: grid; gap: var(--v4-space-2); justify-items: start; }
+.crm-v4-root .v4-ag__ok { color: var(--v4-success); }
+.crm-v4-root .v4-nota .v4-ag__ok { color: var(--v4-success); }
+
+/* Configuração */
+.crm-v4-root .v4-ag__nome { display: grid; gap: 2px; min-width: 180px; max-width: 34ch; }
+.crm-v4-root .v4-ag__celula { display: grid; justify-items: start; gap: var(--v4-space-1); }
+.crm-v4-root .v4-ag__st { font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); color: var(--v4-text-2); }
+.crm-v4-root .v4-ag__st--ok { color: var(--v4-success); }
+.crm-v4-root .v4-ag__st--erro { color: var(--v4-danger); max-width: 32ch; }
+.crm-v4-root .v4-tela--agentes .v4-table td { vertical-align: top; padding-block: var(--v4-space-2); }
+.crm-v4-root .v4-ag__rodape {
+  display: grid;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-ag__celula .v4-seg { max-width: none; overflow: visible; white-space: nowrap; }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): fila de sugestões primeiro, configuração em tabela.
+   ========================================================================== */
+/* Poucas etiquetas: o nome do agente vira texto discreto antes do título */
+.crm-v4-root[data-visual="grafite"] .v4-sug__topo { gap: var(--v4-space-1) var(--v4-space-2); }
+.crm-v4-root[data-visual="grafite"] .v4-sug__topo > .v4-tag {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root[data-visual="grafite"] .v4-sug__topo > .v4-tag::after { content: "·"; margin-left: var(--v4-space-2); }
+/* Lista de leads da busca: camada flutuante (o vidro claro dos menus) */
+.crm-v4-root[data-visual="grafite"] .v4-ag__leads {
+  border-color: var(--v4-g-float-border);
+  border-radius: var(--v4-radius-menu);
+  background: var(--v4-g-float-fill);
+  box-shadow: var(--v4-g-float-shadow);
+  --v4-text-2: var(--v4-g-text-2-float);
+  --v4-text-3: var(--v4-g-text-3-float);
+}
+.crm-v4-root[data-visual="grafite"] .v4-ag__lead-opcao { border-radius: 9px; }
+.crm-v4-root[data-visual="grafite"] .v4-ag__escolhido {
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-g-sunken-fill);
+  box-shadow: var(--v4-g-sunken-shadow);
+}
+/* Configuração: célula com controle alinhada ao meio da linha */
+.crm-v4-root[data-visual="grafite"] .v4-tela--agentes .v4-table td { padding-block: var(--v4-space-2); }

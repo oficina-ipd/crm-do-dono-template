@@ -1,0 +1,395 @@
+/* ==========================================================================
+   CRM v4 · tokens
+   Três níveis: fundamentos (--v4-p-*) → semânticos por papel (--v4-*) → componentes
+   (--v4-c-*). Tudo escopado em .crm-v4-root: nada vaza para o site, o portal ou a casca v3.
+   Componentes e telas consomem só os semânticos e os de componente, nunca os fundamentos.
+   Contrastes calculados (WCAG 2.2) estão em DESIGN.md e na descrição do PR.
+   ========================================================================== */
+
+.crm-v4-root {
+  /* ---- 1. Fundamentos ------------------------------------------------------ */
+  /* Paleta PROVISÓRIA em escuro neutro (sem matiz), aguardando a definição do dono.
+     Os nomes dos tokens (ink, sand, warm) ficaram; só os valores mudaram. */
+  /* Neutros (tinta) */
+  --v4-p-ink-950: #09090A;
+  --v4-p-ink-900: #0C0C0D;
+  --v4-p-ink-875: #101011;
+  --v4-p-ink-850: #131315;
+  --v4-p-ink-800: #151517;
+  --v4-p-ink-775: #18181A;
+  --v4-p-ink-700: #1B1B1E;
+  --v4-p-ink-650: #242428;
+  --v4-p-ink-600: #2F2F34;
+  --v4-p-ink-550: #343439;
+  /* Cinza claro (texto e contorno) */
+  --v4-p-sand-0: #FFFFFF;
+  --v4-p-sand-50: #F2F2F4;
+  --v4-p-sand-100: #DCDCE1;
+  --v4-p-sand-200: #C8C8CE;
+  --v4-p-sand-400: #A1A1A9;
+  --v4-p-sand-500: #92929A;
+  --v4-p-sand-550: #85858E;
+  /* Âmbar: só o estado "precisa de você" */
+  --v4-p-amber-200: #FFD39C;
+  --v4-p-amber-300: #F6C389;
+  --v4-p-amber-400: #F2B36F;
+  --v4-p-amber-500: #E5A35C;
+  --v4-p-amber-ink: #23180F;
+  --v4-p-amber-rgb: 242 179 111;
+  /* Estados */
+  --v4-p-green-300: #84D2AC;
+  --v4-p-yellow-300: #E6C56D;
+  --v4-p-red-300: #F39D9D;
+  --v4-p-blue-300: #9CC7EB;
+  /* Branco neutro em canais, para bordas e véus com alfa */
+  --v4-p-warm-rgb: 255 255 255;
+  --v4-p-shadow-rgb: 0 0 0;
+  /* Superfícies de vidro em canais (mesmos valores de ink-800 e ink-700) */
+  --v4-p-structure-rgb: 21 21 23;
+  --v4-p-work-rgb: 27 27 30;
+
+  /* ---- 2. Semânticos ------------------------------------------------------- */
+  /* Superfícies: ambiente → estrutura → trabalho → flutuante. Ambiente plano, sem gradiente. */
+  --v4-surface-ambient: var(--v4-p-ink-900);
+  --v4-surface-ambient-image: none;
+  --v4-surface-structure: rgb(var(--v4-p-structure-rgb) / 0.88);
+  --v4-surface-structure-solid: var(--v4-p-ink-800);
+  --v4-surface-work: rgb(var(--v4-p-work-rgb) / 0.97);
+  --v4-surface-work-solid: var(--v4-p-ink-700);
+  --v4-surface-float: var(--v4-p-ink-650);
+  --v4-surface-field: var(--v4-p-ink-775);
+  --v4-surface-hover: rgb(var(--v4-p-warm-rgb) / 0.05);
+  --v4-surface-pressed: rgb(var(--v4-p-warm-rgb) / 0.08);
+  --v4-surface-selected: rgb(var(--v4-p-warm-rgb) / 0.09);
+  --v4-surface-raised: rgb(var(--v4-p-warm-rgb) / 0.06);
+  --v4-surface-skeleton: rgb(var(--v4-p-warm-rgb) / 0.07);
+  --v4-surface-sunken: rgb(var(--v4-p-warm-rgb) / 0.03);
+  --v4-surface-scrim: rgb(var(--v4-p-shadow-rgb) / 0.62);
+  --v4-selection: rgb(var(--v4-p-warm-rgb) / 0.26);
+  --v4-blur-structure: 16px;
+  --v4-blur-float: 0px;
+
+  /* Texto */
+  --v4-text-1: var(--v4-p-sand-50);
+  --v4-text-2: var(--v4-p-sand-200);
+  --v4-text-3: var(--v4-p-sand-400);
+  --v4-text-disabled: var(--v4-p-sand-500);
+  --v4-text-on-action: var(--v4-p-ink-900);
+
+  /* Ação principal (provisória: botão claro, texto quase preto) e foco */
+  --v4-action: var(--v4-p-sand-50);
+  --v4-action-hover: var(--v4-p-sand-0);
+  --v4-action-pressed: var(--v4-p-sand-100);
+  --v4-action-soft: rgb(var(--v4-p-warm-rgb) / 0.12);
+  --v4-focus: var(--v4-p-sand-0);
+  --v4-focus-width: 2px;
+  --v4-focus-offset: 2px;
+
+  /* A sua vez: âmbar só em "precisa de você" (etiqueta e contador) */
+  --v4-attention: var(--v4-p-amber-400);
+  --v4-attention-soft: rgb(var(--v4-p-amber-rgb) / 0.14);
+  --v4-text-on-attention: var(--v4-p-amber-ink);
+
+  /* Estados: cor do texto/símbolo + fundo suave (14%) */
+  --v4-success: var(--v4-p-green-300);
+  --v4-success-soft: rgb(132 210 172 / 0.14);
+  --v4-warning: var(--v4-p-yellow-300);
+  --v4-warning-soft: rgb(230 197 109 / 0.14);
+  --v4-warning-border: color-mix(in srgb, var(--v4-warning) 42%, transparent);
+  --v4-danger: var(--v4-p-red-300);
+  --v4-danger-soft: rgb(243 157 157 / 0.14);
+  --v4-info: var(--v4-p-blue-300);
+  --v4-info-soft: rgb(156 199 235 / 0.14);
+  --v4-text-on-danger: var(--v4-p-ink-900);
+
+  /* Bordas: decorativa (agrupa, não identifica) e contorno de controle (≥ 3:1) */
+  --v4-border-deco: rgb(var(--v4-p-warm-rgb) / 0.12);
+  --v4-border-divider: rgb(var(--v4-p-warm-rgb) / 0.10);
+  --v4-control-border: var(--v4-p-sand-550);
+  --v4-control-border-hover: var(--v4-p-sand-400);
+
+  /* Espaço 4 → 48 */
+  --v4-space-1: 4px;
+  --v4-space-2: 8px;
+  --v4-space-3: 12px;
+  --v4-space-4: 16px;
+  --v4-space-5: 24px;
+  --v4-space-6: 32px;
+  --v4-space-7: 48px;
+
+  /* Raios */
+  --v4-radius-panel: 16px;
+  --v4-radius-menu: 12px;
+  --v4-radius-control: 10px;
+  --v4-radius-check: 4px;
+  --v4-radius-pill: 999px;
+  /* Botões, campos e filtros (no Grafite viram pílula); item do segmentado */
+  --v4-radius-field: var(--v4-radius-control);
+  --v4-radius-seg-item: 8px;
+
+  /* Sombras: deslocamento vertical, desfoque largo, sem cor */
+  --v4-shadow-work: 0 12px 32px rgb(var(--v4-p-shadow-rgb) / 0.28);
+  --v4-shadow-float: 0 16px 40px rgb(var(--v4-p-shadow-rgb) / 0.48), 0 2px 6px rgb(var(--v4-p-shadow-rgb) / 0.32);
+  --v4-shadow-dialog: 0 20px 48px rgb(var(--v4-p-shadow-rgb) / 0.55), 0 2px 8px rgb(var(--v4-p-shadow-rgb) / 0.35);
+
+  /* Tipografia: famílias (variáveis de next/font na própria raiz) */
+  --v4-font-sans: var(--v4-font-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --v4-font-mono: var(--v4-font-atkinson-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --v4-weight-regular: 400;
+  --v4-weight-medium: 500;
+  --v4-weight-semibold: 600;
+
+  --v4-tracking-title: -0.01em;
+
+  /* Movimento */
+  --v4-dur-hover: 120ms;
+  --v4-dur-menu: 160ms;
+  --v4-dur-section: 200ms;
+  --v4-dur-panel: 220ms;
+  --v4-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --v4-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --v4-shift-menu: 4px;
+  --v4-shift-panel: 16px;
+
+  /* Camadas por papel (único lugar com números de empilhamento) */
+  --v4-z-ambient: 0;
+  --v4-z-work: 1;
+  --v4-z-sticky: 10;
+  --v4-z-structure: 20;
+  --v4-z-float: 40;
+  --v4-z-dialog: 60;
+  --v4-z-toast: 80;
+
+  /* ---- 3. Componentes (fixos; os que dependem da densidade vêm abaixo) ------ */
+  --v4-c-icon: 18px;
+  --v4-c-icon-nav: 20px;
+  --v4-c-nav-w: 232px;
+  --v4-c-nav-w-collapsed: 64px;
+  --v4-c-bubble-max: 68ch;
+  --v4-c-list-w: 340px;
+  --v4-c-context-w: 320px;
+  --v4-c-dialog-w: 480px;
+  --v4-c-sidepanel-w: 420px;
+  --v4-c-menu-min-w: 200px;
+  --v4-c-switch-w: 36px;
+  --v4-c-switch-h: 20px;
+  /* Moldura: onde o que é "sticky" na tela encosta (abaixo do cabeçalho fixo da casca) e a
+     folga extra da moldura. No Grafite a página não rola (rola o conteúdo): 0 e uma margem. */
+  --v4-c-sticky-top: var(--v4-c-header-h);
+  --v4-c-frame-extra: 0px;
+}
+
+/* Densidade compacta (padrão no computador). Vale na raiz e em qualquer bloco
+   [data-density="compact"] dentro dela. Tudo que depende da densidade mora aqui,
+   para um bloco aninhado recalcular inteiro. */
+.crm-v4-root,
+.crm-v4-root [data-density="compact"] {
+  --v4-fs-meta: 12px;   --v4-lh-meta: 16px;
+  --v4-fs-ui: 14px;     --v4-lh-ui: 20px;
+  --v4-fs-field: 14px;  --v4-lh-field: 20px;
+  --v4-fs-read: 16px;   --v4-lh-read: 24px;
+  --v4-fs-section: 18px; --v4-lh-section: 24px;
+  --v4-fs-title: 22px;  --v4-lh-title: 28px;
+  --v4-c-control-h: 36px;
+  --v4-c-control-h-sm: 28px;
+  --v4-c-control-px: 12px;
+  --v4-c-row-h: 40px;
+  --v4-c-list-row-py: 8px;
+  --v4-c-nav-item-h: 36px;
+  --v4-c-header-h: 56px;
+  --v4-c-panel-pad: 16px;
+  --v4-c-region-gap: 16px;
+  --v4-c-page-pad: 24px;
+  --v4-c-bubble-fs: var(--v4-fs-ui);
+  --v4-c-bubble-lh: var(--v4-lh-ui);
+  --v4-c-bubble-px: 12px;
+  --v4-c-bubble-py: 8px;
+  --v4-c-avatar: 28px;
+  --v4-c-check: 18px;
+}
+
+/* Densidade confortável: os números do guia */
+.crm-v4-root[data-density="comfortable"],
+.crm-v4-root [data-density="comfortable"] {
+  --v4-fs-meta: 13px;   --v4-lh-meta: 18px;
+  --v4-fs-ui: 15px;     --v4-lh-ui: 22px;
+  --v4-fs-field: 16px;  --v4-lh-field: 24px;
+  --v4-fs-read: 16px;   --v4-lh-read: 24px;
+  --v4-fs-section: 20px; --v4-lh-section: 28px;
+  --v4-fs-title: 28px;  --v4-lh-title: 36px;
+  --v4-c-control-h: 40px;
+  --v4-c-control-h-sm: 32px;
+  --v4-c-control-px: 16px;
+  --v4-c-row-h: 48px;
+  --v4-c-list-row-py: 12px;
+  --v4-c-nav-item-h: 40px;
+  --v4-c-header-h: 64px;
+  --v4-c-sticky-top: var(--v4-c-header-h);
+  --v4-c-panel-pad: 24px;
+  --v4-c-region-gap: 24px;
+  --v4-c-page-pad: 32px;
+  --v4-c-bubble-fs: var(--v4-fs-read);
+  --v4-c-bubble-lh: var(--v4-lh-read);
+  --v4-c-bubble-px: 16px;
+  --v4-c-bubble-py: 12px;
+  --v4-c-avatar: 32px;
+  --v4-c-check: 20px;
+}
+
+/* Toque: alvo de 44 px em qualquer densidade */
+@media (pointer: coarse) {
+  .crm-v4-root,
+  .crm-v4-root[data-density],
+  .crm-v4-root [data-density] {
+    --v4-c-control-h: 44px;
+    --v4-c-control-h-sm: 44px;
+    --v4-c-nav-item-h: 44px;
+    --v4-c-row-h: 48px;
+  }
+}
+
+/* Tela pequena: margens de 16 */
+@media (max-width: 767px) {
+  .crm-v4-root,
+  .crm-v4-root[data-density],
+  .crm-v4-root [data-density] {
+    --v4-c-page-pad: 16px;
+    --v4-c-panel-pad: 16px;
+  }
+}
+
+/* Modo sólido: sem vidro, sem desfoque; mesmos limites e hierarquia */
+.crm-v4-root[data-solid="1"],
+.crm-v4-root [data-solid="1"] {
+  --v4-surface-ambient-image: none;
+  --v4-surface-structure: var(--v4-surface-structure-solid);
+  --v4-surface-work: var(--v4-surface-work-solid);
+  --v4-blur-structure: 0px;
+}
+
+/* Transparência reduzida pelo sistema: mesma alternativa do modo sólido */
+@media (prefers-reduced-transparency: reduce) {
+  .crm-v4-root {
+    --v4-surface-ambient-image: none;
+    --v4-surface-structure: var(--v4-surface-structure-solid);
+    --v4-surface-work: var(--v4-surface-work-solid);
+    --v4-blur-structure: 0px;
+    --v4-surface-scrim: rgb(var(--v4-p-shadow-rgb) / 0.82);
+  }
+}
+
+/* Movimento reduzido: tira deslocamento, mantém o retorno de cor e opacidade */
+@media (prefers-reduced-motion: reduce) {
+  .crm-v4-root {
+    --v4-shift-menu: 0px;
+    --v4-shift-panel: 0px;
+    --v4-dur-menu: 120ms;
+    --v4-dur-panel: 120ms;
+    --v4-dur-section: 120ms;
+  }
+}
+
+/* ==========================================================================
+   Paleta do Grafite (CRM_GRAFITE): TODAS as cores do tema, num bloco só.
+   "Ardósia e verde", fechada pelo dono em 12/11/2026 (protótipo crm-grafite-5-telas-v3,
+   regra .app[data-pal=ardosia], luz média, profundidade média). Trocar a paleta = trocar
+   este bloco. As camadas, a profundidade e as medidas ficam em grafite.css, que só compõe
+   estes valores (sem cor literal). Sem data-visual="grafite", nada daqui vale.
+   Regra de cor: verde na luz de fundo, no botão principal e no item ativo do menu (nunca em
+   texto corrido); âmbar só em "precisa de você"; o azul saiu do sistema.
+   ========================================================================== */
+.crm-v4-root[data-visual="grafite"] {
+  /* Canais fixos para brilho e sombra */
+  --v4-gp-white-rgb: 255 255 255;
+  --v4-gp-black-rgb: 0 0 0;
+
+  /* Ambiente: base em três paradas (degradê em 135°) e as quatro manchas de luz */
+  --v4-gp-base-1: #2C3342;
+  --v4-gp-base-2: #1C202B;
+  --v4-gp-base-3: #12141B;
+  --v4-gp-light-1-rgb: 72 200 150;
+  --v4-gp-light-2-rgb: 60 175 150;
+  --v4-gp-light-3-rgb: 205 235 240;
+  --v4-gp-light-4-rgb: 90 190 160;
+  /* Ganho da luz: 0,42 suave · 0,72 média (fechada) · 1 forte */
+  --v4-gp-light-gain: 0.72;
+
+  /* Camadas (canais; a transparência vem da profundidade em grafite.css) */
+  --v4-gp-glass-rgb: 27 31 41;
+  --v4-gp-glass-up-rgb: 30 34 45;
+  --v4-gp-float-rgb: 50 56 70;
+  --v4-gp-head-rgb: 46 52 66;
+  --v4-gp-sunken-rgb: 10 12 18;
+  --v4-gp-scrim-rgb: 8 9 13;
+
+  /* Folha da tabela (sólida e uniforme; a coluna fixa usa a mesma) */
+  --v4-gp-sheet: #20242F;
+  --v4-gp-sheet-hover: #2A2F3C;
+  --v4-gp-sheet-selected: #2E3443;
+
+  /* Equivalentes sólidos (modo sólido e transparência reduzida) */
+  --v4-gp-glass-solid: #232733;
+  --v4-gp-glass-up-solid: #272B38;
+  --v4-gp-float-solid: #323846;
+  --v4-gp-head-solid: #2E3442;
+  --v4-gp-sunken-solid: #14161D;
+  /* Canto fixo do cabeçalho de tabela: a cor do cabeçalho de vidro já composta sobre a folha */
+  --v4-gp-head-on-sheet: #2A303D;
+  --v4-gp-work-solid: #20242F;
+  --v4-gp-structure-solid: #242834;
+
+  /* Texto (três níveis) */
+  --v4-gp-text-1: #F2F4F8;
+  --v4-gp-text-2: #BEC4D2;
+  --v4-gp-text-3: #989FB0;
+  --v4-gp-text-disabled: #A1A7B6;
+  /* Portão de contraste (medido na tela renderizada): #989FB0 só fecha 4,5:1 sobre superfície
+     sólida (folha da tabela). Sobre vidro translúcido o texto 3 sobe um passo; sobre a camada
+     flutuante, a faixa do topo e o menu (onde a luz ou o conteúdo passam por baixo), os níveis
+     2 e 3 sobem mais. */
+  --v4-gp-text-3-glass: #B0B6C4;
+  --v4-gp-text-2-float: #E4E7EE;
+  --v4-gp-text-3-float: #D5D9E2;
+  --v4-gp-text-disabled-float: #C9CDD8;
+  /* Véu de leitura: escurece a luz atrás da área de conteúdo (mesmas posições das manchas) */
+  --v4-gp-veil-rgb: 14 16 22;
+
+  /* Ação principal e item ativo do menu (relevo) */
+  --v4-gp-action-1: #5ECB9A;
+  --v4-gp-action-2: #3FA677;
+  --v4-gp-action-on: #04140C;
+  --v4-gp-action-glow-rgb: 82 183 136;
+  --v4-gp-ring: #9BE5C2;
+
+  /* Relevo claro: filtro ativo, botão secundário, segmento marcado */
+  --v4-gp-raised-1: #F5F6FA;
+  --v4-gp-raised-2: #D9DCE6;
+  --v4-gp-raised-hover-1: #FFFFFF;
+  --v4-gp-raised-hover-2: #E4E6EE;
+  --v4-gp-raised-on: #16181D;
+  --v4-gp-raised-on-2: #3A3F4A;
+
+  /* Balão enviado */
+  --v4-gp-bubble-1: #F5F6FA;
+  --v4-gp-bubble-2: #DDE0E9;
+  --v4-gp-bubble-on: #16181D;
+
+  /* Seleção de texto */
+  --v4-gp-selection-rgb: 155 229 194;
+
+  /* Atenção: só "precisa de você" (os semânticos --v4-attention* leem estes fundamentos) */
+  --v4-p-amber-400: #FFB454;
+  --v4-p-amber-rgb: 255 180 84;
+  --v4-p-amber-ink: #241503;
+  /* fundo suave da etiqueta "precisa de você": 0,10 (0,14 não fecha 4,5:1 sobre linha selecionada) */
+  --v4-attention-soft: rgb(var(--v4-p-amber-rgb) / 0.1);
+
+  /* Tinta usada direto por marcadores (avatar, barra de rolagem, marca da caixa de seleção) */
+  --v4-p-ink-950: #0D0F14;
+  --v4-p-ink-900: #12141B;
+  --v4-p-ink-800: #181B24;
+  --v4-p-ink-700: #1E222C;
+  --v4-p-ink-650: #2A2F3C;
+  --v4-p-ink-600: #313746;
+  --v4-p-ink-550: #3B4252;
+}

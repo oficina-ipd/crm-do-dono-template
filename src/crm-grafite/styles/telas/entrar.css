@@ -1,0 +1,68 @@
+/* ==========================================================================
+   CRM v4 · Entrar: uma caixa de trabalho sobre o ambiente escuro quente
+   ========================================================================== */
+
+.crm-v4-root .v4-entrar {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--v4-space-7) var(--v4-space-4);
+}
+.crm-v4-root .v4-entrar__caixa { display: grid; gap: var(--v4-space-4); width: 100%; max-width: 400px; }
+.crm-v4-root .v4-entrar__marca { display: flex; align-items: center; gap: var(--v4-space-2); color: var(--v4-text-2); }
+.crm-v4-root .v4-entrar__painel {
+  display: grid;
+  gap: var(--v4-space-3);
+  padding: var(--v4-space-5);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+  box-shadow: var(--v4-shadow-work);
+}
+.crm-v4-root .v4-entrar__painel .v4-form { margin-top: var(--v4-space-2); }
+.crm-v4-root .v4-entrar__ok { display: flex; align-items: center; gap: var(--v4-space-2); }
+.crm-v4-root .v4-entrar__ok .v4-icon { color: var(--v4-success); }
+.crm-v4-root .v4-entrar__aviso {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--v4-space-2);
+  padding-top: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-entrar__aviso .v4-icon { color: var(--v4-warning); margin-top: 1px; }
+.crm-v4-root .v4-entrar__aviso--erro .v4-icon { color: var(--v4-danger); }
+.crm-v4-root .v4-entrar__aviso p { margin: 0; }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): cartão de vidro sobre a luz verde, sem casca.
+   A luz é o fundo da raiz (tokens.css/grafite.css); o cartão usa o vidro elevado, sem desfoque
+   (atrás dele só há o degradê liso da luz: desfocar não mudaria nada e custa na GPU).
+   ========================================================================== */
+.crm-v4-root[data-visual="grafite"] .v4-entrar__caixa { gap: var(--v4-space-4); max-width: 420px; }
+.crm-v4-root[data-visual="grafite"] .v4-entrar__marca {
+  justify-content: center;
+  color: var(--v4-text-1);
+}
+.crm-v4-root[data-visual="grafite"] .v4-entrar__marca .v4-brand__mark {
+  width: 38px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-g-glass-fill);
+  color: var(--v4-text-1);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-entrar__painel {
+  position: relative;
+  isolation: isolate;
+  gap: var(--v4-space-3);
+  padding: var(--v4-space-6) var(--v4-space-6) var(--v4-space-5);
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-entrar__painel .v4-form { gap: var(--v4-space-4); }
+@media (max-width: 559px) {
+  .crm-v4-root[data-visual="grafite"] .v4-entrar__painel { padding: var(--v4-space-5) var(--v4-space-4) var(--v4-space-4); }
+}

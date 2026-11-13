@@ -1,0 +1,561 @@
+/* ==========================================================================
+   CRM v4 · Fila (rota /)
+   Fila à esquerda (handoffs, tarefas, paradas), resumo do dia numa coluna estreita à direita.
+   Âmbar só no que precisa de uma pessoa agora (handoffs).
+   ========================================================================== */
+
+/* Dentro do invólucro das telas v3, a regra única da casca (base.css, [data-v4-tela]) vale. */
+
+.crm-v4-root .v4-fila .v4-pagehead { margin-bottom: var(--v4-space-4); }
+
+.crm-v4-root .v4-fila__teclas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-1);
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-fila__teclas > span { margin-inline: 2px; }
+
+.crm-v4-root .v4-fila__grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 296px;
+  align-items: start;
+  gap: var(--v4-c-region-gap);
+}
+.crm-v4-root .v4-fila__principal {
+  display: grid;
+  gap: var(--v4-c-region-gap);
+  min-width: 0;
+}
+.crm-v4-root .v4-fila__lado {
+  position: sticky;
+  top: calc(var(--v4-c-sticky-top) + var(--v4-space-4));
+  min-width: 0;
+}
+
+/* Seção: uma superfície de trabalho, cabeçalho e lista no mesmo recuo */
+.crm-v4-root .v4-fila__sec { overflow: hidden; }
+.crm-v4-root .v4-fila__sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--v4-space-3);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad) 0;
+}
+.crm-v4-root .v4-fila__sec-titulo { min-width: 0; }
+.crm-v4-root .v4-fila__contagem {
+  flex: none;
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-fila__contagem.is-suavez { color: var(--v4-attention); font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-fila__ajuda,
+.crm-v4-root .v4-fila__sec-vazia {
+  margin: var(--v4-space-1) 0 0;
+  padding: 0 var(--v4-c-panel-pad);
+  max-width: 80ch;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-fila__sec-vazia {
+  padding-bottom: var(--v4-space-4);
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+}
+.crm-v4-root .v4-fila__sec-pe {
+  display: flex;
+  justify-content: flex-start;
+  padding: var(--v4-space-1) var(--v4-space-2) var(--v4-space-2);
+  border-top: 1px solid var(--v4-border-divider);
+}
+
+.crm-v4-root .v4-fila__lista {
+  display: grid;
+  margin: var(--v4-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.crm-v4-root .v4-fila__li + .v4-fila__li { border-top: 1px solid var(--v4-border-divider); }
+
+/* Item: foco itinerante (J/K), contorno de foco próprio, nunca borda lateral */
+.crm-v4-root .v4-fila__item {
+  display: grid;
+  gap: var(--v4-space-1);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad);
+  outline: none;
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-fila__item:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-fila__item:focus-visible {
+  background: var(--v4-surface-selected);
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: -2px;
+  border-radius: var(--v4-radius-control);
+}
+.crm-v4-root .v4-fila__item:focus-within:not(:focus-visible) { background: var(--v4-surface-hover); }
+
+.crm-v4-root .v4-fila__conteudo {
+  display: grid;
+  gap: var(--v4-space-1);
+  min-width: 0;
+}
+.crm-v4-root .v4-fila__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-1) var(--v4-space-2);
+  min-width: 0;
+}
+.crm-v4-root .v4-fila__nome {
+  margin: 0 var(--v4-space-1) 0 0;
+  min-width: 0;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-semibold);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.crm-v4-root .v4-fila__meta {
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+
+.crm-v4-root .v4-fila__fatos {
+  display: grid;
+  gap: 2px;
+  margin: var(--v4-space-1) 0 0;
+}
+.crm-v4-root .v4-fila__fatos > div {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: var(--v4-space-3);
+}
+.crm-v4-root .v4-fila__fatos dt { color: var(--v4-text-3); }
+.crm-v4-root .v4-fila__fatos dd { margin: 0; color: var(--v4-text-1); max-width: 72ch; }
+.crm-v4-root .v4-fila__fatos dd.is-vazio { color: var(--v4-text-3); }
+
+.crm-v4-root .v4-fila__ultima {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: var(--v4-space-1) 0 0;
+  max-width: 80ch;
+  color: var(--v4-text-2);
+}
+.crm-v4-root .v4-fila__ultima-quem { color: var(--v4-text-3); }
+
+.crm-v4-root .v4-fila__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2);
+  margin-top: var(--v4-space-2);
+}
+
+/* Tarefa concluída no lugar: título riscado, sem esconder antes do servidor confirmar */
+.crm-v4-root .v4-fila__item.is-feita .v4-fila__nome {
+  color: var(--v4-text-2);
+  text-decoration: line-through;
+  text-decoration-color: var(--v4-text-3);
+}
+
+/* Resumo do dia */
+.crm-v4-root .v4-resumo {
+  display: grid;
+  gap: var(--v4-space-4);
+  margin: 0;
+}
+.crm-v4-root .v4-resumo__item {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.crm-v4-root .v4-resumo__item + .v4-resumo__item {
+  padding-top: var(--v4-space-4);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-resumo__rotulo {
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root .v4-resumo__valor {
+  margin: 0;
+  color: var(--v4-text-1);
+  font-size: var(--v4-fs-read);
+  line-height: var(--v4-lh-read);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-resumo__valor--falta { color: var(--v4-text-3); font-size: var(--v4-fs-ui); line-height: var(--v4-lh-ui); }
+.crm-v4-root .v4-resumo__n { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-resumo__nota {
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-resumo__parcial {
+  display: grid;
+  justify-items: start;
+  gap: var(--v4-space-2);
+  padding-top: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-resumo__parcial-texto {
+  display: flex;
+  gap: var(--v4-space-2);
+  margin: 0;
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-resumo__parcial-texto .v4-icon { flex: none; margin-top: 1px; color: var(--v4-warning); }
+
+/* Com espaço, as ações ficam à direita do item (uma linha a menos por item) */
+@media (min-width: 900px) {
+  .crm-v4-root .v4-fila__item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--v4-space-4);
+  }
+  .crm-v4-root .v4-fila__item > .v4-fila__acoes {
+    align-self: start;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+}
+
+/* Intermediário: coluna lateral mais estreita */
+@media (max-width: 1199px) {
+  .crm-v4-root .v4-fila__grade { grid-template-columns: minmax(0, 1fr) 260px; }
+  .crm-v4-root .v4-fila__fatos > div { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* Tela estreita: uma coluna, a fila primeiro e o resumo depois */
+@media (max-width: 899px) {
+  .crm-v4-root .v4-fila__grade { grid-template-columns: minmax(0, 1fr); }
+  .crm-v4-root .v4-fila__lado { position: static; }
+  .crm-v4-root .v4-fila__teclas { display: none; }
+}
+
+/* Carregando da rota /: o esqueleto do Hoje (v3) e o da Fila v4 saem juntos; na casca v4 fica o da Fila */
+.crm-v4-root .v4-so-v3 { display: none; }
+.crm-v4-root .v4-so-v4[hidden] { display: block; }
+
+/* Handoffs além do teto da leitura: aviso plano no pé da seção, com o caminho para a lista completa */
+.crm-v4-root .v4-fila__ocultos {
+  display: grid;
+  justify-items: start;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-2) var(--v4-space-2) var(--v4-space-1);
+}
+.crm-v4-root .v4-fila__ocultos-texto {
+  display: flex;
+  gap: var(--v4-space-2);
+  margin: 0;
+  max-width: 72ch;
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-fila__ocultos-texto .v4-icon { flex: none; margin-top: 1px; color: var(--v4-warning); }
+
+.crm-v4-root .v4-fila__ultima--falta { color: var(--v4-text-3); }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): moldura fixa, uma faixa no topo, um painel por região.
+   Sem o atributo nada daqui vale (a v4 neutra fica igual). Sem cor literal: tokens do Grafite.
+   - Faixa: o cabeçalho da tela sobe para a faixa da casca, ao lado da busca ⌘K.
+   - Fila: os três grupos numa lista só, dentro de um painel de vidro elevado que rola sozinho;
+     cabeçalhos de grupo fixos de vidro; itens sem caixa e sem divisor.
+   - Resumo do dia: painel de vidro na lateral, com rolagem própria.
+   - Verde só em "Abrir conversa" de quem precisa de uma pessoa; âmbar só nesse estado (ponto
+     ao lado do nome e contagem do grupo). "Parada" e "Precisa de você" seguem para leitor de
+     tela; o grupo já diz o que são.
+   Abaixo de 900 px: uma coluna; rola o conteúdo da casca (a página continua parada) e os
+   cabeçalhos de grupo ficam fixos no topo dele.
+   ========================================================================== */
+
+.crm-v4-root[data-visual="grafite"] .v4-fila {
+  /* altura do cabeçalho de grupo fixo: o foco do J/K nunca fica por baixo dele */
+  --v4-fila-head-h: calc(var(--v4-space-3) + var(--v4-lh-section) + var(--v4-space-2) + 1px);
+}
+
+/* ---------- Faixa única: título e contagem na faixa da casca; atalhos à direita ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-fila > .v4-pagehead) .v4-header__where { visibility: hidden; }
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-fila > .v4-pagehead) .v4-header__search {
+  width: var(--v4-c-search-compact-w);
+  margin-left: auto;
+}
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-fila > .v4-pagehead) .v4-header__search > span:first-of-type {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead {
+  /* texto solto sobre a luz (sem painel): só o nível 1 fecha 4,5:1 no ponto mais claro; a
+     hierarquia da contagem vem do tamanho, não do tom (como a faixa da casca) */
+  --v4-text-2: var(--v4-text-1);
+  --v4-text-3: var(--v4-text-1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: calc(var(--v4-c-search-compact-w) + var(--v4-c-region-gap));
+  z-index: var(--v4-z-structure);
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--v4-space-3);
+  height: var(--v4-c-band-h);
+  margin: 0;
+  padding-left: var(--v4-space-1);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead .v4-pagehead__main { flex: 0 1 auto; min-width: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead .v4-pagehead__row { flex-wrap: nowrap; gap: var(--v4-space-2); min-width: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead .v4-t-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead .v4-pagehead__meta {
+  flex: none;
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  white-space: nowrap;
+}
+/* O que não cabe rola para o lado dentro da faixa (nada cortado); folga para o foco */
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead .v4-pagehead__actions {
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  min-width: 0;
+  margin: -4px -4px -4px auto;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila .v4-fila__teclas { flex-wrap: nowrap; white-space: nowrap; }
+
+/* ---------- Moldura: a tela ocupa a altura do conteúdo da casca ---------- */
+@media (min-width: 900px) {
+  .crm-v4-root[data-visual="grafite"] .v4-main:has(.v4-fila) {
+    display: flex;
+    flex-direction: column;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-main:has(.v4-fila) > :not(.v4-fila, .crm-v4-legado, .v4-so-v4) { flex: none; }
+  .crm-v4-root[data-visual="grafite"] .v4-so-v4:has(> .v4-fila) {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fila {
+    display: grid;
+    flex: 1 1 auto;
+    grid-template-rows: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fila__grade {
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+    min-height: 0;
+  }
+  /* a lista rola sozinha, dentro do painel */
+  .crm-v4-root[data-visual="grafite"] .v4-fila__principal {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-padding-top: calc(var(--v4-fila-head-h) + var(--v4-space-2));
+  }
+  /* o resumo também: painel na altura toda, corpo com rolagem própria */
+  .crm-v4-root[data-visual="grafite"] .v4-fila__lado {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fila__lado > .v4-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fila__lado > .v4-panel > .v4-panel__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+@media (max-width: 899px) {
+  /* aqui rola o conteúdo da casca: a folga do foco é a altura do cabeçalho de grupo (menos a folga de 4 px) */
+  .crm-v4-root[data-visual="grafite"] .v4-main:has(.v4-fila) { scroll-padding-top: calc(var(--v4-space-3) + var(--v4-lh-section) + var(--v4-space-2) + var(--v4-space-1)); }
+  .crm-v4-root[data-visual="grafite"] .v4-fila__principal { overflow: clip; }
+  /* o conteúdo da casca tem 4 px de folga para o foco: o cabeçalho cola na borda, não na folga */
+  .crm-v4-root[data-visual="grafite"] .v4-fila .v4-fila__sec-head { top: -4px; }
+}
+
+/* ---------- Painel da fila: vidro elevado, sem caixa dentro ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-fila__principal {
+  display: block;
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+/* seções, estado vazio e esqueleto viram grupos planos do mesmo painel */
+.crm-v4-root[data-visual="grafite"] .v4-fila__principal .v4-panel {
+  position: static;
+  isolation: auto;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__principal .v4-panel::before { content: none; }
+.crm-v4-root[data-visual="grafite"] .v4-fila__sec { padding-bottom: var(--v4-space-2); }
+
+/* Cabeçalho de grupo: vidro fixo no topo do painel enquanto o grupo passa por baixo */
+.crm-v4-root[data-visual="grafite"] .v4-fila__sec-head {
+  --v4-text-2: var(--v4-g-text-2-float);
+  --v4-text-3: var(--v4-g-text-3-float);
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-sticky);
+  justify-content: flex-start;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad) var(--v4-space-2);
+  background: var(--v4-g-thead-fill);
+  box-shadow: var(--v4-g-thead-shadow);
+  backdrop-filter: var(--v4-g-thead-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-thead-backdrop);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__sec-titulo { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root[data-visual="grafite"] .v4-fila__contagem { font-weight: var(--v4-weight-medium); }
+.crm-v4-root[data-visual="grafite"] .v4-fila__ajuda { margin-top: var(--v4-space-2); }
+.crm-v4-root[data-visual="grafite"] .v4-fila__sec-vazia { margin-top: var(--v4-space-3); padding-bottom: var(--v4-space-2); }
+
+/* Itens: sem divisor; separação por espaço, realce na linha inteira */
+.crm-v4-root[data-visual="grafite"] .v4-fila__lista {
+  gap: 2px;
+  margin-top: var(--v4-space-2);
+  padding: 0 var(--v4-space-2);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__li + .v4-fila__li { border-top: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fila__item {
+  padding: var(--v4-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+}
+/* hover sem tinta clara (o texto 3 e o de erro perdem 4,5:1 sobre a luz, medido): contorno do vidro */
+.crm-v4-root[data-visual="grafite"] .v4-fila__item:hover { background: none; border-color: var(--v4-g-glass-border); }
+/* item ativo (J/K, clique, Tab): relevo leve, como a linha selecionada das listas */
+.crm-v4-root[data-visual="grafite"] .v4-fila__item:focus-within,
+.crm-v4-root[data-visual="grafite"] .v4-fila__item:focus-visible {
+  /* sem tinta clara por trás: com o tom de selecionado (e até com o do hover) o texto 3 e o de
+     erro não fecham 4,5:1 na linha ativa sobre a luz (medido). O ativo se distingue pelo
+     contorno, pelo brilho no topo, pela sombra e, no teclado, pelo anel de foco. */
+  background: none;
+  border-color: var(--v4-g-glass-border);
+  box-shadow: var(--v4-g-row-selected-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__item:focus-visible { border-radius: var(--v4-radius-control); }
+
+/* Quem precisa de uma pessoa: ponto âmbar ao lado do nome (a etiqueta segue para leitor de tela) */
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-fila__nome::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 var(--v4-space-2) 0 0;
+  border-radius: var(--v4-radius-pill);
+  vertical-align: 1px;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-fila__nome::before { background: var(--v4-attention); }
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-tag--suavez,
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--parada .v4-tag {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Prazo e vencimento: texto com ícone, sem etiqueta (erro continua com a cor dele) */
+.crm-v4-root[data-visual="grafite"] .v4-fila__topo .v4-tag {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: var(--v4-weight-regular);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__topo .v4-tag:not([class*="v4-tag--"]) { color: var(--v4-text-2); }
+.crm-v4-root[data-visual="grafite"] .v4-fila__fatos { gap: 0; }
+
+/* Ações: verde só em "Abrir conversa" de quem precisa de uma pessoa (todas, não só a primeira) */
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary {
+  background: var(--v4-g-action-fill);
+  border-color: transparent;
+  color: var(--v4-g-action-on);
+  font-weight: var(--v4-weight-semibold);
+  box-shadow: var(--v4-g-action-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:hover, .is-hover) {
+  background: var(--v4-g-action-fill-hover);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:active, .is-pressed) {
+  background: var(--v4-g-action-fill);
+  box-shadow: var(--v4-g-action-shadow-pressed);
+}
+/* Oportunidade parada: abrir a ficha é leitura, não ação principal (botão sem relevo) */
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--parada .v4-fila__acoes .v4-btn--secondary {
+  background: none;
+  border-color: transparent;
+  color: var(--v4-text-2);
+  box-shadow: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__item--parada .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:hover, .is-hover) {
+  background: var(--v4-surface-hover);
+  color: var(--v4-text-1);
+}
+
+/* Pé do grupo (atalho para Tarefas, avisos de teto): plano, no recuo da lista */
+.crm-v4-root[data-visual="grafite"] .v4-fila__sec-pe {
+  margin: var(--v4-space-1) var(--v4-space-2) 0;
+  padding: var(--v4-space-1) 0 0;
+}
+
+/* Resumo do dia: o rodapé "Atualizado às" desce para o pé do painel */
+.crm-v4-root[data-visual="grafite"] .v4-fila__lado > .v4-panel > .v4-panel__body {
+  display: flex;
+  flex-direction: column;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fila__lado > .v4-panel > .v4-panel__body > .v4-t-meta:last-child { margin-top: auto; }
+
+/* Erro e sem permissão: o painel único da tela, elevado */
+.crm-v4-root[data-visual="grafite"] .v4-fila > .v4-panel { align-self: start; }
+
+/* Pequeno: sem menu lateral; a faixa começa depois do botão de menu e a busca vira ícone */
+@media (max-width: 767px) {
+  .crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-fila > .v4-pagehead) .v4-header__search { width: var(--v4-c-control-h); }
+  .crm-v4-root[data-visual="grafite"] .v4-fila > .v4-pagehead {
+    left: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    right: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    padding-left: 0;
+  }
+}

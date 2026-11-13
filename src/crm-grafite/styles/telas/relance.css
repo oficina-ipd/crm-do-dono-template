@@ -1,0 +1,33 @@
+/* ==========================================================================
+   CRM v4 · Relance (Ember): fila primeiro, indicadores em uma linha, abas
+   ========================================================================== */
+
+.crm-v4-root .v4-rel__campanha {
+  display: inline-block;
+  max-width: 28ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.crm-v4-root .v4-rel__fila { display: grid; gap: var(--v4-c-region-gap); }
+.crm-v4-root .v4-rel__barra { display: grid; gap: var(--v4-space-2); padding: var(--v4-space-3) var(--v4-c-panel-pad); border-bottom: 1px solid var(--v4-border-divider); }
+.crm-v4-root .v4-rel__pessoa { display: grid; gap: 2px; }
+.crm-v4-root .v4-rel__vazio { padding: var(--v4-space-4) var(--v4-c-panel-pad); }
+.crm-v4-root .v4-rel__auditoria { display: grid; gap: var(--v4-space-4); }
+.crm-v4-root .v4-rel__bloco { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-rel__mensagem {
+  margin: 0;
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px dashed var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-field);
+  white-space: pre-wrap;
+  max-width: 68ch;
+}
+.crm-v4-root .v4-tela--relance .v4-tabs__panel { padding-top: var(--v4-space-3); }
+.crm-v4-root .v4-tela--relance .v4-tabs__panel:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+  border-radius: var(--v4-radius-control);
+}

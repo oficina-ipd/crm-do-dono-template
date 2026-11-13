@@ -1,0 +1,38 @@
+/* ==========================================================================
+   CRM v4 · barra de estados dos previews /visual-v4/fila e /visual-v4/tarefas
+   Só no preview local (dados ilustrativos); nunca na tela real.
+   ========================================================================== */
+.crm-v4-root .v4-preview-estados {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2) var(--v4-space-3);
+  margin-bottom: var(--v4-space-4);
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px dashed var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-preview-estados ul { display: flex; flex-wrap: wrap; gap: var(--v4-space-1); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-preview-estados a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--v4-c-control-h);
+  padding: 0 var(--v4-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-pill);
+  color: var(--v4-text-1);
+  text-decoration: underline;
+  text-decoration-color: var(--v4-control-border);
+  text-underline-offset: 3px;
+}
+.crm-v4-root .v4-preview-estados a:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-preview-estados a:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: 2px; }
+.crm-v4-root .v4-preview-estados a[aria-current="page"] {
+  border-color: var(--v4-control-border);
+  background: var(--v4-surface-selected);
+  text-decoration: none;
+  font-weight: var(--v4-weight-semibold);
+}

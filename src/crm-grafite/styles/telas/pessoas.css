@@ -1,0 +1,197 @@
+/* ==========================================================================
+   CRM v4 · Pessoas
+   Tabela em superfície contínua, em altura cheia: a tabela rola dentro da região e o
+   cabeçalho das colunas fica fixo. Linha de 40 px no compacto (48 no confortável).
+   ========================================================================== */
+
+/* Dentro do invólucro das telas v3, a regra única da casca (base.css, [data-v4-tela]) vale. */
+
+.crm-v4-root .v4-pessoas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-space-3);
+  height: calc(100dvh - var(--v4-c-header-h) - (2 * var(--v4-c-page-pad)));
+  min-height: 480px;
+  min-width: 0;
+  font-family: var(--v4-font-sans);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-pessoas .v4-pagehead { margin-bottom: 0; }
+.crm-v4-root .v4-pessoas .v4-toolbar { flex: none; }
+
+.crm-v4-root .v4-pessoas__tabela {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.crm-v4-root .v4-pessoas__tabela > .v4-tablebox {
+  flex: 1;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+.crm-v4-root .v4-pessoas__tabela .v4-table-wrap {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.crm-v4-root .v4-pessoas .v4-table caption {
+  position: sticky;
+  left: 0;
+}
+.crm-v4-root .v4-pessoas .v4-table td.is-truncate { max-width: 240px; }
+
+.crm-v4-root .v4-pessoa__nome { font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-pessoa__empresa { color: var(--v4-text-3); font-weight: var(--v4-weight-regular); }
+.crm-v4-root .v4-pessoa__contato { display: inline-flex; align-items: center; gap: var(--v4-space-2); }
+.crm-v4-root .v4-pessoa__contato .v4-num { color: var(--v4-text-2); }
+.crm-v4-root .v4-pessoa__email { display: inline-block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; color: var(--v4-text-2); }
+.crm-v4-root .v4-pessoa__contato .v4-btn { margin-block: calc(-1 * var(--v4-space-1)); }
+
+.crm-v4-root .v4-pessoas__mais {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2) var(--v4-space-3);
+  padding: var(--v4-space-3) var(--v4-space-1) 0;
+}
+.crm-v4-root .v4-pessoas__erro {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  margin: 0;
+  color: var(--v4-danger);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+
+.crm-v4-root .v4-pessoas__estado {
+  flex: 1;
+  min-height: 0;
+  padding: var(--v4-space-5);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+
+/* Esqueleto */
+.crm-v4-root .v4-pessoas__esq-cabeca,
+.crm-v4-root .v4-pessoas__esq-barra { display: flex; align-items: center; gap: var(--v4-space-3); }
+.crm-v4-root .v4-pessoas__esq-cabeca { padding-block: var(--v4-space-1); }
+.crm-v4-root .v4-pessoas__esq-cabeca .v4-skel--title { width: 140px; }
+.crm-v4-root .v4-pessoas__esq-barra { margin-top: var(--v4-space-3); }
+.crm-v4-root .v4-pessoas__esq-barra .v4-skel--control { width: 160px; }
+.crm-v4-root .v4-pessoas__esq-barra .v4-skel--control:first-child { width: 320px; }
+
+/* Tela pequena: a tabela segue rolando para o lado; o nome fica preso à esquerda */
+@media (max-width: 767px) {
+  .crm-v4-root .v4-pessoas { min-height: 0; }
+  .crm-v4-root .v4-pessoas .v4-toolbar__grow { flex-basis: 100%; max-width: none; }
+  .crm-v4-root .v4-pessoas .v4-table td:first-child,
+  .crm-v4-root .v4-pessoas .v4-table th:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--v4-surface-work-solid);
+    max-width: 180px;
+  }
+  .crm-v4-root .v4-pessoas .v4-table th:first-child { z-index: var(--v4-z-structure); }
+  .crm-v4-root .v4-pessoas .v4-table td:first-child { z-index: var(--v4-z-work); }
+  .crm-v4-root .v4-pessoas__estado { padding: var(--v4-space-4); }
+}
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): título, contagem, busca e filtros na faixa do topo
+   (<FaixaTopo>); abaixo, uma folha só e sólida, com a tabela e o rodapé dentro. Cabeçalho de
+   vidro fixo e coluna do nome fixa, na MESMA cor da folha (components.css, bloco Grafite da
+   tabela). Os cantos da folha recortam cabeçalho, linhas e rodapé: nenhuma quina reta.
+   ========================================================================== */
+
+/* Folha: o contêiner da tabela vira o painel (sem caixa dentro de caixa) */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas__tabela {
+  /* texto sobre a folha sólida: os níveis da folha (os mesmos da tabela) também no rodapé */
+  --v4-text-2: var(--v4-gp-text-2);
+  --v4-text-3: var(--v4-g-text-3-sheet);
+  --v4-text-disabled: var(--v4-gp-text-disabled);
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-sheet);
+  box-shadow: var(--v4-g-glass-up-shadow);
+  overflow: clip;
+}
+.crm-v4-root[data-visual="grafite"] .v4-pessoas__tabela .v4-table-wrap {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+/* A legenda continua sendo o nome da tabela para leitor de tela; à vista, o rodapé diz o mesmo */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Coluna do nome: largura mínima para o nome não espremer ao rolar para o lado */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-table :is(td, th):first-child { min-width: 200px; }
+/* Fora da célula do nome a linha também abre a ficha (a tabela repassa o clique ao link) */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-row--link { cursor: pointer; }
+.crm-v4-root[data-visual="grafite"] .v4-pessoa__nome { font-weight: var(--v4-weight-semibold); }
+/* Etapa ganha: texto com o ícone de sucesso (sem etiqueta) */
+.crm-v4-root[data-visual="grafite"] .v4-pessoa__ganha {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  gap: var(--v4-space-1);
+  color: var(--v4-text-1);
+}
+.crm-v4-root[data-visual="grafite"] .v4-pessoa__ganha > .v4-icon { color: var(--v4-success); }
+
+/* Faixa: o título não encolhe; o que não cabe rola para o lado dentro da faixa */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa__titulo { flex: none; }
+
+/* Rodapé dentro da folha: contagem e "Carregar mais" */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas__mais {
+  min-height: calc(var(--v4-c-control-h) + 2 * var(--v4-space-1));
+  padding: var(--v4-space-1) var(--v4-space-2) var(--v4-space-1) var(--v4-c-panel-pad);
+  border-top: 1px solid var(--v4-border-divider);
+}
+
+/* Erro e sem permissão: um painel de vidro no lugar da folha */
+.crm-v4-root[data-visual="grafite"] .v4-pessoas__estado {
+  border-color: var(--v4-g-glass-border);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+
+/* Esqueleto: no Grafite o título e os filtros esperam na faixa do topo (mesma geometria da
+   tela pronta); no neutro, a faixa do esqueleto não existe e valem cabeçalho e barra. */
+.crm-v4-root:not([data-visual="grafite"]) .v4-pessoas__esq-faixa { display: none; }
+.crm-v4-root[data-visual="grafite"] :is(.v4-pessoas__esq-cabeca, .v4-pessoas__esq-barra) { display: none; }
+.crm-v4-root .v4-pessoas__esq-faixa .v4-skel--title { width: 96px; }
+.crm-v4-root .v4-pessoas__esq-faixa .v4-skel--control { width: 132px; }
+.crm-v4-root .v4-pessoas__esq-faixa .v4-skel--control:first-of-type { width: 260px; }
+
+@media (max-width: 767px) {
+  /* Celular: a faixa da casca é estreita demais para busca e filtros. A faixa da tela desce para
+     o alto do conteúdo (título e contagem numa linha; busca e filtros na seguinte, rolando para
+     o lado) e a barra da casca fica só com menu e busca ⌘K. A tabela segue rolando sozinha. */
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa {
+    position: static;
+    flex: none;
+    flex-wrap: wrap;
+    row-gap: var(--v4-space-2);
+    height: auto;
+    padding-left: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa > .v4-faixa__controles { flex-basis: 100%; }
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa > .v4-faixa__controles > .v4-search { flex: 0 0 min(100%, 240px); }
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-table :is(td, th):first-child { min-width: 152px; }
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas__nota { display: none; }
+}

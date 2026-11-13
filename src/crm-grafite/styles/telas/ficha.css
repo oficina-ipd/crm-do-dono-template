@@ -1,0 +1,411 @@
+/* ==========================================================================
+   CRM v4 · Ficha da pessoa (Fase 4): cabeçalho com ações, coluna principal
+   (conversa + linha do tempo) e coluna lateral de 360 px.
+   ========================================================================== */
+
+.crm-v4-root .v4-fi { display: grid; gap: var(--v4-space-4); min-width: 0; }
+
+/* Cabeçalho */
+.crm-v4-root .v4-fi-cab { display: grid; gap: var(--v4-space-2); min-width: 0; }
+.crm-v4-root .v4-fi-cab__voltar { margin-left: calc(-1 * var(--v4-space-2)); }
+.crm-v4-root .v4-fi-cab__linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--v4-space-3) var(--v4-space-4);
+}
+.crm-v4-root .v4-fi-cab__quem { display: grid; gap: var(--v4-space-1); min-width: 0; }
+.crm-v4-root .v4-fi-cab__quem .v4-t-title { overflow-wrap: anywhere; }
+.crm-v4-root .v4-fi-cab__tags { display: flex; flex-wrap: wrap; gap: var(--v4-space-2); padding-top: var(--v4-space-1); }
+.crm-v4-root .v4-fi-cab__acoes { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--v4-space-2); }
+
+/* Grade */
+.crm-v4-root .v4-fi-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: var(--v4-c-region-gap);
+}
+.crm-v4-root .v4-fi-principal { min-width: 0; }
+.crm-v4-root .v4-fi-principal .v4-tabs__panel { padding-top: var(--v4-space-3); }
+.crm-v4-root .v4-fi-lateral { display: grid; gap: var(--v4-c-region-gap); min-width: 0; }
+/* No computador, a coluna lateral rola sozinha ao lado da conversa: as duas cabem na primeira dobra. */
+@media (min-width: 1024px) {
+  .crm-v4-root .v4-fi-lateral {
+    position: sticky;
+    top: calc(var(--v4-c-sticky-top) + var(--v4-space-3));
+    max-height: calc(100dvh - var(--v4-c-header-h) - var(--v4-space-3) - var(--v4-c-page-pad) - var(--v4-c-frame-extra));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: var(--v4-space-1);
+    scrollbar-gutter: stable;
+  }
+  .crm-v4-root .v4-fi-principal {
+    position: sticky;
+    top: calc(var(--v4-c-sticky-top) + var(--v4-space-3));
+  }
+}
+
+.crm-v4-root .v4-fi-bloco {
+  display: grid;
+  gap: var(--v4-space-3);
+  padding: var(--v4-c-panel-pad);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+.crm-v4-root .v4-fi-conv-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2);
+  min-height: 44px;
+  padding: var(--v4-space-1) var(--v4-space-2) var(--v4-space-1) var(--v4-c-panel-pad);
+  border-bottom: 1px solid var(--v4-border-divider);
+}
+
+/* Linha do tempo */
+.crm-v4-root .v4-fi-linha .v4-seg { flex-wrap: wrap; }
+.crm-v4-root .v4-fi-eventos { display: grid; margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-fi-evento {
+  display: grid;
+  grid-template-columns: var(--v4-c-icon) minmax(0, 1fr);
+  gap: var(--v4-space-3);
+  padding-block: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-fi-evento:first-child { border-top: 0; padding-top: var(--v4-space-1); }
+.crm-v4-root .v4-fi-evento > .v4-icon { margin-top: 1px; color: var(--v4-text-3); }
+.crm-v4-root .v4-fi-evento__corpo { display: grid; gap: 2px; min-width: 0; }
+.crm-v4-root .v4-fi-evento__texto { max-width: 70ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Coluna lateral */
+.crm-v4-root .v4-fi-tarefas { display: grid; gap: var(--v4-space-2); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-fi-tarefa { display: grid; }
+.crm-v4-root .v4-fi-dl { display: grid; gap: var(--v4-space-2); margin: 0; }
+.crm-v4-root .v4-fi-dl > div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--v4-space-2); }
+.crm-v4-root .v4-fi-dl dt { color: var(--v4-text-2); }
+.crm-v4-root .v4-fi-dl dd { margin: 0; overflow-wrap: anywhere; }
+.crm-v4-root .v4-fi-member {
+  display: grid;
+  justify-items: start;
+  gap: var(--v4-space-1);
+  padding-top: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-fi-consequencias { display: grid; gap: var(--v4-space-2); margin: 0; padding-left: var(--v4-space-5); }
+.crm-v4-root .v4-fi-notas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--v4-space-3);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.crm-v4-root .v4-fi-notas-grid legend { padding-bottom: var(--v4-space-2); }
+.crm-v4-root .v4-fi-salvar { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--v4-space-2) var(--v4-space-3); }
+.crm-v4-root .v4-fi-salvar > span { margin-right: auto; }
+.crm-v4-root .v4-fi-sub { display: grid; gap: var(--v4-space-2); }
+.crm-v4-root .v4-fi-sub + .v4-fi-sub { padding-top: var(--v4-space-3); border-top: 1px solid var(--v4-border-divider); }
+.crm-v4-root .v4-fi-sub__cab { display: flex; align-items: center; justify-content: space-between; gap: var(--v4-space-2); }
+.crm-v4-root .v4-fi-sub__cab h3 { margin: 0; }
+.crm-v4-root .v4-fi-acoes-esq { justify-content: flex-start; }
+.crm-v4-root .v4-fi-emails { display: grid; gap: var(--v4-space-2); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-fi-email { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--v4-space-2); }
+.crm-v4-root .v4-fi-claudio { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-fi-claudio h3 { margin: 0; }
+.crm-v4-root .v4-fi-lista { display: grid; gap: var(--v4-space-2); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-fi-detalhes { display: grid; gap: var(--v4-space-2); }
+.crm-v4-root .v4-fi-detalhes summary {
+  cursor: pointer;
+  border-radius: var(--v4-radius-check);
+  color: var(--v4-text-2);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root .v4-fi-detalhes summary:hover { color: var(--v4-text-1); }
+.crm-v4-root .v4-fi-detalhes summary:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: var(--v4-focus-offset); }
+.crm-v4-root .v4-fi-detalhes[open] summary { margin-bottom: var(--v4-space-2); }
+
+/* Esqueleto */
+.crm-v4-root .v4-fi-esq-conversa {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--v4-space-3);
+  height: 480px;
+  margin-top: var(--v4-space-3);
+  padding: var(--v4-space-4);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+
+@media (max-width: 1199px) {
+  .crm-v4-root .v4-fi-grade { grid-template-columns: minmax(0, 1fr) 320px; }
+}
+@media (max-width: 1023px) {
+  .crm-v4-root .v4-fi-grade { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  .crm-v4-root .v4-fi-cab__acoes { width: 100%; }
+  .crm-v4-root .v4-fi-notas-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"), Fase 3: a ficha deixa de rolar a página.
+   Voltar, nome, quem é (texto discreto) e ações ficam na faixa do topo (<FaixaTopo>). Abaixo,
+   dois painéis em altura cheia: a conversa (ou a linha do tempo) com o cabeçalho flutuante e
+   as abas no canto dele; e os dados num painel só, com rolagem própria (os blocos viram grupos
+   planos, separados por espaço). Abaixo de 1024 px, uma coluna: a conversa ocupa a altura e os
+   dados vêm depois, na rolagem do conteúdo (a moldura continua parada).
+   ========================================================================== */
+.crm-v4-root[data-visual="grafite"] .v4-fi {
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
+  height: 100%;
+  min-height: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-previa-estados ~ :is(.v4-fi, .v4-tela-ficha.v4-cv-escolha) { height: calc(100% - var(--v4-cv-previa-h)); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-grade {
+  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 0;
+}
+
+/* ---------- Faixa do topo ---------- */
+/* Na luz do canto, o "voltar" fica em texto 1, como o caminho e a contagem da faixa */
+.crm-v4-root[data-visual="grafite"] .v4-fi-voltar { flex: none; margin-left: calc(-1 * var(--v4-space-2)); color: var(--v4-text-1); }
+/* "quem é" encolhe primeiro (reticências), depois o nome; as ações ficam à direita e, se não
+   couberem, rolam para o lado dentro da faixa (nada cortado) */
+.crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa__titulo { flex: 0 0 auto; max-width: 40%; }
+.crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa__contagem {
+  flex: 0 20 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-quem { display: flex; align-items: center; gap: var(--v4-space-2); min-width: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-quem > .v4-tag { flex: none; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-quem__texto { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa__controles > :first-child { margin-left: auto; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-acoes-grupo {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-pill);
+  background: var(--v4-g-glass-fill);
+  box-shadow: inset 0 1px 0 var(--v4-g-glass-border);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-acoes-grupo .v4-btn { min-height: calc(var(--v4-c-control-h) - 4px); }
+.crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa .v4-cv-mover { display: flex; align-items: center; gap: var(--v4-space-2); }
+
+/* ---------- Painel principal: conversa ou linha do tempo, em altura cheia ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal {
+  --v4-cv-topo: calc(var(--v4-cv-topo-h, 52px) + 2 * var(--v4-cv-folga));
+  position: relative;
+  top: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: clip;
+}
+/* Título e quem conduz à esquerda; as abas flutuam no canto direito do cabeçalho */
+.crm-v4-root[data-visual="grafite"] .v4-fi-topo { padding-right: calc(var(--v4-fi-abas-w, 220px) + var(--v4-space-3)); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tabs {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tabs__list {
+  position: absolute;
+  top: calc(var(--v4-cv-folga) + (var(--v4-cv-topo-h, 52px) - var(--v4-c-control-h)) / 2);
+  right: calc(var(--v4-cv-folga) + var(--v4-space-2));
+  z-index: var(--v4-z-sticky);
+  max-width: calc(100% - 2 * var(--v4-cv-folga) - 120px);
+  gap: 2px;
+  padding: 3px;
+  border: 0;
+  border-radius: var(--v4-radius-pill);
+  background: var(--v4-g-sunken-fill);
+  box-shadow: var(--v4-g-sunken-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab {
+  min-height: calc(var(--v4-c-control-h) - 6px);
+  padding: 0 var(--v4-space-3);
+  border-radius: var(--v4-radius-pill);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab::after { content: none; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab[aria-selected="true"] {
+  background: var(--v4-g-raised-fill);
+  color: var(--v4-g-raised-on);
+  font-weight: var(--v4-weight-medium);
+  box-shadow: var(--v4-g-raised-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab[aria-selected="true"] .v4-tab__count { color: var(--v4-g-raised-on-2); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab__count { color: var(--v4-g-text-3-float); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab:not([aria-selected="true"]) { color: var(--v4-g-text-2-float); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tabs__panel {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding-top: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tabs__panel:focus-visible { outline-offset: -2px; border-radius: var(--v4-radius-panel); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-aba:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+/* A conversa embutida vira a própria região do painel (sem caixa dentro de caixa) */
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-cv-conversa--embutida {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+/* Linha do tempo, conversa vazia e erro: rolam por baixo do cabeçalho, sem caixa */
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-fi-bloco {
+  flex: 1;
+  align-content: start;
+  /* linhas no tamanho do conteúdo: o filtro (que rola para o lado) não encolhe quando a lista transborda */
+  grid-auto-rows: max-content;
+  min-height: 0;
+  padding: var(--v4-cv-topo) var(--v4-c-panel-pad) var(--v4-space-5);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: var(--v4-cv-topo);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-fi-linha .v4-seg { justify-self: start; flex-wrap: nowrap; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-evento { padding-inline: var(--v4-space-2); border-top: 0; border-radius: var(--v4-radius-control); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-evento:first-child { padding-top: var(--v4-space-3); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-evento > .v4-icon { color: var(--v4-text-2); }
+
+/* ---------- Painel lateral: um vidro só (placa parada), dados rolando por dentro ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral.v4-panel {
+  position: relative;
+  top: auto;
+  display: flex;
+  max-height: none;
+  min-height: 0;
+  padding: 0;
+  overflow: clip;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral__rolagem {
+  display: grid;
+  align-content: start;
+  gap: var(--v4-space-1);
+  flex: 1;
+  min-height: 0;
+  padding: var(--v4-space-2) 0 var(--v4-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* Blocos da lateral: grupos planos, separados por espaço (sem fio nem caixa) */
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral .v4-panel { border-top: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral .v4-panel > .v4-panel__head {
+  padding: var(--v4-space-3) var(--v4-c-panel-pad) 0;
+  border-bottom: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral .v4-panel > .v4-panel__body { padding: var(--v4-space-2) var(--v4-c-panel-pad) var(--v4-space-2); gap: var(--v4-space-2); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral .v4-panel > .v4-panel__foot { padding-inline: var(--v4-c-panel-pad); border-top: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-lateral .v4-panel__title {
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root[data-visual="grafite"] .v4-fi-dl dt { color: var(--v4-text-3); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-dl dd { font-weight: var(--v4-weight-medium); }
+.crm-v4-root[data-visual="grafite"] .v4-fi-member { padding-top: var(--v4-space-2); border-top: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-fi-sub + .v4-fi-sub { border-top: 0; }
+
+/* ---------- Estados da tela inteira e esqueleto ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-tela-ficha.v4-cv-escolha {
+  height: 100%;
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha:not([hidden]),
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha[hidden] { display: grid; }
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-cab { display: none; }
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-principal > .v4-skel { display: none; }
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-esq-conversa {
+  height: 100%;
+  margin-top: 0;
+  padding: 84px var(--v4-c-panel-pad) var(--v4-space-5);
+  border-color: var(--v4-g-glass-border);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-lateral {
+  position: static;
+  align-content: start;
+  max-height: none;
+  padding: var(--v4-space-2) 0;
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+  overflow: clip;
+}
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-lateral > .v4-panel { border: 0; box-shadow: none; }
+.crm-v4-root[data-visual="grafite"] .v4-esq-tela-ficha .v4-fi-lateral > .v4-panel::before { content: none; }
+
+@media (max-width: 1199px) {
+  .crm-v4-root[data-visual="grafite"] .v4-fi-grade { grid-template-columns: minmax(0, 1fr) 272px; }
+}
+/* Abaixo de 1024: uma coluna. A conversa ocupa a altura do conteúdo (menos uma fresta, para
+   mostrar que há mais abaixo) e os dados seguem na rolagem do conteúdo. */
+@media (max-width: 1023px) {
+  .crm-v4-root[data-visual="grafite"] .v4-fi { height: auto; grid-template-rows: auto; }
+  .crm-v4-root[data-visual="grafite"] .v4-previa-estados ~ .v4-fi { height: auto; }
+  .crm-v4-root[data-visual="grafite"] .v4-fi-grade {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fi-principal {
+    height: calc(100dvh - 2 * var(--v4-c-page-pad) - var(--v4-c-band-h) - var(--v4-c-region-gap) - 48px);
+    min-height: 360px;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-fi-lateral__rolagem { overflow: visible; }
+}
+@media (max-width: 767px) {
+  /* "voltar" só com a seta (o nome acessível continua "Voltar para …", no aria-label) */
+  .crm-v4-root[data-visual="grafite"] .v4-fi-voltar .v4-btn__label { gap: 0; }
+  .crm-v4-root[data-visual="grafite"] .v4-fi-voltar__texto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa__contagem { display: none; }
+  .crm-v4-root[data-visual="grafite"] .v4-tela-ficha .v4-faixa__titulo { max-width: 60%; }
+  .crm-v4-root[data-visual="grafite"] .v4-fi-voltar {
+    justify-content: center;
+    min-width: var(--v4-c-control-h);
+    margin-left: 0;
+    padding: 0;
+  }
+  /* Cabeçalho do painel: título e abas (sem a contagem nem a linha de baixo) */
+  .crm-v4-root[data-visual="grafite"] .v4-fi-topo .v4-cv-subtitulo,
+  .crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab__count { display: none; }
+}

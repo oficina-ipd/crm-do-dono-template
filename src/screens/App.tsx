@@ -1,12 +1,14 @@
 "use client";
 import * as React from "react";
-import { Badge, Card } from "@/ds";
+import { Card } from "@/ds";
 import { CRMProvider, useCRM } from "@/components/crm/provider";
 import type { EstadoCRM } from "@/domain/types";
 import type { RepositorioCRM } from "@/repo";
-import { iniciais } from "./partes";
 import { WhatsAppOnboarding } from "@/components/crm/WhatsAppOnboarding";
-import { CrmV3App } from "@/crm-v3/CrmV3App";
+import { CrmGrafiteApp } from "@/crm-grafite/app";
+import { RaizGrafite, type PreferenciasGrafite } from "@/crm-grafite/shell/raiz";
+import { useToast as useAvisoGrafite } from "@/crm-grafite/ui/toast";
+import { TelaEntrar } from "@/crm-grafite/telas/entrar";
 import { ModalLigacao } from "./modais/Ligacao";
 import { ModalDiscagem } from "./modais/Discagem";
 
@@ -43,60 +45,52 @@ export function App({ repo }: { repo: RepositorioCRM }) {
   }
 
   return (
-    <CRMProvider repo={repo} estadoInicial={estado} aoLigar={setLigacao} aoDiscar={() => setDiscagem(true)}>
-      <Interno />
-      <ModalLigacao contatoId={ligacao} onClose={() => setLigacao(null)} />
-      <ModalDiscagem
-        open={discagem}
-        onClose={() => setDiscagem(false)}
-        aoLigar={(id) => {
-          setDiscagem(false);
-          setLigacao(id);
-        }}
-      />
+    <RaizGrafite>
+      {(prefs) => (
+        <ComAvisos repo={repo} estado={estado} prefs={prefs} aoLigar={setLigacao} aoDiscar={() => setDiscagem(true)}>
+          <ModalLigacao contatoId={ligacao} onClose={() => setLigacao(null)} />
+          <ModalDiscagem
+            open={discagem}
+            onClose={() => setDiscagem(false)}
+            aoLigar={(id) => {
+              setDiscagem(false);
+              setLigacao(id);
+            }}
+          />
+        </ComAvisos>
+      )}
+    </RaizGrafite>
+  );
+}
+
+/** Liga os avisos do Grafite ao provedor (sucesso e erro de regra aparecem no aviso v4). */
+function ComAvisos({ repo, estado, prefs, aoLigar, aoDiscar, children }: { repo: RepositorioCRM; estado: EstadoCRM; prefs: PreferenciasGrafite; aoLigar: (id: string) => void; aoDiscar: () => void; children: React.ReactNode }) {
+  const { avisar } = useAvisoGrafite();
+  const avisarCrm = React.useCallback(
+    (texto: string, tom: "sucesso" | "erro") => {
+      avisar({ tom, titulo: texto });
+    },
+    [avisar],
+  );
+  return (
+    <CRMProvider repo={repo} estadoInicial={estado} aoLigar={aoLigar} aoDiscar={aoDiscar} avisar={avisarCrm}>
+      <Interno prefs={prefs} />
+      {children}
     </CRMProvider>
   );
 }
 
-function Interno() {
+function Interno({ prefs }: { prefs: PreferenciasGrafite }) {
   const crm = useCRM();
-  if (!crm.operador) return <Entrada />;
-  return <CrmV3App />;
-}
-
-/** Escolha do operador (demo local). Produção usa /entrar com magic link. */
-function Entrada() {
-  const { estado, entrar } = useCRM();
-  const humanos = estado.operadores.filter((o) => o.tipo === "humano" && o.ativo);
-  return (
-    <div className="ds-gate ds-gate--login">
-      <div className="ds-gate__eyebrow ds-label">CRM · {estado.config.nomeEmpresa}</div>
-      <Card className="ds-gate__card ds-gate__card--login">
-        <h1 className="ds-gate__title">Quem está entrando?</h1>
-        <p className="ds-gate__lead">
-          Modo demo: escolha o operador. Em produção o gate é magic link em <a href="/entrar">/entrar</a>.
-        </p>
-        <div className="ds-oplist">
-          {humanos.map((o) => (
-            <button key={o.id} type="button" className="ds-row" onClick={() => entrar(o.id)}>
-              <span className="ds-avatar ds-avatar--ink">{iniciais(o.nome)}</span>
-              <span className="ds-row__body">
-                <span className="ds-row__title">{o.nome}</span>
-                <span className="ds-row__sub" style={{ display: "block" }}>
-                  {o.papel}
-                </span>
-              </span>
-              <Badge tone="outline">entrar</Badge>
-            </button>
-          ))}
-        </div>
-        <p className="ds-muted" style={{ margin: 0, fontSize: 13 }}>
-          Dados de exemplo. Para zerar: Integrações → &quot;Começar do zero&quot;.
-        </p>
-      </Card>
-      <div style={{ width: "min(420px, 100%)", marginTop: 8 }}>
-        <WhatsAppOnboarding compact />
-      </div>
-    </div>
-  );
+  if (!crm.operador) {
+    return (
+      <TelaEntrar
+        nomeEmpresa={crm.estado.config.nomeEmpresa}
+        operadores={crm.estado.operadores.filter((o) => o.tipo === "humano" && o.ativo)}
+        aoEntrar={crm.entrar}
+        rodape={<WhatsAppOnboarding compact />}
+      />
+    );
+  }
+  return <CrmGrafiteApp prefs={prefs} />;
 }
