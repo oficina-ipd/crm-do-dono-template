@@ -195,3 +195,9 @@
   .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-table :is(td, th):first-child { min-width: 152px; }
   .crm-v4-root[data-visual="grafite"] .v4-pessoas__nota { display: none; }
 }
+
+/* ==========================================================================
+   Template (CRM do dono): WhatsApp mascarado/revelado com largura fixa, para a coluna
+   não pular quando o número aparece.
+   ========================================================================== */
+.crm-v4-root .v4-pessoa__contato > .v4-num { display: inline-block; min-width: 15ch; }

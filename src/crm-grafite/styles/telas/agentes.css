@@ -96,6 +96,35 @@
 }
 .crm-v4-root .v4-ag__celula .v4-seg { max-width: none; overflow: visible; white-space: nowrap; }
 
+/* Template: avisos do Pilot, rodar agente, resultado e tabela dos agentes */
+.crm-v4-root .v4-ag__tick { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-ag__rodar { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-tela--agentes .v4-panel__body:not(.v4-panel__body--flush) { display: grid; gap: var(--v4-space-3); align-content: start; }
+.crm-v4-root .v4-ag__fato { display: contents; }
+.crm-v4-root .v4-ag__texto {
+  margin: 0;
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px dashed var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 60ch;
+}
+.crm-v4-root .v4-ag__followups { display: grid; gap: var(--v4-space-1); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-ag__followups > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-1) var(--v4-space-2);
+  padding-block: var(--v4-space-1);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-ag__followups > li > span:first-child { flex: 1 1 200px; min-width: 0; overflow-wrap: anywhere; }
+.crm-v4-root .v4-ag__modo { display: block; min-width: 220px; max-width: 52ch; }
+.crm-v4-root .v4-ag__semdecisao { margin-top: var(--v4-space-2); }
+.crm-v4-root .v4-sug__acoes { align-items: center; }
+
 /* ==========================================================================
    Grafite (data-visual="grafite"): fila de sugestões primeiro, configuração em tabela.
    ========================================================================== */

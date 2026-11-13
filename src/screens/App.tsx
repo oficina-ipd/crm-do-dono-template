@@ -5,8 +5,9 @@ import { CRMProvider, useCRM } from "@/components/crm/provider";
 import type { EstadoCRM } from "@/domain/types";
 import type { RepositorioCRM } from "@/repo";
 import { WhatsAppOnboarding } from "@/components/crm/WhatsAppOnboarding";
-import { CrmGrafiteApp } from "@/crm-grafite/app";
+// A raiz vem antes do app: o CSS base do Grafite carrega antes do CSS de cada tela.
 import { RaizGrafite, type PreferenciasGrafite } from "@/crm-grafite/shell/raiz";
+import { CrmGrafiteApp } from "@/crm-grafite/app";
 import { useToast as useAvisoGrafite } from "@/crm-grafite/ui/toast";
 import { TelaEntrar } from "@/crm-grafite/telas/entrar";
 import { ModalLigacao } from "./modais/Ligacao";

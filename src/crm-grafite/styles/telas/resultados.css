@@ -16,6 +16,8 @@
 }
 .crm-v4-root .v4-res__conta > .v4-field { flex: 1 1 220px; max-width: 320px; }
 .crm-v4-root .v4-res__conta > .v4-btn { margin-top: calc(var(--v4-lh-ui) + var(--v4-space-1)); }
+.crm-v4-root .v4-res__previsao { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) { display: grid; gap: var(--v4-space-3); }
 .crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table th:first-child,
 .crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table td:first-child { padding-left: 0; }
 .crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table th:last-child,

@@ -47,6 +47,7 @@ export type Comando =
   | { tipo: "adicionarNota"; contatoId: string; texto: string; autorId: string | null }
   | { tipo: "criarTarefa"; contatoId: string; texto: string; venceEm: string | null; origem: string }
   | { tipo: "concluirTarefa"; tarefaId: string; feita?: boolean }
+  | { tipo: "reagendarTarefa"; tarefaId: string; venceEm: string | null }
   | { tipo: "registrarLigacao"; ligacao: Omit<Ligacao, "id">; criarTarefasDosFollowups?: boolean }
   | { tipo: "alternarTermometro"; contatoId: string }
   | { tipo: "definirTermometro"; contatoId: string; termometro: Termometro | null }
@@ -337,6 +338,12 @@ export function aplicar(estado: EstadoCRM, cmd: Comando, ctx: CtxComando): Estad
     case "concluirTarefa": {
       const t = achar(estado.tarefas, cmd.tarefaId, "Tarefa");
       return { ...estado, tarefas: trocar(estado.tarefas, { ...t, feita: cmd.feita ?? true }) };
+    }
+
+    case "reagendarTarefa": {
+      const t = achar(estado.tarefas, cmd.tarefaId, "Tarefa");
+      if (cmd.venceEm !== null && Number.isNaN(Date.parse(cmd.venceEm))) throw new ErroDeRegra("Data inválida para a tarefa.");
+      return { ...estado, tarefas: trocar(estado.tarefas, { ...t, venceEm: cmd.venceEm }) };
     }
 
     case "registrarLigacao": {

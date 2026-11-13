@@ -475,3 +475,8 @@
   .crm-v4-root[data-visual="grafite"] .v4-coluna__lista { padding-inline: var(--v4-space-2); }
   .crm-v4-root[data-visual="grafite"] .v4-coluna__vazia { padding-inline: 14px; }
 }
+
+/* ==========================================================================
+   Template (CRM do dono): formulário de "Nova oportunidade" no diálogo
+   ========================================================================== */
+.crm-v4-root .v4-funil-nova { display: grid; gap: var(--v4-space-4); }

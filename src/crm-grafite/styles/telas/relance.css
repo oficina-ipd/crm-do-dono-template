@@ -31,3 +31,40 @@
   outline-offset: var(--v4-focus-offset);
   border-radius: var(--v4-radius-control);
 }
+
+/* Template: emergência, controles da campanha, importação e listas */
+.crm-v4-root .v4-rel__emergencia {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2) var(--v4-space-3);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad);
+  border: 1px solid var(--v4-danger);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-work);
+}
+.crm-v4-root .v4-rel__emergencia > .v4-nota { flex: 1 1 320px; }
+.crm-v4-root .v4-rel__controles { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v4-space-2) var(--v4-space-3); }
+.crm-v4-root .v4-rel__barra .v4-seg { max-width: 100%; overflow-x: auto; }
+.crm-v4-root .v4-rel__arquivo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v4-space-2) var(--v4-space-3); }
+.crm-v4-root .v4-rel__arquivo > label { cursor: pointer; }
+.crm-v4-root .v4-rel__arquivo > label:focus-within {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+.crm-v4-root .v4-rel__codigo { font-family: var(--v4-font-mono); font-size: var(--v4-fs-meta); overflow-wrap: anywhere; }
+.crm-v4-root .v4-rel__resultado { margin: var(--v4-space-3) var(--v4-c-panel-pad); }
+.crm-v4-root .v4-tela--relance .v4-checks--coluna { flex-direction: column; align-items: flex-start; }
+.crm-v4-root .v4-tela--relance .v4-rel__explica { max-width: none; }
+.crm-v4-root .v4-tela--relance .v4-tabs { display: grid; gap: 0; min-width: 0; }
+
+.crm-v4-root[data-visual="grafite"] .v4-rel__emergencia {
+  border-color: var(--v4-danger);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-rel__resultado { box-shadow: none; }
+.crm-v4-root .v4-rel__barra > .v4-seg { justify-self: start; }
+/* Campo sozinho na linha (número de horas, quem atende): largura de campo, não da tela */
+.crm-v4-root .v4-tela--relance .v4-form__campos:has(> .v4-field:only-child) { grid-template-columns: minmax(0, 360px); }

@@ -290,8 +290,8 @@
 }
 
 /* ==========================================================================
-   Paleta do Grafite (CRM_GRAFITE): TODAS as cores do tema, num bloco só.
-   "Ardósia e verde", fechada pelo dono em 12/11/2026 (protótipo crm-grafite-5-telas-v3,
+   Paleta do Grafite: TODAS as cores do tema, num bloco só (troque aqui para a cor da sua marca).
+   "Ardósia e verde", a paleta do CRM do IPD (12/11/2026; protótipo crm-grafite-5-telas-v3,
    regra .app[data-pal=ardosia], luz média, profundidade média). Trocar a paleta = trocar
    este bloco. As camadas, a profundidade e as medidas ficam em grafite.css, que só compõe
    estes valores (sem cor literal). Sem data-visual="grafite", nada daqui vale.

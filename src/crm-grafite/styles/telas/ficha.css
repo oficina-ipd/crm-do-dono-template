@@ -409,3 +409,12 @@
   .crm-v4-root[data-visual="grafite"] .v4-fi-topo .v4-cv-subtitulo,
   .crm-v4-root[data-visual="grafite"] .v4-fi-principal .v4-tab__count { display: none; }
 }
+
+/* ==========================================================================
+   Template (CRM do dono): peças da lateral que a ficha do IPD não tinha
+   ========================================================================== */
+.crm-v4-root .v4-fi-interesse { display: grid; gap: var(--v4-space-2); justify-items: start; }
+.crm-v4-root .v4-fi-interesse .v4-seg { max-width: 100%; flex-wrap: wrap; }
+.crm-v4-root .v4-fi-proposta__texto { white-space: pre-wrap; overflow-wrap: anywhere; }
+.crm-v4-root .v4-fi-pagamento { display: grid; gap: 2px; }
+.crm-v4-root .v4-fi-dl dd .v4-cv-dado__linha { justify-content: flex-start; }

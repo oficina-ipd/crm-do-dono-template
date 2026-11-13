@@ -66,3 +66,42 @@
 @media (max-width: 559px) {
   .crm-v4-root[data-visual="grafite"] .v4-entrar__painel { padding: var(--v4-space-5) var(--v4-space-4) var(--v4-space-4); }
 }
+
+/* ==========================================================================
+   Template (CRM do dono) · modo local: escolha de quem está entrando
+   ========================================================================== */
+.crm-v4-root .v4-entrar__lista { display: grid; gap: var(--v4-space-1); margin: var(--v4-space-2) 0 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-entrar__operador {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--v4-space-3);
+  width: 100%;
+  min-height: var(--v4-c-control-h);
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-field);
+  color: var(--v4-text-1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.crm-v4-root .v4-entrar__operador:hover { border-color: var(--v4-control-border); background: var(--v4-surface-hover); }
+.crm-v4-root .v4-entrar__operador:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: var(--v4-focus-offset);
+}
+.crm-v4-root .v4-entrar__operador:active { transform: translateY(1px); }
+.crm-v4-root .v4-entrar__nome { font-weight: var(--v4-weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crm-v4-root .v4-entrar__papel { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+.crm-v4-root .v4-entrar__operador > .v4-icon { color: var(--v4-text-3); }
+.crm-v4-root .v4-entrar__rodape { min-width: 0; }
+@media (pointer: coarse) {
+  .crm-v4-root .v4-entrar__operador { min-height: 44px; }
+}
+.crm-v4-root[data-visual="grafite"] .v4-entrar__operador {
+  border-color: var(--v4-g-glass-border);
+  background: var(--v4-g-sunken-fill);
+}
+.crm-v4-root[data-visual="grafite"] .v4-entrar__operador:hover { border-color: var(--v4-control-border); background: var(--v4-g-sheet-hover); }

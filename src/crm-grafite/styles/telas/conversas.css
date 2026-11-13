@@ -585,3 +585,17 @@
   .crm-v4-root[data-visual="grafite"] .v4-cv[data-aberta] .v4-faixa__controles { display: none; }
   .crm-v4-root[data-visual="grafite"] :is(.v4-tela-conversas, .v4-tela-ficha) { --v4-cv-folga: 6px; }
 }
+
+/* ==========================================================================
+   Template (CRM do dono): no template, components.css entra depois deste arquivo e o
+   `display` do botão (.v4-btn) venceria as regras acima de mesma especificidade.
+   Os botões que dependem da largura ganham um seletor mais específico.
+   ========================================================================== */
+.crm-v4-root .v4-tela-conversas .v4-btn:is(.v4-cv-voltar, .v4-cv-ctx-painel) { display: none; }
+@media (max-width: 1199px) {
+  .crm-v4-root .v4-tela-conversas .v4-btn.v4-cv-ctx-painel { display: inline-flex; }
+  .crm-v4-root .v4-tela-conversas .v4-btn.v4-cv-ctx-alternar { display: none; }
+}
+@media (max-width: 767px) {
+  .crm-v4-root .v4-tela-conversas .v4-btn.v4-cv-voltar { display: inline-flex; }
+}
