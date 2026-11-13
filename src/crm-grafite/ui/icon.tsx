@@ -3,6 +3,7 @@
  * Decorativos por padrão (aria-hidden). Para ícone com significado próprio, passe `label`.
  */
 const PATHS = {
+  painel: "M4 5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5ZM13 5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1V5ZM13 12a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-7ZM4 16a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3Z",
   fila: "M4 6h16M4 12h10M4 18h7M17 15l2 2 3-4",
   conversas: "M5 18.5V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5L5 18.5ZM9 9.5h6M9 12.5h4",
   funil: "M4 5h16l-6 7.5V18l-4 2v-7.5L4 5Z",
@@ -59,6 +60,8 @@ const PATHS = {
   modelo: "M5 4h14v16H5zM8.5 8.5h7M8.5 12h7M8.5 15.5h4",
   adicionar: "M12 5v14M5 12h14",
   livro: "M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5v-15ZM5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6",
+  cifrao: "M12 3v18M17 7.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.8 5 3.3 5 1.4 5 3.4-2.2 3.3-5 3.3-5-1.4-5-3.3",
+  email: "M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1ZM3.5 7.5l8.5 6 8.5-6",
 } as const;
 
 export type IconeV4 = keyof typeof PATHS;

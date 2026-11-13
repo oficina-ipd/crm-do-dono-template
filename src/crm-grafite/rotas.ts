@@ -3,6 +3,7 @@
  * Rotas antigas do v3 (/hoje, /leads, /clientes, /buscar, /integracoes, /relatorios) continuam valendo.
  */
 export type TelaId =
+  | "painel"
   | "fila"
   | "conversas"
   | "ficha"
@@ -31,6 +32,7 @@ const FIXAS: Record<string, TelaId> = {
   "/": "fila",
   "/hoje": "fila",
   "/fila": "fila",
+  "/painel": "painel",
   "/conversas": "conversas",
   "/funil": "funil",
   "/pessoas": "pessoas",

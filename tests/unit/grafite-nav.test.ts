@@ -48,7 +48,7 @@ describe("navegação do Grafite", () => {
     const ids = itensNavV4("gestor").map((i) => i.id);
     expect(ids).toEqual(expect.arrayContaining(["fila", "conversas", "funil", "pessoas", "tarefas", "agentes", "relance", "ligacoes"]));
     expect(itensMenuUsuarioV4("gestor").map((i) => i.id)).toEqual(["produtos", "equipe", "modelos", "playbook", "integrar"]);
-    expect(gruposNavV4("gestor").map((g) => g.id)).toEqual(["atender", "vender", "agentes", "resultados", "rotina"]);
+    expect(gruposNavV4("gestor").map((g) => g.id)).toEqual(["inicio", "atender", "vender", "agentes", "resultados", "rotina"]);
   });
 
   it("item ativo e caminho do cabeçalho", () => {

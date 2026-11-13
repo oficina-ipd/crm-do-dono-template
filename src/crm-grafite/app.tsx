@@ -14,6 +14,7 @@ import { rotaDoCaminho, SO_GESTOR, type TelaId } from "./rotas";
 import { PermissionState } from "./ui/states";
 import { FaixaTopo } from "./ui/estrutura";
 import { TelaPendente } from "./telas/pendente";
+import { TelaPainel } from "./telas/painel";
 import { TelaAgentes } from "./telas/agentes";
 import { TelaConversas } from "./telas/conversas";
 import { TelaEquipe } from "./telas/equipe";
@@ -41,6 +42,7 @@ export function papelNavGrafite(papel: string | undefined): CrmPapelNav {
 }
 
 const TELAS: Record<Exclude<TelaId, "ficha" | "especimes" | "desconhecida">, () => React.ReactNode> = {
+  painel: () => <TelaPainel />,
   fila: () => <TelaFila />,
   conversas: () => <TelaConversas />,
   funil: () => <TelaFunil />,

@@ -31,7 +31,9 @@ export type ItemNavV4 = {
 
 export type GrupoNavV4 = { id: string; label: string; itens: ItemNavV4[] };
 
-const FILA: ItemNavV4 = { id: "fila", label: "Fila", href: "/", icone: "fila", badge: "fila", badgeSuaVez: true };
+const FILA: ItemNavV4 = { id: "fila", label: "Fila", href: "/", icone: "fila", badge: "fila", badgeSuaVez: true, tambem: ["/fila"] };
+/** Painel de entrada: números do período num olhar só (grade bento). */
+const PAINEL: ItemNavV4 = { id: "painel", label: "Painel", href: "/painel", icone: "painel" };
 const CONVERSAS: ItemNavV4 = {
   id: "conversas",
   label: "Conversas",
@@ -99,6 +101,7 @@ export function gruposNavV4(papel: CrmPapelNav, relanceLigado = true, ligacoesLi
     return [{ id: "resultados", label: "Resultados", itens: [RESULTADOS, ORIGEM] }];
   }
   const grupos: GrupoNavV4[] = [
+    { id: "inicio", label: "Início", itens: [PAINEL] },
     { id: "atender", label: "Atender", itens: [FILA, CONVERSAS] },
     { id: "vender", label: "Vender", itens: [FUNIL, PESSOAS, TAREFAS] },
     { id: "agentes", label: "Agentes", itens: relanceLigado ? [AGENTES, RELANCE] : [AGENTES] },

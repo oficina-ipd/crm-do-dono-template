@@ -384,6 +384,29 @@
   /* fundo suave da etiqueta "precisa de você": 0,10 (0,14 não fecha 4,5:1 sobre linha selecionada) */
   --v4-attention-soft: rgb(var(--v4-p-amber-rgb) / 0.1);
 
+  /* Painel (bento, protótipo painel-bento de 12/11/2026): no Painel o verde também é dado
+     (dia com venda, realizado) e um cartão inteiro, o da Meta, fica no verde da marca. */
+  --v4-gp-data-1: #93A0C4;
+  --v4-gp-data-2: #C9CFDC;
+  --v4-gp-data-3: #7D879E;
+  --v4-gp-data-4: #5A6378;
+  --v4-gp-data-5: #3E4556;
+  --v4-gp-accent-card-1: #74DCAE;
+  --v4-gp-accent-card-2: #55C08F;
+  --v4-gp-accent-card-3: #43A97B;
+  --v4-gp-on-accent: #06170F;
+  --v4-gp-on-accent-2: #0E2A1D;
+  --v4-gp-on-accent-rgb: 6 23 15;
+  --v4-gp-accent-btn: #0A1A13;
+  --v4-gp-accent-btn-on: #8FE3BB;
+  /* Cartões de quem espera uma pessoa (pilha): três tintas escuras, para distinguir as pessoas */
+  --v4-gp-wait-1a: #4F4634;
+  --v4-gp-wait-1b: #2B271F;
+  --v4-gp-wait-2a: #2F5446;
+  --v4-gp-wait-2b: #1C2B26;
+  --v4-gp-wait-3a: #3C4864;
+  --v4-gp-wait-3b: #242A3A;
+
   /* Tinta usada direto por marcadores (avatar, barra de rolagem, marca da caixa de seleção) */
   --v4-p-ink-950: #0D0F14;
   --v4-p-ink-900: #12141B;
