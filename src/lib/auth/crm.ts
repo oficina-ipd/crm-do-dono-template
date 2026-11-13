@@ -9,7 +9,10 @@ export type CrmOperador = {
   user_id: string | null;
 };
 
-/** Operador logado via magic link. Sem Supabase → null (modo demo). */
+/**
+ * Operador logado (link por e-mail ou e-mail e senha). Sem Supabase → null (modo demo).
+ * As rotas de /api/auth usam a mesma regra em src/lib/auth/senha/supabase.ts (buscarOperadorDoUsuario).
+ */
 export async function getCrmOperador(): Promise<CrmOperador | null> {
   if (!temSupabase()) return null;
   try {

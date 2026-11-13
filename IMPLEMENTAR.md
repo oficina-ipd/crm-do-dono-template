@@ -51,6 +51,24 @@ Ou: `npm run db:push` e cole `supabase/all.sql`.
 
 Auth → URL Configuration → Redirect URLs: `http://localhost:3000/auth/callback` e a URL da Vercel.
 
+### Quem pode entrar (e-mail e senha)
+
+Em `/entrar` a pessoa entra com e-mail e senha, ou pede um link por e-mail. Só entra quem for operador ativo do CRM. Para liberar alguém:
+
+1. No Supabase, vá em **Authentication › Users › Add user**, coloque o e-mail e uma senha provisória (12 caracteres ou mais) e marque **Auto Confirm User**.
+2. Copie o **User UID** que aparece na lista.
+3. No SQL Editor, ligue esse login ao operador (troque os valores):
+
+```sql
+update crm_operadores
+set user_id = 'COLE-O-USER-UID-AQUI'
+where email = 'pessoa@suaempresa.com.br';
+```
+
+4. A pessoa entra em `/entrar` e troca a senha em **Minha conta** (menu do usuário, no canto de baixo do menu lateral). Ali também fica **Sair de todos os dispositivos**.
+
+O limite de tentativas de entrada vale por servidor. Se você rodar mais de uma instância, o Supabase continua com o limite dele.
+
 ## 4. Deploy na Vercel
 
 1. Importar o repo

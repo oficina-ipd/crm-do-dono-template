@@ -8,7 +8,9 @@ export async function GET(request: Request) {
   if (code) {
     try {
       const supabase = await createClient();
-      await supabase.auth.exchangeCodeForSession(code);
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      // Link vencido ou já usado: volta para a entrada com o aviso, em vez de cair no CRM sem sessão.
+      if (error) return NextResponse.redirect(`${origin}/entrar?erro=auth`);
     } catch {
       return NextResponse.redirect(`${origin}/entrar?erro=auth`);
     }
