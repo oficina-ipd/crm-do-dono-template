@@ -201,3 +201,31 @@
    não pular quando o número aparece.
    ========================================================================== */
 .crm-v4-root .v4-pessoa__contato > .v4-num { display: inline-block; min-width: 15ch; }
+
+/* ==========================================================================
+   Tela média (768 a 1279 px): busca e filtros não cabem na faixa da casca e rolavam para o
+   lado, escondendo filtros (pendência herdada do CRM do IPD). A faixa desce para o alto do
+   conteúdo e os controles quebram linha: tudo à vista, nada rolando para o lado.
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa {
+    position: static;
+    flex: none;
+    flex-wrap: wrap;
+    row-gap: var(--v4-space-2);
+    height: auto;
+    margin-bottom: var(--v4-space-3);
+    padding-left: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-pessoas .v4-faixa > .v4-faixa__controles {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+/* Foco na região rolável da tabela: o contorno inteiro fica visível, sem ir para baixo do topo fixo. */
+.crm-v4-root .v4-pessoas [tabindex="0"]:focus-visible {
+  scroll-margin-top: calc(var(--v4-c-band-h, 56px) + var(--v4-space-2));
+  outline-offset: -2px;
+}
