@@ -4,7 +4,8 @@
    reorganiza pela largura da ÁREA do Painel (o menu pode estar aberto): 4 colunas a partir de
    1000 px, 2 a partir de 620 px, 1 abaixo. Cada cartão é uma camada de vidro com uma ideia só;
    dentro dele só texto, fios, listas e gráfico de série real. O cartão da Meta fica no verde
-   da marca. Movimento (contagem, barras, ponteiro, linha) só com movimento permitido.
+   da marca (no template: Vendas do mês, sem meta). Movimento (contagem, barras, ponteiro, linha)
+   só com movimento permitido.
    Sem cor literal: as cores vêm dos tokens (as do Painel estão em tokens.css e grafite.css).
    ========================================================================== */
 
@@ -68,11 +69,10 @@
   grid-template-columns: minmax(0, 1fr);
   gap: var(--v4-c-region-gap);
   min-width: 0;
-  transition: opacity var(--v4-dur-section) var(--v4-ease-out);
 }
-.crm-v4-root .v4-pn-grade.is-atualizando { opacity: 0.6; }
 @container v4-painel (min-width: 620px) {
-  .crm-v4-root .v4-pn-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* duas colunas: os cartões de uma coluna (Vendas do mês, Conversas hoje) se juntam na mesma linha */
+  .crm-v4-root .v4-pn-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; }
   .crm-v4-root :is(.v4-pn-cartao--abertura, .v4-pn-cartao--grafico, .v4-pn-cartao--atividade, .v4-pn-cartao--funil) { grid-column: span 2; }
 }
 @container v4-painel (min-width: 1000px) {
@@ -83,10 +83,10 @@
   .crm-v4-root .v4-pn-cartao--grafico { grid-column: 1 / span 2; grid-row: 2 / span 2; }
   .crm-v4-root .v4-pn-cartao--origem { grid-column: 3; grid-row: 2; }
   .crm-v4-root .v4-pn-cartao--emails { grid-column: 3; grid-row: 3; }
-  .crm-v4-root .v4-pn-cartao--meta { grid-column: 4; grid-row: 2 / span 2; }
+  .crm-v4-root .v4-pn-cartao--mes { grid-column: 4; grid-row: 2 / span 2; }
   .crm-v4-root .v4-pn-cartao--atividade { grid-column: 1 / span 2; grid-row: 4; }
-  .crm-v4-root .v4-pn-cartao--conversas { grid-column: 3; grid-row: 4; }
-  .crm-v4-root .v4-pn-cartao--comunidade { grid-column: 4; grid-row: 4; }
+  /* sem o cartão Comunidade do IPD (o template não tem portal de membros): Conversas ocupa o lugar */
+  .crm-v4-root .v4-pn-cartao--conversas { grid-column: 3 / span 2; grid-row: 4; }
   .crm-v4-root .v4-pn-cartao--funil { grid-column: 1 / -1; grid-row: 5; }
 }
 
@@ -95,7 +95,7 @@
   position: relative;
   min-width: 0;
   padding: var(--v4-pn-pad);
-  /* a âncora (#painel-meta) não esconde o topo do cartão atrás da faixa */
+  /* a âncora (#painel-mes) não esconde o topo do cartão atrás da faixa */
   scroll-margin-top: var(--v4-space-3);
 }
 .crm-v4-root .v4-pn-cartao__topo {
@@ -189,11 +189,6 @@
 .crm-v4-root .v4-pn-var--2 .v4-pn-var__base { flex-basis: 100%; }
 .crm-v4-root .v4-pn-var--2 .v4-pn-var__base::before { content: none; }
 
-/* Aviso de uma linha (ícone + texto) */
-.crm-v4-root .v4-pn-aviso { display: flex; align-items: flex-start; gap: var(--v4-space-2); margin: 0; color: var(--v4-text-2); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); text-wrap: pretty; }
-.crm-v4-root .v4-pn-aviso .v4-icon { flex: none; color: var(--v4-info); }
-.crm-v4-root .v4-pn-aviso--atencao .v4-icon { color: var(--v4-warning); }
-
 /* Dois, três ou quatro números lado a lado, depois de um fio */
 .crm-v4-root .v4-pn-trio {
   display: grid;
@@ -253,7 +248,6 @@
   flex-direction: column;
   justify-content: flex-start;
   transform-origin: 50% 0;
-  transition: top 650ms var(--v4-pn-ease), transform 650ms var(--v4-pn-ease);
 }
 .crm-v4-root .v4-pn-espera.is-pos-1 { top: 44px; }
 .crm-v4-root .v4-pn-espera.is-pos-2 { top: 88px; }
@@ -356,21 +350,10 @@
 .crm-v4-root .v4-pn-origens b { flex: none; color: var(--v4-text-1); font-weight: var(--v4-weight-medium); }
 .crm-v4-root .v4-pn-origem__var { margin-top: var(--v4-space-1); }
 
-/* ---------- E-mails ---------- */
-.crm-v4-root .v4-pn-email { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: 10px 0 0; color: var(--v4-text-2); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
-.crm-v4-root .v4-pn-email dt,
-.crm-v4-root .v4-pn-email dd { margin: 0; }
-.crm-v4-root .v4-pn-email__barra { display: block; width: 100%; height: 8px; }
-.crm-v4-root .v4-pn-trilho { fill: var(--v4-pn-trilho); }
-.crm-v4-root .v4-pn-email__parte { fill: var(--v4-pn-acento); }
-.crm-v4-root .v4-pn-email__parte.is-2 { fill: var(--v4-focus); }
-.crm-v4-root .v4-pn-email__parte.is-3 { fill: var(--v4-pn-dado); }
-.crm-v4-root .v4-pn-email__parte.is-4 { fill: var(--v4-danger); }
-.crm-v4-root .v4-pn-email__valor { min-width: 60px; color: var(--v4-text-1); font-weight: var(--v4-weight-semibold); text-align: right; white-space: nowrap; }
-.crm-v4-root .v4-pn-email__valor span { color: var(--v4-text-3); font-weight: var(--v4-weight-regular); }
+/* ---------- E-mails: pé com fio ---------- */
 .crm-v4-root .v4-pn-pe { display: grid; gap: var(--v4-space-1); margin-top: 14px; padding-top: var(--v4-space-3); border-top: 1px solid var(--v4-border-divider); }
 
-/* ---------- Meta: o cartão inteiro no verde da marca (Grafite) ---------- */
+/* ---------- Vendas do mês (o cartão Meta do IPD, sem meta): inteiro no verde da marca (Grafite) ---------- */
 .crm-v4-root .v4-pn-meta__selo {
   display: inline-flex;
   align-items: center;
@@ -386,14 +369,8 @@
 .crm-v4-root .v4-pn-meta__grande { margin: 0; font-size: var(--v4-pn-grande); line-height: var(--v4-pn-grande-lh); font-weight: 700; letter-spacing: -0.04em; }
 .crm-v4-root .v4-pn-meta__grande span { font-size: var(--v4-pn-fig); font-weight: var(--v4-weight-semibold); letter-spacing: -0.02em; }
 .crm-v4-root .v4-pn-meta__frase { margin: 6px 0 0; font-size: var(--v4-fs-ui); line-height: var(--v4-lh-ui); text-wrap: pretty; }
-.crm-v4-root .v4-pn-meta__nada { margin: 10px 0 0; font-size: var(--v4-fs-section); line-height: var(--v4-lh-read); text-wrap: pretty; }
-.crm-v4-root .v4-pn-meta__regua { margin-top: 18px; }
-.crm-v4-root .v4-pn-meta__rr { display: flex; justify-content: space-between; gap: var(--v4-space-2); margin: 0; font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
-.crm-v4-root .v4-pn-meta__trilho { display: block; width: 100%; height: 16px; margin: 2px 0; overflow: visible; }
-.crm-v4-root .v4-pn-meta__fundo { fill: var(--v4-pn-trilho); }
-.crm-v4-root .v4-pn-meta__feito { fill: var(--v4-text-1); }
-.crm-v4-root .v4-pn-meta__marca { stroke: var(--v4-text-2); stroke-width: 2; }
 .crm-v4-root .v4-pn-meta .v4-pn-trio { margin-top: 18px; padding-top: 14px; }
+.crm-v4-root .v4-pn-meta__var { margin-top: var(--v4-space-2); }
 .crm-v4-root .v4-pn-meta__pe { margin-top: auto; padding-top: 18px; }
 .crm-v4-root .v4-pn-meta__dias { display: block; width: 100%; height: 52px; }
 .crm-v4-root .v4-pn-meta__dia { fill: var(--v4-text-3); opacity: 0.35; }
@@ -414,7 +391,7 @@
   transition: filter var(--v4-dur-hover) var(--v4-ease-out);
 }
 .crm-v4-root .v4-pn-meta__botao:hover { filter: brightness(1.15); }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta {
+.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--mes {
   --v4-text-1: var(--v4-g-on-accent);
   --v4-text-2: var(--v4-g-on-accent-2);
   --v4-text-3: var(--v4-g-on-accent-2);
@@ -429,15 +406,14 @@
   box-shadow: var(--v4-g-accent-card-shadow);
   color: var(--v4-g-on-accent);
 }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta::before {
+.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--mes::before {
   background: var(--v4-g-accent-card-fill);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta .v4-pn-meta__dia { opacity: 1; fill: var(--v4-g-on-accent-faint); }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta .v4-pn-meta__dia.is-venda { fill: var(--v4-g-on-accent); }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta .v4-pn-meta__botao { border-color: transparent; background: var(--v4-g-accent-btn); color: var(--v4-g-accent-btn-on); }
-.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--meta .v4-skel { background: var(--v4-g-on-accent-soft); }
+.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--mes .v4-pn-meta__dia { opacity: 1; fill: var(--v4-g-on-accent-faint); }
+.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--mes .v4-pn-meta__dia.is-venda { fill: var(--v4-g-on-accent); }
+.crm-v4-root[data-visual="grafite"] .v4-pn-cartao--mes .v4-pn-meta__botao { border-color: transparent; background: var(--v4-g-accent-btn); color: var(--v4-g-accent-btn-on); }
 
 /* ---------- Atividade recente ---------- */
 .crm-v4-root .v4-pn-ativ { margin: 0; padding: 0; list-style: none; }
@@ -467,7 +443,6 @@
 .crm-v4-root .v4-pn-ativ__estado.is-ok { color: var(--v4-pn-acento); }
 .crm-v4-root .v4-pn-ativ__estado.is-espera { color: var(--v4-attention); }
 .crm-v4-root .v4-pn-ativ__estado.is-ruim { color: var(--v4-danger); }
-.crm-v4-root .v4-pn-ativ + .v4-pn-aviso { margin-top: var(--v4-space-3); }
 
 /* ---------- Conversas hoje ---------- */
 .crm-v4-root .v4-pn-horas { display: block; flex: none; width: 100%; height: 64px; margin-top: 14px; }
@@ -475,13 +450,6 @@
 .crm-v4-root .v4-pn-cartao--conversas .v4-pn-apoio { margin: 6px 0 var(--v4-space-3); }
 .crm-v4-root .v4-pn-horas__barra { fill: var(--v4-pn-dado); opacity: 0.6; }
 .crm-v4-root .v4-pn-horas__barra.is-agora { fill: var(--v4-pn-acento); opacity: 1; }
-
-/* ---------- Comunidade ---------- */
-.crm-v4-root .v4-pn-anel { display: flex; flex: 1 1 auto; align-items: center; gap: var(--v4-space-4); }
-.crm-v4-root .v4-pn-anel svg { flex: none; width: 84px; height: 84px; }
-.crm-v4-root .v4-pn-anel__trilho { fill: none; stroke: var(--v4-pn-trilho); stroke-width: 9; }
-.crm-v4-root .v4-pn-anel__arco { fill: none; stroke: var(--v4-pn-acento); stroke-width: 9; stroke-linecap: round; }
-.crm-v4-root .v4-pn-comunidade .v4-pn-trio { row-gap: var(--v4-space-3); }
 
 /* ---------- Funil: número e medidas à esquerda, etapas à direita ---------- */
 .crm-v4-root .v4-pn-funil { display: grid; gap: var(--v4-space-4) var(--v4-space-6); }
@@ -497,17 +465,6 @@
   .crm-v4-root .v4-pn-funil { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; }
 }
 
-/* ---------- Esqueleto com a geometria do cartão ---------- */
-.crm-v4-root .v4-pn-esq { display: grid; align-content: start; gap: var(--v4-space-2); }
-.crm-v4-root .v4-pn-esq__fig { width: 96px; height: var(--v4-pn-fig-lh); border-radius: var(--v4-radius-control); }
-.crm-v4-root .v4-pn-esq__bloco { width: 100%; height: 96px; margin-top: var(--v4-space-3); border-radius: var(--v4-radius-control); }
-.crm-v4-root .v4-pn-esq__bloco.is-alto { height: 220px; }
-.crm-v4-root .v4-pn-esq__linhas { display: grid; margin-top: var(--v4-space-2); }
-.crm-v4-root .v4-pn-esq__linha { display: flex; justify-content: space-between; align-items: center; gap: var(--v4-space-4); min-height: 40px; border-top: 1px solid var(--v4-border-divider); }
-
-/* Estado que é a tela (sem permissão) */
-.crm-v4-root .v4-pn__estado { border: 1px solid var(--v4-border-deco); border-radius: var(--v4-radius-panel); background: var(--v4-surface-work); }
-
 /* ---------- Toque: alvos de 44 px ---------- */
 @media (pointer: coarse) {
   .crm-v4-root .v4-pn-atalho { min-height: 44px; }
@@ -518,7 +475,7 @@
 /* ---------- Quatro colunas estreitas (menu aberto em tela média): legenda em uma coluna ---------- */
 @container v4-painel (min-width: 1000px) and (max-width: 1239.98px) {
   .crm-v4-root .v4-pn-origens { grid-template-columns: minmax(0, 1fr); }
-  .crm-v4-root .v4-pn-cartao--meta .v4-pn-trio { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--v4-space-3); }
+  .crm-v4-root .v4-pn-cartao--mes .v4-pn-trio { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--v4-space-3); }
 }
 
 /* ---------- Tela estreita ---------- */
@@ -530,6 +487,7 @@
 
 /* ---------- Movimento: só com movimento permitido; sem ele, tudo aparece pronto ---------- */
 @media (prefers-reduced-motion: no-preference) {
+  .crm-v4-root .v4-pn-espera { transition: top 650ms var(--v4-pn-ease), transform 650ms var(--v4-pn-ease); }
   .crm-v4-root .v4-pn :is(.v4-pn-abre__barra, .v4-pn-horas__barra, .v4-pn-meta__dia) {
     transform-box: fill-box;
     transform-origin: 50% 100%;
@@ -537,12 +495,12 @@
   }
   .crm-v4-root .v4-pn :is(.v4-pn-abre__barra, .v4-pn-horas__barra):nth-child(3n + 2) { animation-delay: 60ms; }
   .crm-v4-root .v4-pn :is(.v4-pn-abre__barra, .v4-pn-horas__barra):nth-child(3n) { animation-delay: 120ms; }
-  .crm-v4-root .v4-pn :is(.v4-pn-partes__parte, .v4-pn-email__parte, .v4-pn-meta__feito) {
+  .crm-v4-root .v4-pn .v4-pn-partes__parte {
     transform-box: fill-box;
     transform-origin: 0 50%;
     animation: v4-pn-abrir 1000ms var(--v4-pn-ease) 150ms backwards;
   }
-  .crm-v4-root .v4-pn :is(.v4-pn-mostrador__arco, .v4-pn-anel__arco, .v4-pn-grafico__linha.is-desenha) { animation: v4-pn-tracar 1200ms var(--v4-pn-ease) backwards; }
+  .crm-v4-root .v4-pn :is(.v4-pn-mostrador__arco, .v4-pn-grafico__linha.is-desenha) { animation: v4-pn-tracar 1200ms var(--v4-pn-ease) backwards; }
   /* o ponteiro parte da esquerda na primeira pintura (sem mostrar antes a posição final) e,
      quando o valor muda na atualização, gira do ponto em que estava */
   .crm-v4-root .v4-pn .v4-pn-mostrador__ponteiro {
@@ -555,9 +513,6 @@
 @keyframes v4-pn-abrir { from { transform: scaleX(0); } }
 /* o traço começa todo escondido: as linhas usam pathLength="1" e traço de comprimento 1 */
 @keyframes v4-pn-tracar { from { stroke-dashoffset: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .crm-v4-root .v4-pn-espera { transition: none; }
-}
 
 /* ==========================================================================
    Grafite (data-visual="grafite"): o cartão é vidro (a <section> usa .v4-panel, que já traz a
@@ -579,11 +534,6 @@
   border-radius: var(--v4-radius-bar);
   background: var(--v4-g-float-read-fill);
   box-shadow: var(--v4-g-float-shadow);
-}
-.crm-v4-root[data-visual="grafite"] .v4-pn__estado {
-  border-color: var(--v4-g-glass-border);
-  background: var(--v4-g-glass-fill);
-  box-shadow: var(--v4-g-glass-shadow);
 }
 /* Data e hora na faixa: texto solto sobre a luz, no nível 1 (fecha 4,5:1) */
 .crm-v4-root[data-visual="grafite"] .v4-pn :is(.v4-faixa, .v4-pn-barra) .v4-t-meta { color: var(--v4-text-1); }
