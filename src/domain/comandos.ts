@@ -47,6 +47,7 @@ export type Comando =
   | { tipo: "adicionarNota"; contatoId: string; texto: string; autorId: string | null }
   | { tipo: "criarTarefa"; contatoId: string; texto: string; venceEm: string | null; origem: string }
   | { tipo: "concluirTarefa"; tarefaId: string; feita?: boolean }
+  | { tipo: "reagendarTarefa"; tarefaId: string; venceEm: string | null }
   | { tipo: "registrarLigacao"; ligacao: Omit<Ligacao, "id">; criarTarefasDosFollowups?: boolean }
   | { tipo: "alternarTermometro"; contatoId: string }
   | { tipo: "definirTermometro"; contatoId: string; termometro: Termometro | null }
@@ -339,6 +340,12 @@ export function aplicar(estado: EstadoCRM, cmd: Comando, ctx: CtxComando): Estad
       return { ...estado, tarefas: trocar(estado.tarefas, { ...t, feita: cmd.feita ?? true }) };
     }
 
+    case "reagendarTarefa": {
+      const t = achar(estado.tarefas, cmd.tarefaId, "Tarefa");
+      if (cmd.venceEm !== null && Number.isNaN(Date.parse(cmd.venceEm))) throw new ErroDeRegra("Data inválida para a tarefa.");
+      return { ...estado, tarefas: trocar(estado.tarefas, { ...t, venceEm: cmd.venceEm }) };
+    }
+
     case "registrarLigacao": {
       const l = cmd.ligacao;
       const contato = achar(estado.contatos, l.contatoId, "Contato");
@@ -410,7 +417,7 @@ export function aplicar(estado: EstadoCRM, cmd: Comando, ctx: CtxComando): Estad
         const atual = achar(estado.funis, f.id, "Funil");
         return { ...estado, funis: trocar(estado.funis, { ...atual, ...f, id: atual.id }) };
       }
-      const id = f.nome.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || ctx.novoId();
+      const id = f.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || ctx.novoId();
       if (estado.funis.some((x) => x.id === id)) throw new ErroDeRegra("Já existe funil com esse nome.");
       return { ...estado, funis: [...estado.funis, { id, nome: f.nome, canal: f.canal, produto: f.produto, ativo: f.ativo ?? true }] };
     }

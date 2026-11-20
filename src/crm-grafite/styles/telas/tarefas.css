@@ -1,0 +1,267 @@
+/* ==========================================================================
+   CRM Grafite · Tarefas (rota #/trabalho)
+   Título, contagem, busca, situação e "Nova tarefa" na faixa do topo (<FaixaTopo>); abaixo,
+   atrasadas, hoje, próximas e sem data num painel de vidro elevado que rola sozinho, com os
+   cabeçalhos de grupo fixos; concluir e reabrir na linha, linhas sem caixa e sem divisor.
+   ========================================================================== */
+
+.crm-v4-root .v4-tarefas {
+  --v4-tarefas-head-h: calc(var(--v4-space-3) + var(--v4-lh-section) + var(--v4-space-2) + 1px);
+}
+.crm-v4-root .v4-tarefas .v4-faixa__titulo { flex: none; }
+
+/* Painel único: vidro elevado; nova tarefa, grupos e estados são grupos planos dele */
+.crm-v4-root .v4-tarefas__corpo {
+  min-width: 0;
+  padding-bottom: var(--v4-space-2);
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+.crm-v4-root .v4-tarefas__corpo > .v4-panel {
+  position: static;
+  isolation: auto;
+  overflow: visible;
+  border: 0;
+  border-bottom: 1px solid var(--v4-border-divider);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.crm-v4-root .v4-tarefas__corpo > .v4-panel::before { content: none; }
+.crm-v4-root .v4-tarefas__corpo > .v4-state { padding: var(--v4-c-panel-pad); }
+
+/* Grupo */
+.crm-v4-root .v4-tarefas__grupo { padding-bottom: var(--v4-space-2); }
+.crm-v4-root .v4-tarefas__grupo-head {
+  --v4-text-2: var(--v4-g-text-2-float);
+  --v4-text-3: var(--v4-g-text-3-float);
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-sticky);
+  display: flex;
+  align-items: baseline;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad) var(--v4-space-2);
+  background: var(--v4-g-thead-fill);
+  box-shadow: var(--v4-g-thead-shadow);
+  backdrop-filter: var(--v4-g-thead-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-thead-backdrop);
+}
+.crm-v4-root .v4-tarefas__grupo-head .v4-t-section { margin: 0; font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-tarefas__n {
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-tarefas__n.is-atrasada { color: var(--v4-danger); }
+.crm-v4-root .v4-tarefas__ajuda,
+.crm-v4-root .v4-tarefas__vazio {
+  margin: var(--v4-space-2) 0 0;
+  padding: 0 var(--v4-c-panel-pad);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-tarefas__vazio {
+  margin-top: var(--v4-space-3);
+  padding-bottom: var(--v4-space-2);
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+}
+.crm-v4-root .v4-tarefas__lista {
+  display: grid;
+  gap: 2px;
+  margin: var(--v4-space-2) 0 0;
+  padding: 0 var(--v4-space-2);
+  list-style: none;
+}
+
+/* Linha de tarefa: texto | data | ações */
+.crm-v4-root .v4-tarefa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--v4-space-2) var(--v4-space-4);
+  min-height: var(--v4-c-row-h);
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+  outline: none;
+  transition: border-color var(--v4-dur-hover) var(--v4-ease-out), box-shadow var(--v4-dur-hover) var(--v4-ease-out);
+}
+/* hover sem tinta clara (o texto 3 e o de erro perdem 4,5:1 sobre a luz): contorno do vidro */
+.crm-v4-root .v4-tarefa:hover { border-color: var(--v4-g-glass-border); }
+.crm-v4-root .v4-tarefa:focus-within,
+.crm-v4-root .v4-tarefa:focus-visible {
+  border-color: var(--v4-g-glass-border);
+  box-shadow: var(--v4-g-row-selected-shadow);
+}
+.crm-v4-root .v4-tarefa:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: -2px;
+}
+.crm-v4-root .v4-tarefa__corpo { display: grid; gap: 2px; min-width: 0; }
+.crm-v4-root .v4-tarefa__titulo {
+  margin: 0;
+  font-weight: var(--v4-weight-semibold);
+  overflow-wrap: anywhere;
+}
+.crm-v4-root .v4-tarefa__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--v4-space-3);
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-tarefa__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--v4-space-1);
+}
+.crm-v4-root .v4-tarefa.is-feita .v4-tarefa__titulo {
+  color: var(--v4-text-2);
+  text-decoration: line-through;
+  text-decoration-color: var(--v4-text-3);
+}
+/* Vencimento: texto com ícone, sem etiqueta (atrasada continua com a cor de erro) */
+.crm-v4-root .v4-tarefa__quando .v4-tag {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: var(--v4-weight-regular);
+}
+.crm-v4-root .v4-tarefa__quando .v4-tag:not([class*="v4-tag--"]) { color: var(--v4-text-2); }
+
+/* Nova tarefa */
+.crm-v4-root .v4-nova { display: grid; gap: var(--v4-space-4); max-width: 720px; }
+.crm-v4-root .v4-nova__quando {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 180px);
+  gap: var(--v4-space-3);
+}
+.crm-v4-root .v4-nova__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v4-space-4) var(--v4-space-2); }
+.crm-v4-root .v4-nova__erro {
+  display: flex;
+  gap: var(--v4-space-2);
+  margin: 0;
+  color: var(--v4-danger);
+}
+.crm-v4-root .v4-nova__erro .v4-icon { flex: none; margin-top: 1px; }
+.crm-v4-root .v4-nova__pessoa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2);
+  min-height: var(--v4-c-control-h);
+  padding: 0 var(--v4-space-1) 0 var(--v4-space-3);
+  border: 1px solid var(--v4-control-border);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-field);
+}
+.crm-v4-root .v4-nova__pessoa > .v4-icon { color: var(--v4-text-3); }
+.crm-v4-root .v4-nova__pessoa-nome { font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-nova__pessoa .v4-btn { margin-left: auto; }
+.crm-v4-root .v4-nova__resultados {
+  display: grid;
+  gap: var(--v4-space-1);
+  padding: var(--v4-space-1);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-float);
+}
+.crm-v4-root .v4-nova__estado {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  margin: 0;
+  padding: var(--v4-space-2);
+  color: var(--v4-text-2);
+}
+.crm-v4-root .v4-nova__estado--erro { color: var(--v4-danger); }
+.crm-v4-root .v4-nova__lista { display: grid; margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-nova__lista[hidden] { display: none; }
+.crm-v4-root .v4-nova__opcao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-1) var(--v4-space-2);
+  min-height: var(--v4-c-control-h);
+  padding: var(--v4-space-1) var(--v4-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+  cursor: pointer;
+}
+.crm-v4-root .v4-nova__opcao[aria-selected="true"] {
+  background: var(--v4-surface-selected);
+  border-color: var(--v4-control-border);
+}
+.crm-v4-root .v4-nova__opcao-nome { font-weight: var(--v4-weight-medium); }
+
+/* ---------- Moldura: a tela ocupa a altura do conteúdo da casca; a lista rola sozinha ---------- */
+.crm-v4-root .v4-main:has(> .v4-tarefas) {
+  display: flex;
+  flex-direction: column;
+}
+.crm-v4-root .v4-tarefas {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.crm-v4-root .v4-tarefas__corpo {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: calc(var(--v4-tarefas-head-h) + var(--v4-space-2));
+}
+
+/* Intermediário: a data desce para baixo do texto, ações em linha própria */
+@media (max-width: 1023px) {
+  .crm-v4-root .v4-tarefa { grid-template-columns: minmax(0, 1fr) auto; }
+  .crm-v4-root .v4-tarefa__acoes { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+@media (max-width: 767px) {
+  /* Celular: a faixa da casca é estreita demais para busca e filtros. A faixa da tela desce para
+     o alto do conteúdo (título e contagem numa linha; busca, situação e "Nova tarefa" na
+     seguinte, rolando para o lado) e a barra da casca fica só com menu e busca ⌘K. */
+  .crm-v4-root[data-visual="grafite"] .v4-tarefas .v4-faixa {
+    position: static;
+    flex: none;
+    flex-wrap: wrap;
+    row-gap: var(--v4-space-2);
+    height: auto;
+    margin-bottom: var(--v4-c-region-gap);
+    padding-left: 0;
+  }
+  /* busca numa linha; situação e "Nova tarefa" na de baixo (nada fica escondido para o lado) */
+  .crm-v4-root[data-visual="grafite"] .v4-tarefas .v4-faixa > .v4-faixa__controles {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    row-gap: var(--v4-space-2);
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-tarefas .v4-faixa > .v4-faixa__controles > .v4-search { flex: 1 1 100%; max-width: none; }
+}
+
+@media (max-width: 599px) {
+  .crm-v4-root .v4-tarefa { grid-template-columns: minmax(0, 1fr); }
+  .crm-v4-root .v4-tarefa__quando { justify-self: start; }
+  .crm-v4-root .v4-nova__quando { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Mudar data (diálogo) */
+.crm-v4-root .v4-tarefas__mudar {
+  display: grid;
+  gap: var(--v4-space-3);
+}

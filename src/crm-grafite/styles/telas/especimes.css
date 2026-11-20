@@ -1,0 +1,244 @@
+/* ==========================================================================
+   CRM v4 · página de espécimes (/visual-v4/especimes, só preview local)
+   ========================================================================== */
+
+.crm-v4-root .v4-spec { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--v4-space-7); max-width: 1280px; }
+.crm-v4-root .v4-spec__sec { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--v4-space-4); scroll-margin-top: calc(var(--v4-c-sticky-top) + var(--v4-space-4)); }
+.crm-v4-root .v4-spec__sec > header { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-spec__sec > header p { margin: 0; max-width: 58ch; color: var(--v4-text-2); }
+.crm-v4-root .v4-spec__intro { display: grid; gap: var(--v4-space-4); }
+.crm-v4-root .v4-spec__intro .v4-pagehead { margin-bottom: 0; }
+.crm-v4-root .v4-spec code { font-family: var(--v4-font-mono); font-size: var(--v4-fs-meta); }
+.crm-v4-root .v4-spec__sub { display: grid; align-content: start; justify-items: start; gap: var(--v4-space-3); min-width: 0; }
+.crm-v4-root .v4-spec__sub > * { max-width: 100%; min-width: 0; }
+.crm-v4-root .v4-spec__sub > :is(.v4-tablebox, .v4-table-wrap, div[data-density], .v4-spec__grid, .v4-panel, .v4-tabs, .v4-scale, .v4-type) { justify-self: stretch; }
+.crm-v4-root .v4-spec__sub + .v4-spec__sub { margin-top: var(--v4-space-4); }
+.crm-v4-root .v4-spec__h3 {
+  margin: 0;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-semibold);
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-spec__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v4-space-3); }
+.crm-v4-root .v4-spec__row--top { align-items: flex-start; }
+.crm-v4-root .v4-spec__grid { display: grid; align-items: start; gap: var(--v4-space-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.crm-v4-root .v4-spec__grid > * { min-width: 0; }
+.crm-v4-root .v4-spec__grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.crm-v4-root .v4-spec__grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.crm-v4-root .v4-spec__nav { display: flex; flex-wrap: wrap; gap: var(--v4-space-1) var(--v4-space-2); margin: 0; padding: 0; list-style: none; }
+.crm-v4-root .v4-spec__note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v4-space-2);
+  margin: 0;
+  max-width: 68ch;
+  color: var(--v4-text-2);
+}
+.crm-v4-root .v4-spec__note .v4-icon { color: var(--v4-info); margin-top: 1px; }
+
+/* Matriz variante × estado */
+.crm-v4-root .v4-spec-matrix { width: 100%; border-collapse: collapse; }
+.crm-v4-root .v4-spec-matrix th,
+.crm-v4-root .v4-spec-matrix td {
+  padding: var(--v4-space-3) var(--v4-space-3) var(--v4-space-3) 0;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-spec-matrix thead th { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-spec-matrix tbody th { color: var(--v4-text-2); font-weight: var(--v4-weight-medium); white-space: nowrap; }
+.crm-v4-root .v4-spec-scroll { overflow-x: auto; }
+
+/* Amostras de superfície */
+.crm-v4-root .v4-swatch {
+  display: grid;
+  gap: var(--v4-space-1);
+  min-height: 112px;
+  padding: var(--v4-space-3);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+}
+.crm-v4-root .v4-swatch__name { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-swatch--ambiente { background: var(--v4-surface-ambient); background-image: var(--v4-surface-ambient-image); }
+.crm-v4-root .v4-swatch--estrutura { background: var(--v4-surface-structure); backdrop-filter: blur(var(--v4-blur-structure)); }
+.crm-v4-root .v4-swatch--trabalho { background: var(--v4-surface-work); }
+.crm-v4-root .v4-swatch--flutuante { background: var(--v4-surface-float); box-shadow: var(--v4-shadow-float); }
+.crm-v4-root .v4-swatch--campo { background: var(--v4-surface-field); border-color: var(--v4-control-border); }
+.crm-v4-root .v4-swatch--acao { background: var(--v4-action); color: var(--v4-text-on-action); border-color: var(--v4-action); }
+.crm-v4-root .v4-swatch--acao .v4-t-meta { color: var(--v4-text-on-action); }
+.crm-v4-root .v4-swatch--suavez { background: var(--v4-attention-soft); color: var(--v4-attention); }
+.crm-v4-root .v4-swatch--sucesso { background: var(--v4-success-soft); color: var(--v4-success); }
+.crm-v4-root .v4-swatch--atencao { background: var(--v4-warning-soft); color: var(--v4-warning); }
+.crm-v4-root .v4-swatch--erro { background: var(--v4-danger-soft); color: var(--v4-danger); }
+.crm-v4-root .v4-swatch--info { background: var(--v4-info-soft); color: var(--v4-info); }
+.crm-v4-root .v4-swatch--suavez .v4-t-meta,
+.crm-v4-root .v4-swatch--sucesso .v4-t-meta,
+.crm-v4-root .v4-swatch--atencao .v4-t-meta,
+.crm-v4-root .v4-swatch--erro .v4-t-meta,
+.crm-v4-root .v4-swatch--info .v4-t-meta { color: inherit; }
+
+/* Escala de espaço e raio */
+.crm-v4-root .v4-scale { display: grid; gap: var(--v4-space-2); }
+.crm-v4-root .v4-scale__row { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: var(--v4-space-3); }
+.crm-v4-root .v4-scale__bar { height: 12px; border-radius: var(--v4-radius-check); background: var(--v4-text-3); }
+.crm-v4-root .v4-scale__bar--1 { width: var(--v4-space-1); }
+.crm-v4-root .v4-scale__bar--2 { width: var(--v4-space-2); }
+.crm-v4-root .v4-scale__bar--3 { width: var(--v4-space-3); }
+.crm-v4-root .v4-scale__bar--4 { width: var(--v4-space-4); }
+.crm-v4-root .v4-scale__bar--5 { width: var(--v4-space-5); }
+.crm-v4-root .v4-scale__bar--6 { width: var(--v4-space-6); }
+.crm-v4-root .v4-scale__bar--7 { width: var(--v4-space-7); }
+.crm-v4-root .v4-radius {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 64px;
+  border: 1px solid var(--v4-control-border);
+  background: var(--v4-surface-raised);
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+}
+.crm-v4-root .v4-radius--panel { border-radius: var(--v4-radius-panel); }
+.crm-v4-root .v4-radius--menu { border-radius: var(--v4-radius-menu); }
+.crm-v4-root .v4-radius--control { border-radius: var(--v4-radius-control); }
+.crm-v4-root .v4-radius--pill { border-radius: var(--v4-radius-pill); }
+
+/* Tipografia */
+.crm-v4-root .v4-type { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-type__row { display: grid; grid-template-columns: 148px minmax(0, 1fr); align-items: baseline; gap: var(--v4-space-3); }
+.crm-v4-root .v4-type__mono { font-family: var(--v4-font-mono); font-variant-numeric: tabular-nums; }
+
+/* Vidro x sólido: cabeçalho de estrutura sobre linhas que rolam por baixo */
+.crm-v4-root .v4-glassdemo {
+  position: relative;
+  height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-ambient);
+  background-image: var(--v4-surface-ambient-image);
+}
+.crm-v4-root .v4-glassdemo__bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2);
+  height: 48px;
+  padding: 0 var(--v4-space-4);
+  border-bottom: 1px solid var(--v4-border-deco);
+  background: var(--v4-surface-structure);
+  backdrop-filter: blur(var(--v4-blur-structure));
+  -webkit-backdrop-filter: blur(var(--v4-blur-structure));
+  font-weight: var(--v4-weight-semibold);
+}
+.crm-v4-root .v4-glassdemo__rows { display: grid; gap: var(--v4-space-2); padding: var(--v4-space-3) var(--v4-space-4); margin-top: -48px; padding-top: 60px; }
+.crm-v4-root .v4-glassdemo__row { padding: var(--v4-space-2) var(--v4-space-3); border-radius: var(--v4-radius-control); background: var(--v4-surface-work); }
+
+/* Densidades lado a lado */
+.crm-v4-root .v4-dens { min-width: 0; display: grid; align-content: start; gap: var(--v4-space-3); padding-top: var(--v4-space-3); border-top: 1px solid var(--v4-border-divider); }
+.crm-v4-root .v4-dens__stack { display: grid; gap: var(--v4-space-3); }
+
+/* ---------- Grafite ---------- */
+.crm-v4-root .v4-radius--bar { border-radius: var(--v4-radius-bar); }
+.crm-v4-root .v4-spec-largura { max-width: 720px; }
+.crm-v4-root .v4-swatch--g-ambiente { background: var(--v4-surface-ambient); background-image: var(--v4-g-ambient-light), var(--v4-g-ambient-base); }
+.crm-v4-root .v4-swatch--g-vidro {
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root .v4-swatch--g-vidro-up {
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+.crm-v4-root .v4-swatch--g-folha { background: var(--v4-g-sheet); border-radius: var(--v4-radius-panel); }
+.crm-v4-root .v4-swatch--g-flutuante {
+  border-color: var(--v4-g-float-border);
+  border-radius: var(--v4-radius-bar);
+  background: var(--v4-g-float-fill);
+  box-shadow: var(--v4-g-float-shadow);
+}
+.crm-v4-root .v4-swatch--g-acao { border-color: transparent; background: var(--v4-g-action-fill); box-shadow: var(--v4-g-action-shadow); color: var(--v4-g-action-on); }
+.crm-v4-root .v4-swatch--g-relevo { border-color: transparent; background: var(--v4-g-raised-fill); box-shadow: var(--v4-g-raised-shadow); color: var(--v4-g-raised-on); }
+.crm-v4-root :is(.v4-swatch--g-acao, .v4-swatch--g-relevo) .v4-t-meta { color: inherit; }
+.crm-v4-root[data-visual="grafite"] .v4-glassdemo__bar {
+  border-bottom-color: var(--v4-g-float-border);
+  background: var(--v4-g-float-fill);
+  box-shadow: var(--v4-g-float-shadow);
+  backdrop-filter: var(--v4-g-float-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-float-backdrop);
+}
+.crm-v4-root[data-visual="grafite"] .v4-glassdemo__row { background: var(--v4-g-card-fill); box-shadow: var(--v4-g-card-shadow); }
+
+/* Composição de Conversas no Grafite (só nesta página: .v4-spec; a tela real é a Fase 3): três regiões de vidro. Cabeçalho e barra de resposta
+   flutuam sobre a conversa (a conversa rola por baixo deles). A região da conversa leva o vidro
+   numa placa (::before) para o flutuante conseguir desfocar o que passa por baixo. */
+.crm-v4-root[data-visual="grafite"] .v4-spec :is(.v4-conv__list, .v4-conv__ctx) {
+  border-color: var(--v4-g-glass-border);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+  backdrop-filter: var(--v4-g-glass-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-glass-backdrop);
+}
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv__list-head { border-bottom: 0; }
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv__main {
+  /* cabeçalho flutuante (52 + 10 de folga) e barra de resposta (altura medida: --v4-dock-h) */
+  --v4-conv-topo: 74px;
+  --v4-conv-base: calc(var(--v4-dock-h, 146px) + 20px);
+  position: relative;
+  isolation: isolate;
+  border-color: var(--v4-g-glass-border);
+  background: transparent;
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv__main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--v4-z-behind);
+  border-radius: inherit;
+  background: var(--v4-g-glass-up-fill);
+  backdrop-filter: var(--v4-g-glass-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-glass-backdrop);
+  pointer-events: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv__main-head {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  z-index: var(--v4-z-sticky);
+  min-height: 52px;
+  padding: var(--v4-space-2) var(--v4-space-2) var(--v4-space-2) var(--v4-space-3);
+  border: 1px solid var(--v4-g-float-border);
+  border-radius: var(--v4-radius-bar);
+  background: var(--v4-g-float-fill);
+  box-shadow: var(--v4-g-float-shadow);
+  backdrop-filter: var(--v4-g-float-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-float-backdrop);
+}
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv__thread {
+  padding-top: var(--v4-conv-topo);
+  padding-bottom: var(--v4-conv-base);
+  scroll-padding-block: var(--v4-conv-topo) var(--v4-conv-base);
+}
+.crm-v4-root[data-visual="grafite"] .v4-spec .v4-conv .v4-dock {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  z-index: var(--v4-z-sticky);
+}
+
+/* Amostras e demonstrações sobre a camada flutuante usam o texto da camada flutuante */
+.crm-v4-root[data-visual="grafite"] :is(.v4-swatch--g-flutuante, .v4-glassdemo__bar) {
+  --v4-text-2: var(--v4-g-text-2-float);
+  --v4-text-3: var(--v4-g-text-3-float);
+}

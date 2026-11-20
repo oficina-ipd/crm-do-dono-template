@@ -1,0 +1,482 @@
+/* ==========================================================================
+   CRM v4 · Funil
+   O quadro abre a tela em altura cheia; cada coluna rola sozinha e tem cabeçalho fixo.
+   >= 768 px: colunas lado a lado, com rolagem horizontal dentro da região (a página não rola).
+   < 768 px: lista agrupada por etapa, rolando com a página.
+   ========================================================================== */
+
+/* Dentro do invólucro das telas v3 (.crm-v4-legado), a regra única da casca (base.css,
+   [data-v4-tela]) devolve fundo e fonte da v4. */
+
+/* Esqueleto do loading.tsx: o v4 só aparece dentro da casca v4; o v3 some ali */
+.crm-v4-root .v4-so-v4[hidden] { display: block; }
+.crm-v4-root .v4-so-v3 { display: none; }
+
+.crm-v4-root .v4-funil {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-space-3);
+  height: calc(100dvh - var(--v4-c-header-h) - (2 * var(--v4-c-page-pad)));
+  min-height: 520px;
+  min-width: 0;
+  font-family: var(--v4-font-sans);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-funil .v4-pagehead { margin-bottom: 0; }
+.crm-v4-root .v4-funil .v4-toolbar { flex: none; }
+.crm-v4-root .v4-funil__n { color: var(--v4-text-3); }
+.crm-v4-root .v4-btn[aria-pressed="true"] .v4-funil__n { color: var(--v4-text-2); }
+.crm-v4-root .v4-funil__contagem { white-space: nowrap; }
+
+.crm-v4-root .v4-funil__aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v4-space-2);
+  margin: 0;
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-info-soft);
+  color: var(--v4-text-1);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-funil__aviso > .v4-icon { color: var(--v4-info); width: 16px; height: 16px; }
+
+.crm-v4-root .v4-funil__estado {
+  flex: 1;
+  min-height: 0;
+  padding: var(--v4-space-5);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+
+.crm-v4-root .v4-funil__erro {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v4-space-2);
+  margin: var(--v4-space-3) 0 0;
+  color: var(--v4-danger);
+}
+
+/* ---------- Taxa por etapa (faixa recolhível) ---------- */
+.crm-v4-root .v4-taxas {
+  flex: none;
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-menu);
+  background: var(--v4-surface-work);
+}
+.crm-v4-root .v4-taxas__cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-1);
+}
+.crm-v4-root .v4-taxas__alternar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-2);
+  min-height: var(--v4-c-control-h);
+  padding: 0 var(--v4-space-3) 0 var(--v4-space-2);
+  border: 0;
+  border-radius: var(--v4-radius-control);
+  background: transparent;
+  color: var(--v4-text-1);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root .v4-taxas__alternar:hover { background: var(--v4-surface-hover); }
+.crm-v4-root .v4-taxas__corpo:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: -2px; }
+.crm-v4-root .v4-taxas__alternar:focus-visible { outline: var(--v4-focus-width) solid var(--v4-focus); outline-offset: 0; }
+.crm-v4-root .v4-taxas__alternar > .v4-icon { color: var(--v4-text-2); }
+.crm-v4-root .v4-taxas__titulo { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-taxas__janela { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+.crm-v4-root .v4-taxas__periodo { display: flex; align-items: center; gap: var(--v4-space-2); padding-right: var(--v4-space-1); }
+.crm-v4-root .v4-taxas__corpo {
+  display: grid;
+  gap: var(--v4-space-3);
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: var(--v4-space-1) var(--v4-space-4) var(--v4-space-4);
+  border-top: 1px solid var(--v4-border-divider);
+  padding-top: var(--v4-space-3);
+}
+.crm-v4-root .v4-taxas__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--v4-space-3) var(--v4-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.crm-v4-root .v4-taxas__item { display: grid; gap: 2px; min-width: 0; }
+.crm-v4-root .v4-taxas__par { color: var(--v4-text-2); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+.crm-v4-root .v4-taxas__valor { font-size: var(--v4-fs-section); line-height: var(--v4-lh-section); font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-taxas__valor .v4-num { font-weight: var(--v4-weight-medium); }
+.crm-v4-root .v4-taxas__pequena { color: var(--v4-text-2); font-size: var(--v4-fs-ui); line-height: var(--v4-lh-ui); font-weight: var(--v4-weight-regular); }
+.crm-v4-root .v4-taxas__abaixo { color: var(--v4-warning); }
+.crm-v4-root span.v4-taxas__abaixo:not(.v4-num) { font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); font-weight: var(--v4-weight-regular); }
+.crm-v4-root .v4-taxas__meta { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+
+/* ---------- Quadro ---------- */
+.crm-v4-root .v4-quadro {
+  /* posicionado: o texto só para leitor de tela (absoluto) fica preso à rolagem do quadro */
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(248px, 1fr);
+  gap: var(--v4-space-3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding-bottom: var(--v4-space-1);
+  scroll-padding-inline: var(--v4-space-2);
+}
+.crm-v4-root .v4-quadro:focus { outline: none; }
+
+.crm-v4-root .v4-coluna {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-radius: var(--v4-radius-menu);
+  background: var(--v4-surface-sunken);
+}
+.crm-v4-root .v4-coluna__cabeca {
+  flex: none;
+  display: grid;
+  gap: 2px;
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border-bottom: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-coluna__nome {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-semibold);
+}
+.crm-v4-root .v4-coluna__numeros {
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  white-space: nowrap;
+}
+.crm-v4-root .v4-coluna__vazia {
+  margin: 0;
+  padding: var(--v4-space-3);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-coluna__lista {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-space-2);
+  margin: 0;
+  padding: var(--v4-space-2);
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+.crm-v4-root .v4-coluna--perdidas { background: none; border: 1px dashed var(--v4-border-deco); }
+
+/* ---------- Cartão ---------- */
+.crm-v4-root .v4-cartao {
+  position: relative;
+  flex: none;
+  display: grid;
+  gap: var(--v4-space-1);
+  padding: var(--v4-space-2) var(--v4-space-3) var(--v4-space-3);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-work);
+  transition: border-color var(--v4-dur-hover) var(--v4-ease-out), background-color var(--v4-dur-hover) var(--v4-ease-out);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 132px;
+}
+.crm-v4-root .v4-cartao:hover { border-color: var(--v4-control-border); }
+.crm-v4-root .v4-cartao:has(.v4-cartao__link:focus-visible) {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: 1px;
+}
+.crm-v4-root .v4-cartao[data-parado] { border-color: var(--v4-warning-border); }
+.crm-v4-root .v4-cartao[aria-busy="true"] { border-style: dashed; border-color: var(--v4-control-border); }
+.crm-v4-root .v4-cartao--perdida { background: none; }
+
+.crm-v4-root .v4-cartao__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-2);
+  min-height: var(--v4-c-control-h-sm);
+}
+.crm-v4-root .v4-cartao__link {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--v4-text-1);
+  font-weight: var(--v4-weight-medium);
+  text-decoration: none;
+}
+.crm-v4-root .v4-cartao__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.crm-v4-root .v4-cartao__link:focus-visible { outline: none; }
+.crm-v4-root .v4-cartao__link:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--v4-control-border); }
+.crm-v4-root .v4-cartao__acima { position: relative; z-index: var(--v4-z-work); flex: none; }
+.crm-v4-root .v4-cartao__mover { margin-right: calc(-1 * var(--v4-space-1)); color: var(--v4-text-2); }
+
+.crm-v4-root .v4-cartao__empresa,
+.crm-v4-root .v4-cartao__meta {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-cartao__linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v4-space-1) var(--v4-space-2);
+  margin-top: 2px;
+}
+.crm-v4-root .v4-cartao__valor { color: var(--v4-text-1); }
+.crm-v4-root .v4-cartao__tempo { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); white-space: nowrap; }
+.crm-v4-root .v4-cartao__trave { color: var(--v4-text-2); }
+.crm-v4-root .v4-cartao__tarefa {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-1);
+  min-width: 0;
+  margin: 0;
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-cartao__tarefa > .v4-icon { width: 14px; height: 14px; color: var(--v4-text-3); }
+.crm-v4-root .v4-cartao__tarefa-texto { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crm-v4-root .v4-cartao__tarefa-data { flex: none; margin-left: auto; color: var(--v4-text-3); white-space: nowrap; }
+.crm-v4-root .v4-cartao__tarefa.is-atrasada .v4-cartao__tarefa-data,
+.crm-v4-root .v4-cartao__tarefa.is-atrasada > .v4-icon { color: var(--v4-warning); }
+.crm-v4-root .v4-cartao__tarefa.is-vazia { color: var(--v4-text-3); }
+.crm-v4-root .v4-cartao--esq { gap: var(--v4-space-2); content-visibility: visible; }
+
+/* Esqueleto */
+.crm-v4-root .v4-funil__esq-cabeca,
+.crm-v4-root .v4-funil__esq-barra { display: flex; align-items: center; gap: var(--v4-space-3); }
+.crm-v4-root .v4-funil__esq-cabeca { padding-block: var(--v4-space-1); }
+.crm-v4-root .v4-funil__esq-cabeca .v4-skel--title { width: 120px; }
+.crm-v4-root .v4-funil__esq-barra .v4-skel--control { width: 160px; }
+.crm-v4-root .v4-funil__esq-barra .v4-skel--control:first-child { width: 300px; }
+.crm-v4-root .v4-funil__esq-faixa {
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--v4-c-control-h) + 2 * var(--v4-space-1) + 2px);
+  margin-top: var(--v4-space-3);
+  padding: 0 var(--v4-space-3);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-menu);
+}
+.crm-v4-root .v4-funil__esq-faixa .v4-skel { width: 140px; }
+
+/* ---------- Tela pequena: lista agrupada por etapa ---------- */
+@media (max-width: 767px) {
+  .crm-v4-root .v4-funil { height: auto; min-height: 0; }
+  .crm-v4-root .v4-funil .v4-toolbar__grow { flex-basis: 100%; max-width: none; }
+  .crm-v4-root .v4-funil__contagem { width: 100%; }
+  .crm-v4-root .v4-quadro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--v4-space-4);
+    overflow: visible;
+  }
+  .crm-v4-root .v4-coluna { background: none; border-radius: 0; }
+  .crm-v4-root .v4-coluna__cabeca {
+    position: sticky;
+    top: var(--v4-c-sticky-top);
+    z-index: var(--v4-z-sticky);
+    padding-inline: 0;
+    background: var(--v4-surface-ambient);
+  }
+  .crm-v4-root .v4-coluna__lista { overflow: visible; padding-inline: 0; }
+  .crm-v4-root .v4-coluna__vazia { padding-inline: 0; }
+  .crm-v4-root .v4-coluna--perdidas { border: 0; }
+  .crm-v4-root .v4-funil__estado { padding: var(--v4-space-4); }
+}
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): título, contagem, busca e filtros na faixa do topo
+   (<FaixaTopo>); abaixo, "Taxa por etapa" recolhida numa barra fina e o quadro em altura
+   cheia. Só o quadro rola para o lado e só cada coluna rola na vertical. Colunas de vidro
+   com cabeçalho fixo; cartões em relevo, sem desfoque (o fundo atrás é a luz lisa).
+   ========================================================================== */
+
+.crm-v4-root[data-visual="grafite"] .v4-funil .v4-faixa__titulo { flex: none; }
+/* Filtro ligado é relevo claro: o número acompanha o texto escuro do relevo */
+.crm-v4-root[data-visual="grafite"] .v4-btn[aria-pressed="true"] .v4-funil__n { color: var(--v4-g-raised-on-2); }
+
+/* Taxa por etapa: barra de vidro fina, fechada por padrão */
+.crm-v4-root[data-visual="grafite"] .v4-taxas {
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-bar);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-taxas__cabeca { padding: 3px; }
+.crm-v4-root[data-visual="grafite"] .v4-taxas__alternar {
+  min-height: var(--v4-c-control-h-sm);
+  border-radius: calc(var(--v4-radius-bar) - 3px);
+}
+
+/* Avisos (quadro parcial, trave indisponível): mesma forma das barras */
+.crm-v4-root[data-visual="grafite"] .v4-funil__aviso { border-radius: var(--v4-radius-bar); }
+
+/* Vazio, sem resultado, erro e sem permissão: um painel de vidro no lugar do quadro */
+.crm-v4-root[data-visual="grafite"] .v4-funil__estado {
+  border-color: var(--v4-g-glass-border);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+
+/* ---------- Quadro: rola só para o lado ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-quadro {
+  /* folga de 8 px em volta das colunas: a borda e a sombra não ficam cortadas pela rolagem.
+     Metade sai da margem (a folga da região de conteúdo); a barra de taxas e os avisos entram
+     4 px para alinhar com as colunas. */
+  margin-inline: calc(-1 * var(--v4-space-1));
+  padding: 0 var(--v4-space-2) var(--v4-space-2);
+  scroll-padding-inline: var(--v4-space-2);
+}
+.crm-v4-root[data-visual="grafite"] .v4-funil > :is(.v4-taxas, .v4-funil__aviso, .v4-funil__estado) { margin-inline: var(--v4-space-1); }
+
+/* ---------- Coluna: vidro, cabeçalho fixo, lista que rola sozinha ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-coluna {
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: 20px;
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+  overflow: clip;
+}
+/* Cabeçalho em duas linhas (nome; quantidade e soma): os nomes reais das etapas são longos e
+   não cabem numa linha com os números sem cortar. Fica fora da lista, então não rola. */
+.crm-v4-root[data-visual="grafite"] .v4-coluna__cabeca { padding: 10px 14px; }
+.crm-v4-root[data-visual="grafite"] .v4-coluna__numeros { color: var(--v4-text-3); }
+.crm-v4-root[data-visual="grafite"] .v4-coluna__numeros > .v4-num:last-child { color: var(--v4-text-2); }
+.crm-v4-root[data-visual="grafite"] .v4-coluna__lista { padding: var(--v4-space-2); }
+.crm-v4-root[data-visual="grafite"] .v4-coluna__vazia { padding: var(--v4-space-3) 14px; }
+.crm-v4-root[data-visual="grafite"] .v4-coluna--perdidas {
+  border-style: dashed;
+  background: none;
+  box-shadow: none;
+}
+
+/* ---------- Cartão: relevo (degradê claro, brilho no topo, sombra), sem desfoque ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-cartao {
+  gap: 3px;
+  padding: var(--v4-space-2) var(--v4-space-3) 10px;
+  border-color: var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-g-card-fill);
+  box-shadow: var(--v4-g-card-shadow);
+  transition: background-color var(--v4-dur-hover) var(--v4-ease-out), border-color var(--v4-dur-hover) var(--v4-ease-out);
+}
+.crm-v4-root[data-visual="grafite"] .v4-cartao:hover {
+  border-color: var(--v4-border-deco);
+  background: linear-gradient(var(--v4-surface-hover), var(--v4-surface-hover)), var(--v4-g-card-fill);
+}
+/* Parado: dito em texto com ícone (âmbar fica para quem precisa de uma pessoa agora) */
+.crm-v4-root[data-visual="grafite"] .v4-cartao[data-parado] { border-color: var(--v4-border-deco); }
+.crm-v4-root[data-visual="grafite"] .v4-cartao[aria-busy="true"] { border-style: dashed; border-color: var(--v4-control-border); }
+.crm-v4-root[data-visual="grafite"] .v4-cartao--perdida { background: none; box-shadow: none; }
+.crm-v4-root[data-visual="grafite"] .v4-cartao__topo { min-height: 28px; }
+.crm-v4-root[data-visual="grafite"] .v4-cartao__link { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root[data-visual="grafite"] .v4-cartao__mover { min-height: 28px; color: var(--v4-text-2); }
+/* Cartão aberto: empresa à esquerda e valor no fim da linha. A perdida na trave (valor e data)
+   mantém a linha do neutro, com os dois nas pontas. */
+.crm-v4-root[data-visual="grafite"] .v4-cartao:not(.v4-cartao--perdida) .v4-cartao__linha {
+  flex-wrap: nowrap;
+  margin-top: 0;
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root[data-visual="grafite"] .v4-cartao__linha .v4-cartao__empresa { color: var(--v4-text-3); }
+.crm-v4-root[data-visual="grafite"] .v4-cartao:not(.v4-cartao--perdida) .v4-cartao__linha .v4-cartao__valor {
+  flex: none;
+  margin-left: auto;
+  color: var(--v4-text-2);
+}
+.crm-v4-root[data-visual="grafite"] .v4-cartao__parado {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-1);
+  color: var(--v4-text-1);
+  vertical-align: top;
+}
+.crm-v4-root[data-visual="grafite"] .v4-cartao__parado > .v4-icon { width: 14px; height: 14px; }
+
+/* Esqueleto: no Grafite o título e os filtros esperam na faixa do topo (mesma geometria da
+   tela pronta); no neutro, a faixa do esqueleto não existe e valem cabeçalho e barra. */
+.crm-v4-root:not([data-visual="grafite"]) .v4-funil__esq-topo { display: none; }
+.crm-v4-root[data-visual="grafite"] :is(.v4-funil__esq-cabeca, .v4-funil__esq-barra) { display: none; }
+.crm-v4-root .v4-funil__esq-topo .v4-skel--title { width: 72px; }
+.crm-v4-root .v4-funil__esq-topo .v4-skel--control { width: 132px; }
+.crm-v4-root .v4-funil__esq-topo .v4-skel--control:first-of-type { width: 260px; }
+.crm-v4-root[data-visual="grafite"] .v4-funil__esq-faixa {
+  min-height: calc(var(--v4-c-control-h-sm) + 8px);
+  margin-top: 0;
+  border-color: var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-bar);
+  background: var(--v4-g-glass-fill);
+}
+.crm-v4-root[data-visual="grafite"] .v4-cartao--esq { background: var(--v4-g-card-fill); }
+
+/* ---------- Celular: a faixa desce para o conteúdo; quadro vira lista agrupada ---------- */
+@media (max-width: 767px) {
+  .crm-v4-root[data-visual="grafite"] .v4-funil .v4-faixa {
+    position: static;
+    flex: none;
+    flex-wrap: wrap;
+    row-gap: var(--v4-space-2);
+    height: auto;
+    padding-left: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-funil .v4-faixa > .v4-faixa__controles { flex-basis: 100%; }
+  .crm-v4-root[data-visual="grafite"] .v4-funil .v4-faixa > .v4-faixa__controles > .v4-search { flex: 0 0 min(100%, 240px); }
+  .crm-v4-root[data-visual="grafite"] .v4-coluna { overflow: visible; }
+  .crm-v4-root[data-visual="grafite"] .v4-coluna__cabeca {
+    padding-inline: 14px;
+    border-radius: 20px 20px 0 0;
+    /* fixo ao rolar a lista: tom de cabeçalho já opaco (sem desfoque, que fica para as
+       superfícies grandes) */
+    background: var(--v4-g-thead-corner);
+    box-shadow: var(--v4-g-thead-shadow);
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-coluna__lista { padding-inline: var(--v4-space-2); }
+  .crm-v4-root[data-visual="grafite"] .v4-coluna__vazia { padding-inline: 14px; }
+}
+
+/* ==========================================================================
+   Template (CRM do dono): formulário de "Nova oportunidade" no diálogo
+   ========================================================================== */
+.crm-v4-root .v4-funil-nova { display: grid; gap: var(--v4-space-4); }

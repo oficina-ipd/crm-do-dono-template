@@ -1,5 +1,85 @@
 # Changelog
 
+## 1.4.0 — 2026-11-20
+
+### Agentes (da branch `feat/agentes-v2`, antes no PR #4)
+
+- Núcleo dos seis agentes (Cláudio, Scout, Scribe, Ledger, Pilot, Eco) com prompts específicos e saídas validadas por esquema; saída inválida cai nas regras locais.
+- Freios em código: sem preço nem condição em Cláudio e Pilot (inclusive na saída do modelo), Ledger nunca cobra, Pilot respeita 48 h entre toques, teto de 14 dias e opt-out.
+- Auto-atendimento Cláudio + Scout no webhook (opt-in: `CRM_CLAUDIO_AUTO_REPLY=1`, chave de IA e sessão do WhatsApp), com janela comercial, anti-loop e passagem para uma pessoa em preço, pedido de humano ou nota 9 e 10.
+- Pilot por rotina (`/api/agents/pilot/tick`): só sugere; envia sozinho apenas com `CRM_PILOT_AUTO=1`. Registro de decisões em `/api/agents/log`. Veja `docs/AGENTES-AUTOMATICOS.md`.
+
+### Visual e telas (Grafite, 1.2.0 e 1.3.0)
+
+- Entram na `main` o visual Grafite em todas as telas, o Painel, o histórico 360 na Ficha e o login com e-mail e senha (detalhes nas versões 1.3.0 e 1.2.0 abaixo).
+
+### Documentação
+
+- Capturas novas, de uma build de produção, no visual atual: Painel, Fila, Conversas, Funil, Pessoas, Ficha e Ficha 360 (aba Linha do tempo).
+- README em português e em inglês com a seção da Ficha e do histórico 360.
+
+## 1.3.0 — 2026-11-13
+
+### Novidades do CRM da comunidade (IPD, 12 e 13/11/2026)
+
+- **Painel** (#341 no CRM do IPD) é a nova tela de entrada (`#/`); a Fila passa para `#/fila` (o `#/hoje` antigo também leva a ela). Grade de cartões com:
+  - receita e vendas do mês, com o ritmo até o fim do mês;
+  - quem está esperando uma pessoa, com o motivo e "Abrir conversa";
+  - a 1ª resposta do robô e os pedidos de pessoa;
+  - gráfico do mês (receita, vendas, conversas), origem dos leads, e-mails enviados, conversas de hoje e funil;
+  - período (hoje, 7 dias, 30 dias, mês atual) e comparação com o mesmo trecho do período anterior. Tudo calculado do que o CRM tem; o que não é medido aparece como "sem medição".
+- **Ficha: histórico 360** (#340):
+  - uma linha do tempo única, por dia, com conversas, ligações, e-mails, propostas, pagamentos, etapas, tarefas, notas e ocorrências. Um dia só com mensagens nossas diz "Sem resposta no dia";
+  - painel **Comportamento**: quente, morna, fria ou "sem sinal ainda"; quando costuma escrever; quanto demora para responder.
+- **Entrar com e-mail e senha** e **Minha conta** (#342), com o Supabase ligado:
+  - `/entrar` no visual Grafite, com senha ou link por e-mail;
+  - só entra operador ativo, com a mesma recusa para qualquer erro, tempo mínimo de resposta e limite de tentativas;
+  - Minha conta troca a senha (pedindo a atual) e sai de todos os dispositivos. Como liberar alguém: `IMPLEMENTAR.md`, passo 3.
+- **Correções:**
+  - filtros de Pessoas à vista entre 768 e 1279 px (rolavam para o lado);
+  - o foco da tabela de Pessoas não fica mais sob o topo fixo;
+  - link de entrada vencido volta para `/entrar` com aviso;
+  - o pedido de link por e-mail responde igual para qualquer endereço.
+
+### Fica de fora (o template não tem esses dados)
+
+- Cartão Comunidade.
+- Abertura e clique de e-mail.
+- Meta de vendas ou faturamento no Painel.
+- Visitas ao site e junção de cadastros na Ficha.
+- Link de senha gerado pelo dono e bloqueio de tentativas gravado no banco. O caminho para cada um está descrito no PR.
+
+## 1.2.0 — 2026-11-12
+
+### Visual Grafite em todo o CRM
+
+O redesign do CRM da comunidade IA para Donos (10 a 12/11/2026) chega ao template. Ele foi auditado em acessibilidade e usabilidade antes de vir para cá.
+
+- **Novo visual Grafite** (escuro, vidro controlado, luz verde, âmbar só em "precisa de você"). Todas as cores ficam num bloco só (`src/crm-grafite/styles/tokens.css`). Para trocar pela cor da sua marca, veja [docs/DESIGN.md](docs/DESIGN.md).
+- **Moldura fixa:** a página não rola, só a lista, a tabela, o quadro ou a conversa. Há um menu de ícones (com opção de mostrar os nomes) e uma faixa única no topo, com título, contagem, busca e filtros.
+- **Telas refeitas pela tarefa:**
+  - **Fila** (antes Hoje): quem pediu uma pessoa, tarefas e oportunidades paradas, mais o resumo do dia.
+  - **Conversas:** todas as conversas, busca, filtros, "carregar anteriores", barra de posse (Assumir mostra o aviso antes) e o contexto ao lado.
+  - **Ficha:** conversa, linha do tempo única, briefing, proposta, link de pagamento e termômetro.
+  - **Funil:** quadro em altura cheia, "Mover para…" por menu e teclado, perda com motivo, filtros de parados e "bateu na trave", taxa por etapa com "amostra pequena".
+  - **Pessoas** (antes Leads e Clientes): tabela com ordenação, filtros e WhatsApp mascarado.
+  - **Tarefas:** concluir, reabrir e **mudar data** na linha.
+  - **Agentes**, **Relance**, **Resultados**, **Origem dos leads**, **Metas**, **Sessão fechada**, **Ocorrências** e **Ligações**.
+  - **Configuração** no menu do usuário: Produtos, Equipe, Modelos de mensagem, Playbook e Integrações.
+- **⌘K** busca pessoa por nome ou telefone e vai para qualquer tela. Atalhos `J`/`K`, `/` e `⌘Enter`.
+- **Modo sólido** (sem vidro) e **densidade** compacta ou confortável no menu do usuário.
+- **Acessibilidade:** nenhum texto abaixo de 12 px, foco visível próprio, alvo de 44 px em toque, `Esc` fecha e devolve o foco, movimento e transparência reduzidos respeitados.
+- **Fonte Onest** empacotada (`@fontsource-variable/onest`); funciona sem internet.
+- **Novo comando `reagendarTarefa`** e ferramenta MCP `crm_tarefas_reagendar`. O mapa de telas do MCP (`crm_mapa_telas`) aponta para os arquivos novos.
+- **Correções:**
+  - O código de funil gerado a partir de nome com acento saía quebrado ("Perpétuo" virava "perpe-tuo").
+  - As iniciais do avatar ignoram o que está entre parênteses.
+
+### Removido
+
+- A casca v3 (`src/crm-v3/`) e as telas antigas (`src/screens/`). O app agora fica em `src/components/crm/App.tsx` e as telas em `src/crm-grafite/telas/`.
+- Os scripts de captura de tela da v3 e as capturas antigas.
+
 ## 1.1.0 — 2026-11-04
 
 ### Relance · Agente Ember (Reciclador de oportunidades)

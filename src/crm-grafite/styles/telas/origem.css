@@ -1,0 +1,6 @@
+/* ==========================================================================
+   CRM v4 · Origem dos leads: o resto vem de resultados.css (tabelas, gráfico por dia)
+   ========================================================================== */
+
+.crm-v4-root .v4-org__funil { display: grid; gap: 2px; min-width: 0; }
+.crm-v4-root .v4-tela--origem .v4-panel__head .v4-seg { flex: none; }

@@ -1,7 +1,7 @@
 {
   "name": "crm-do-dono",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "CRM do dono · v3 instalável (IA para Donos). Contas + chaves e pronto. MCP-first.",
   "scripts": {
     "dev": "next dev",
@@ -21,6 +21,7 @@
     "@ai-sdk/anthropic": "^2.0.0",
     "@fontsource-variable/geist": "^5.2.0",
     "@fontsource-variable/geist-mono": "^5.2.0",
+    "@fontsource-variable/onest": "^5.3.1",
     "@mastra/core": "^0.24.0",
     "@modelcontextprotocol/sdk": "^1.32.1",
     "@supabase/ssr": "^0.7.0",

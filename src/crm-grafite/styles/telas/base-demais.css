@@ -1,0 +1,400 @@
+/* ==========================================================================
+   CRM v4 · base das telas Agentes, Relance, Resultados, Origem dos leads, Metas,
+   Sessão fechada, Ocorrências, Integração GrokBot, Ligações e Entrar.
+   ========================================================================== */
+
+/* Tela v4 migrada dentro da casca: o invólucro .crm-v4-legado some pela regra única da casca
+   (base.css, [data-v4-tela]); aqui a tela devolve a herança da v4. */
+.crm-v4-root .v4-tela {
+  --focus: var(--v4-focus);
+  display: grid;
+  align-content: start;
+  gap: var(--v4-c-region-gap);
+  min-width: 0;
+  color: var(--v4-text-1);
+  font-family: var(--v4-font-sans);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-regular);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+  caret-color: var(--v4-action);
+  accent-color: var(--v4-action);
+  scrollbar-color: var(--v4-p-ink-550) transparent;
+}
+.crm-v4-root .v4-tela ::selection {
+  background: var(--v4-selection);
+  color: var(--v4-text-1);
+}
+.crm-v4-root .v4-tela .v4-pagehead { margin-bottom: 0; }
+.crm-v4-root .v4-tela__estado {
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+
+/* loading.tsx: dentro da casca v4 aparece o esqueleto v4 e some o do v3 */
+.crm-v4-root .crm-carregando-v3 { display: none; }
+.crm-v4-root .v4-carregando[hidden] { display: grid; }
+
+/* Esqueleto com a geometria das telas */
+.crm-v4-root .v4-esq { display: grid; gap: var(--v4-c-region-gap); }
+.crm-v4-root .v4-esq__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--v4-space-4);
+  min-height: var(--v4-lh-title);
+}
+.crm-v4-root .v4-esq__head > .v4-skel--control { max-width: 320px; }
+.crm-v4-root .v4-esq__corpo { display: grid; gap: var(--v4-c-region-gap); }
+.crm-v4-root .v4-esq__corpo--formulario { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.crm-v4-root .v4-esq__painel {
+  display: grid;
+  gap: var(--v4-space-3);
+  padding: var(--v4-c-panel-pad);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-surface-work);
+}
+.crm-v4-root .v4-esq__campo { display: grid; gap: var(--v4-space-1); }
+.crm-v4-root .v4-esq__linha {
+  display: flex;
+  align-items: center;
+  min-height: var(--v4-c-row-h);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-esq__item {
+  display: grid;
+  gap: var(--v4-space-2);
+  padding-block: var(--v4-space-3);
+  border-top: 1px solid var(--v4-border-divider);
+}
+
+/* Estado de envio ao lado do botão de salvar */
+.crm-v4-root .v4-salvar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v4-space-1);
+  margin: 0;
+  min-height: var(--v4-lh-ui);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  color: var(--v4-text-2);
+}
+.crm-v4-root .v4-salvar:empty { display: none; }
+.crm-v4-root .v4-salvar--ok { color: var(--v4-success); }
+.crm-v4-root .v4-salvar--erro { color: var(--v4-danger); }
+.crm-v4-root .v4-salvar .v4-icon { flex: none; }
+
+/* Grade de painéis das telas de número e configuração */
+.crm-v4-root .v4-grade {
+  display: grid;
+  gap: var(--v4-c-region-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  align-items: start;
+}
+.crm-v4-root .v4-grade--lado {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+}
+@media (max-width: 1199px) {
+  .crm-v4-root .v4-grade--lado { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Formulário por seção */
+.crm-v4-root .v4-form { display: grid; gap: var(--v4-space-4); min-width: 0; }
+.crm-v4-root .v4-form__campos {
+  display: grid;
+  gap: var(--v4-space-4) var(--v4-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+.crm-v4-root .v4-form__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2) var(--v4-space-3);
+}
+.crm-v4-root .v4-form__grupo {
+  display: grid;
+  gap: var(--v4-space-3);
+  margin: 0;
+  padding: var(--v4-space-4) 0 0;
+  border: 0;
+  border-top: 1px solid var(--v4-border-divider);
+  min-width: 0;
+}
+.crm-v4-root .v4-form__grupo:first-child { padding-top: 0; border-top: 0; }
+.crm-v4-root .v4-form__grupo > legend {
+  float: left;
+  width: 100%;
+  margin-bottom: var(--v4-space-1);
+  padding: 0;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-semibold);
+}
+.crm-v4-root .v4-form__grupo > legend + * { clear: both; }
+.crm-v4-root .v4-checks { display: flex; flex-wrap: wrap; gap: var(--v4-space-2) var(--v4-space-4); }
+
+/* Nota de uma linha (contexto que muda a leitura da tela; não é cartão) */
+.crm-v4-root .v4-nota {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--v4-space-2);
+  margin: 0;
+  color: var(--v4-text-2);
+  max-width: 90ch;
+}
+.crm-v4-root .v4-nota .v4-icon { flex: none; margin-top: 1px; color: var(--v4-info); }
+.crm-v4-root .v4-nota--atencao .v4-icon { color: var(--v4-warning); }
+.crm-v4-root .v4-nota--erro .v4-icon { color: var(--v4-danger); }
+
+/* Indicadores em uma linha (rótulo + número), sem cartões */
+.crm-v4-root .v4-indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--v4-space-1) var(--v4-space-4);
+  margin: 0;
+  padding: var(--v4-space-2) var(--v4-space-3);
+  border: 1px solid var(--v4-border-deco);
+  border-radius: var(--v4-radius-control);
+  background: var(--v4-surface-work);
+}
+.crm-v4-root .v4-indicadores > div { display: inline-flex; align-items: baseline; gap: var(--v4-space-1); }
+.crm-v4-root .v4-indicadores dt { color: var(--v4-text-3); font-size: var(--v4-fs-meta); line-height: var(--v4-lh-meta); }
+.crm-v4-root .v4-indicadores dd { margin: 0; font-weight: var(--v4-weight-semibold); font-variant-numeric: tabular-nums; }
+
+/* Lista de fatos (dl) em duas colunas */
+.crm-v4-root .v4-fatos {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--v4-space-1) var(--v4-space-4);
+  margin: 0;
+}
+.crm-v4-root .v4-fatos dt { color: var(--v4-text-3); }
+.crm-v4-root .v4-fatos dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* Texto longo pré-formatado (prévia de sugestão, mensagem simulada) */
+.crm-v4-root .v4-texto-longo {
+  margin: 0;
+  max-width: 54ch;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--v4-text-1);
+}
+
+/* Barra do preview: rótulo de dados ilustrativos e troca de estado */
+.crm-v4-root .v4-previa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2);
+}
+.crm-v4-root .v4-previa__estados { display: flex; flex-wrap: wrap; gap: var(--v4-space-1); }
+.crm-v4-root .v4-tela--previa { margin-bottom: var(--v4-space-4); }
+.crm-v4-root .v4-previa__estados .is-atual {
+  background: var(--v4-surface-selected);
+  border-color: var(--v4-control-border);
+}
+
+@media (max-width: 767px) {
+  .crm-v4-root .v4-esq__head { flex-direction: column; align-items: stretch; }
+}
+
+/* Tabela dentro de painel: o painel já é a superfície (sem caixa dentro de caixa) */
+.crm-v4-root .v4-tela .v4-panel .v4-table-wrap {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.crm-v4-root .v4-tela .v4-table tr.is-total td,
+.crm-v4-root .v4-tela .v4-total { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-pilha { display: grid; gap: var(--v4-c-region-gap); min-width: 0; }
+.crm-v4-root .v4-grade--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.crm-v4-root > .v4-tela--previa { position: absolute; inset: 0 0 auto; padding: var(--v4-space-3) var(--v4-space-4); margin: 0; }
+
+/* Grafite: a barra de estados da prévia sem casca (Entrar) fica sobre a luz; ganha fundo próprio */
+.crm-v4-root[data-visual="grafite"] > .v4-tela--previa { background: var(--v4-g-sheet); }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite") · telas desta leva (TelaV4 marca .v4-tela--demais).
+   Sem o atributo nada daqui vale: a v4 neutra continua igual. Sem cor literal: só tokens.
+   - Uma faixa no topo: o cabeçalho da tela (título, contagem e ações) ocupa a faixa da casca,
+     ao lado da busca ⌘K, no mesmo lugar da <FaixaTopo>; o caminho da casca sai (repetia o título).
+   - Moldura fixa: só o conteúdo rola. Tabela longa rola dentro da própria folha, com o
+     cabeçalho de vidro fixo; Ocorrências e Ligações enchem a altura (tabela é a tela).
+   - Um painel por região: estados, esqueleto e indicadores viram vidro; nada de caixa em caixa.
+   ========================================================================== */
+
+/* Altura útil da região de conteúdo (moldura menos a faixa) e o teto de uma tabela dentro dela */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais {
+  --v4-c-demais-alto: calc(100dvh - (2 * var(--v4-c-page-pad)) - var(--v4-c-band-h) - var(--v4-c-region-gap));
+  --v4-c-demais-tabela-max: calc(var(--v4-c-demais-alto) - (2 * var(--v4-c-row-h)));
+}
+
+/* ---------- Faixa do topo ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-tela--demais > .v4-pagehead, .v4-tela--demais .v4-esq__head) .v4-header__where { visibility: hidden; }
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-tela--demais > .v4-pagehead, .v4-tela--demais .v4-esq__head) .v4-header__search {
+  width: var(--v4-c-search-compact-w);
+  margin-left: auto;
+}
+.crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-tela--demais > .v4-pagehead, .v4-tela--demais .v4-esq__head) .v4-header__search > span:first-of-type {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead,
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-esq__head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: calc(var(--v4-c-search-compact-w) + var(--v4-c-region-gap));
+  z-index: var(--v4-z-structure);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--v4-space-3);
+  height: var(--v4-c-band-h);
+  min-height: 0;
+  margin: 0;
+  padding-left: var(--v4-space-1);
+}
+/* Texto solto sobre a luz da faixa: só o nível 1 fecha 4,5:1 no ponto mais claro */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead {
+  --v4-text-2: var(--v4-text-1);
+  --v4-text-3: var(--v4-text-1);
+}
+/* Etiqueta na faixa (situação da campanha, dias sem fechar): fundo quase sólido, porque a luz
+   passa por baixo; o tom fica no texto e no ícone */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-tag {
+  border-color: var(--v4-g-float-border);
+  background: var(--v4-g-tooltip-fill);
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__main {
+  display: flex;
+  flex: 0 1000 auto;
+  align-items: center;
+  min-width: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__row {
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: var(--v4-space-3);
+  min-width: 0;
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-t-title {
+  flex: none;
+  margin: 0;
+  white-space: nowrap;
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__meta {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+/* Ações e filtros na mesma linha; o que não cabe rola para o lado dentro da faixa */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__actions {
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  min-width: 0;
+  margin: -4px;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__actions > * { flex: none; }
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-esq__head > .v4-skel { flex: 0 1 auto; }
+@media (max-width: 767px) {
+  .crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead,
+  .crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-esq__head {
+    left: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    right: calc(var(--v4-c-control-h) + var(--v4-space-2));
+    padding-left: 0;
+  }
+  .crm-v4-root[data-visual="grafite"] .v4-stage:has(.v4-tela--demais > .v4-pagehead, .v4-tela--demais .v4-esq__head) .v4-header__search { width: var(--v4-c-control-h); }
+  /* Sem espaço para a frase: o título e as ações ficam; a contagem segue nos painéis */
+  .crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead .v4-pagehead__meta { display: none; }
+  /* O título nunca fica por baixo das ações: são elas que rolam para o lado */
+  .crm-v4-root[data-visual="grafite"] .v4-tela--demais > .v4-pagehead:has(.v4-pagehead__actions > *) .v4-pagehead__main { min-width: auto; }
+}
+
+/* ---------- Vidro: estados, esqueleto e indicadores (um painel por região) ----------
+   Sem desfoque: atrás deles só há o ambiente (degradê liso), e o desfoque fica para as
+   superfícies grandes que têm conteúdo passando por baixo. */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais :is(.v4-tela__estado, .v4-esq__painel, .v4-indicadores) {
+  border-color: var(--v4-g-glass-border);
+  background: var(--v4-g-glass-fill);
+  box-shadow: var(--v4-g-glass-shadow);
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-indicadores {
+  gap: var(--v4-space-1) var(--v4-space-5);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad);
+  border-radius: var(--v4-radius-bar);
+}
+
+/* ---------- Tabelas no padrão de Pessoas ---------- */
+/* Tabela longa rola dentro da folha: o cabeçalho de vidro fica fixo e a coluna do nome também */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-table-wrap {
+  max-height: max(var(--v4-c-demais-tabela-max), calc(6 * var(--v4-c-row-h)));
+  overscroll-behavior-x: contain;
+}
+/* Hover na linha inteira (inclusive a célula fixa), também nas tabelas sem link */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-tablebox .v4-table-wrap .v4-table tbody tr:not(.v4-table__state):hover > td {
+  background: var(--v4-g-sheet-hover);
+}
+/* Célula que quebra linha (motivo, detalhe): a linha cresce com folga, o texto não encosta no fio */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-table td.is-wrap { padding-block: var(--v4-space-2); }
+/* Linha de estado (vazio): sem coluna fixa nem hover; o texto fica na parte visível da folha
+   (largura da região, presa à esquerda), mesmo quando os títulos das colunas rolam para o lado */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-table-wrap { container-type: inline-size; }
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-table .v4-table__state > td {
+  position: static;
+  white-space: normal;
+}
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais .v4-table .v4-table__state > td > * {
+  position: sticky;
+  left: var(--v4-c-panel-pad);
+  max-width: calc(100cqi - (2 * var(--v4-c-panel-pad)));
+}
+
+/* ---------- Tela cheia: a tabela é a tela (Ocorrências, Ligações) ---------- */
+.crm-v4-root[data-visual="grafite"] .v4-main:has(.v4-tela--ocorrencias, .v4-tela--pos-call) {
+  display: flex;
+  flex-direction: column;
+}
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) > * { flex: none; }
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) > .v4-panel {
+  flex: 1 1 auto;
+  min-height: calc(6 * var(--v4-c-row-h));
+}
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) > .v4-panel > .v4-panel__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) > .v4-panel > .v4-panel__body > * { flex: none; }
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) > .v4-panel > .v4-panel__body > .v4-tablebox {
+  flex: 1 1 auto;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+.crm-v4-root[data-visual="grafite"] :is(.v4-tela--ocorrencias, .v4-tela--pos-call) .v4-table-wrap { max-height: none; }
+
+/* Texto solto entre painéis (nota, rodapé): recuo próprio, nunca rente à borda da moldura */
+.crm-v4-root[data-visual="grafite"] .v4-tela--demais > :is(p, .v4-nota) { padding-inline: var(--v4-space-2); }

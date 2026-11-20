@@ -1,0 +1,368 @@
+/* ==========================================================================
+   CRM Grafite · Fila (rota #/)
+   Fila à esquerda (quem pediu uma pessoa, tarefas, oportunidades paradas), resumo do dia numa
+   coluna estreita à direita. Âmbar só no que precisa de uma pessoa agora.
+   Título e contagem ficam na faixa do topo (<FaixaTopo>, shell.css).
+   ========================================================================== */
+
+.crm-v4-root .v4-fila__teclas {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--v4-space-1);
+  margin: 0;
+  color: var(--v4-text-1);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  white-space: nowrap;
+}
+.crm-v4-root .v4-fila__teclas > span { margin-inline: 2px; }
+
+.crm-v4-root .v4-fila__grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 296px;
+  align-items: start;
+  gap: var(--v4-c-region-gap);
+}
+.crm-v4-root .v4-fila__principal { min-width: 0; }
+.crm-v4-root .v4-fila__lado { min-width: 0; }
+
+/* Grupo: cabeçalho e lista no mesmo recuo */
+.crm-v4-root .v4-fila__sec { padding-bottom: var(--v4-space-2); }
+.crm-v4-root .v4-fila__sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--v4-space-2);
+  padding: var(--v4-space-3) var(--v4-c-panel-pad) var(--v4-space-2);
+}
+.crm-v4-root .v4-fila__sec-titulo { min-width: 0; font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-fila__contagem {
+  flex: none;
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-fila__contagem.is-suavez { color: var(--v4-attention); font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-fila__ajuda,
+.crm-v4-root .v4-fila__sec-vazia {
+  margin: var(--v4-space-2) 0 0;
+  padding: 0 var(--v4-c-panel-pad);
+  max-width: 80ch;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+.crm-v4-root .v4-fila__sec-vazia {
+  margin-top: var(--v4-space-3);
+  padding-bottom: var(--v4-space-2);
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+}
+/* Pé do grupo (atalho para Tarefas): plano, no recuo da lista */
+.crm-v4-root .v4-fila__sec-pe {
+  display: flex;
+  justify-content: flex-start;
+  margin: var(--v4-space-1) var(--v4-space-2) 0;
+}
+
+/* Itens: sem divisor e sem caixa; separação por espaço, realce na linha inteira */
+.crm-v4-root .v4-fila__lista {
+  display: grid;
+  gap: 2px;
+  margin: var(--v4-space-2) 0 0;
+  padding: 0 var(--v4-space-2);
+  list-style: none;
+}
+
+/* Item: foco itinerante (J/K), contorno de foco próprio, nunca borda lateral */
+.crm-v4-root .v4-fila__item {
+  display: grid;
+  gap: var(--v4-space-1);
+  padding: var(--v4-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--v4-radius-control);
+  outline: none;
+  transition: border-color var(--v4-dur-hover) var(--v4-ease-out), box-shadow var(--v4-dur-hover) var(--v4-ease-out);
+}
+/* hover sem tinta clara (o texto 3 e o de erro perdem 4,5:1 sobre a luz): contorno do vidro */
+.crm-v4-root .v4-fila__item:hover { border-color: var(--v4-g-glass-border); }
+/* item ativo (J/K, clique, Tab): relevo leve, como a linha selecionada das listas */
+.crm-v4-root .v4-fila__item:focus-within,
+.crm-v4-root .v4-fila__item:focus-visible {
+  border-color: var(--v4-g-glass-border);
+  box-shadow: var(--v4-g-row-selected-shadow);
+}
+.crm-v4-root .v4-fila__item:focus-visible {
+  outline: var(--v4-focus-width) solid var(--v4-focus);
+  outline-offset: -2px;
+}
+
+.crm-v4-root .v4-fila__conteudo {
+  display: grid;
+  gap: var(--v4-space-1);
+  min-width: 0;
+}
+.crm-v4-root .v4-fila__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-1) var(--v4-space-2);
+  min-width: 0;
+}
+.crm-v4-root .v4-fila__nome {
+  margin: 0 var(--v4-space-1) 0 0;
+  min-width: 0;
+  font-size: var(--v4-fs-ui);
+  line-height: var(--v4-lh-ui);
+  font-weight: var(--v4-weight-semibold);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.crm-v4-root .v4-fila__meta {
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+
+.crm-v4-root .v4-fila__fatos {
+  display: grid;
+  gap: 0;
+  margin: var(--v4-space-1) 0 0;
+}
+.crm-v4-root .v4-fila__fatos > div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: var(--v4-space-3);
+}
+.crm-v4-root .v4-fila__fatos dt { color: var(--v4-text-3); }
+.crm-v4-root .v4-fila__fatos dd { margin: 0; color: var(--v4-text-1); max-width: 72ch; }
+.crm-v4-root .v4-fila__fatos dd.is-vazio { color: var(--v4-text-3); }
+
+.crm-v4-root .v4-fila__ultima {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: var(--v4-space-1) 0 0;
+  max-width: 80ch;
+  color: var(--v4-text-2);
+}
+.crm-v4-root .v4-fila__ultima-quem { color: var(--v4-text-3); }
+
+.crm-v4-root .v4-fila__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--v4-space-2);
+  margin-top: var(--v4-space-2);
+}
+
+/* Tarefa concluída no lugar: título riscado; a linha fica até a pessoa sair da tela */
+.crm-v4-root .v4-fila__item.is-feita .v4-fila__nome {
+  color: var(--v4-text-2);
+  text-decoration: line-through;
+  text-decoration-color: var(--v4-text-3);
+}
+
+/* Quem precisa de uma pessoa: ponto âmbar ao lado do nome (a etiqueta segue para leitor de tela) */
+.crm-v4-root .v4-fila__item--handoff .v4-fila__nome::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 var(--v4-space-2) 0 0;
+  border-radius: var(--v4-radius-pill);
+  background: var(--v4-attention);
+  vertical-align: 1px;
+}
+.crm-v4-root .v4-fila__item--handoff .v4-tag--suavez,
+.crm-v4-root .v4-fila__item--parada .v4-tag {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Prazo e vencimento: texto com ícone, sem etiqueta (erro e atenção continuam com a cor deles) */
+.crm-v4-root .v4-fila__topo .v4-tag {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: var(--v4-weight-regular);
+}
+.crm-v4-root .v4-fila__topo .v4-tag:not([class*="v4-tag--"]) { color: var(--v4-text-2); }
+
+/* Ações: verde só em "Abrir conversa" de quem precisa de uma pessoa (todas, não só a primeira) */
+.crm-v4-root .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary {
+  background: var(--v4-g-action-fill);
+  border-color: transparent;
+  color: var(--v4-g-action-on);
+  font-weight: var(--v4-weight-semibold);
+  box-shadow: var(--v4-g-action-shadow);
+}
+.crm-v4-root .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:hover, .is-hover) {
+  background: var(--v4-g-action-fill-hover);
+}
+.crm-v4-root .v4-fila__item--handoff .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:active, .is-pressed) {
+  background: var(--v4-g-action-fill);
+  box-shadow: var(--v4-g-action-shadow-pressed);
+}
+/* Oportunidade parada: abrir a ficha é leitura, não ação principal (botão sem relevo) */
+.crm-v4-root .v4-fila__item--parada .v4-fila__acoes .v4-btn--secondary {
+  background: none;
+  border-color: transparent;
+  color: var(--v4-text-2);
+  box-shadow: none;
+}
+.crm-v4-root .v4-fila__item--parada .v4-fila__acoes .v4-btn--secondary:not([aria-disabled="true"]):is(:hover, .is-hover) {
+  background: var(--v4-surface-hover);
+  color: var(--v4-text-1);
+}
+
+/* Resumo do dia */
+.crm-v4-root .v4-resumo {
+  display: grid;
+  gap: var(--v4-space-4);
+  margin: 0;
+}
+.crm-v4-root .v4-resumo__item {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.crm-v4-root .v4-resumo__item + .v4-resumo__item {
+  padding-top: var(--v4-space-4);
+  border-top: 1px solid var(--v4-border-divider);
+}
+.crm-v4-root .v4-resumo__rotulo {
+  color: var(--v4-text-2);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-weight: var(--v4-weight-medium);
+}
+.crm-v4-root .v4-resumo__valor {
+  margin: 0;
+  color: var(--v4-text-1);
+  font-size: var(--v4-fs-read);
+  line-height: var(--v4-lh-read);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-resumo__n { font-weight: var(--v4-weight-semibold); }
+.crm-v4-root .v4-resumo__nota {
+  margin: 0;
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+}
+
+/* Estado vazio: no recuo do painel */
+.crm-v4-root .v4-fila__principal > .v4-state { padding: var(--v4-c-panel-pad); }
+
+/* ---------- Painel da fila: vidro elevado, sem caixa dentro ---------- */
+.crm-v4-root .v4-fila {
+  /* altura do cabeçalho de grupo fixo: o foco do J/K nunca fica por baixo dele */
+  --v4-fila-head-h: calc(var(--v4-space-3) + var(--v4-lh-section) + var(--v4-space-2) + 1px);
+}
+.crm-v4-root .v4-fila__principal {
+  border: 1px solid var(--v4-g-glass-border);
+  border-radius: var(--v4-radius-panel);
+  background: var(--v4-g-glass-up-fill);
+  box-shadow: var(--v4-g-glass-up-shadow);
+}
+/* Cabeçalho de grupo: vidro fixo no topo do painel enquanto o grupo passa por baixo */
+.crm-v4-root .v4-fila__sec-head {
+  --v4-text-2: var(--v4-g-text-2-float);
+  --v4-text-3: var(--v4-g-text-3-float);
+  position: sticky;
+  top: 0;
+  z-index: var(--v4-z-sticky);
+  background: var(--v4-g-thead-fill);
+  box-shadow: var(--v4-g-thead-shadow);
+  backdrop-filter: var(--v4-g-thead-backdrop);
+  -webkit-backdrop-filter: var(--v4-g-thead-backdrop);
+}
+.crm-v4-root .v4-fila__sec:first-child .v4-fila__sec-head { border-radius: var(--v4-radius-panel) var(--v4-radius-panel) 0 0; }
+
+/* ---------- Moldura: a tela ocupa a altura do conteúdo da casca; a lista rola sozinha ---------- */
+@media (min-width: 900px) {
+  .crm-v4-root .v4-main:has(> .v4-fila) {
+    display: flex;
+    flex-direction: column;
+  }
+  .crm-v4-root .v4-fila {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .crm-v4-root .v4-fila__grade {
+    flex: 1 1 auto;
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+    min-height: 0;
+  }
+  .crm-v4-root .v4-fila__principal {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-padding-top: calc(var(--v4-fila-head-h) + var(--v4-space-2));
+  }
+  /* o resumo também: painel na altura toda, corpo com rolagem própria */
+  .crm-v4-root .v4-fila__lado {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .crm-v4-root .v4-fila__lado > .v4-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .crm-v4-root .v4-fila__lado > .v4-panel > .v4-panel__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Com espaço, as ações ficam à direita do item (uma linha a menos por item) */
+@media (min-width: 900px) {
+  .crm-v4-root .v4-fila__item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--v4-space-4);
+  }
+  .crm-v4-root .v4-fila__item > .v4-fila__acoes {
+    align-self: start;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+}
+
+/* Intermediário: coluna lateral mais estreita */
+@media (max-width: 1199px) {
+  .crm-v4-root .v4-fila__grade { grid-template-columns: minmax(0, 1fr) 260px; }
+  .crm-v4-root .v4-fila__fatos > div { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* Estreito: uma coluna, a fila primeiro e o resumo depois; rola o conteúdo da casca (a página
+   continua parada) e os cabeçalhos de grupo ficam fixos no topo dele */
+@media (max-width: 899px) {
+  .crm-v4-root .v4-fila__grade { grid-template-columns: minmax(0, 1fr); }
+  .crm-v4-root .v4-fila__teclas { display: none; }
+  .crm-v4-root .v4-main:has(> .v4-fila) { scroll-padding-top: calc(var(--v4-fila-head-h) + var(--v4-space-1)); }
+  .crm-v4-root .v4-fila__principal { overflow: clip; }
+  /* o conteúdo da casca tem 4 px de folga para o foco: o cabeçalho cola na borda, não na folga */
+  .crm-v4-root .v4-fila .v4-fila__sec-head { top: -4px; }
+}

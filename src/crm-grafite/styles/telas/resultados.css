@@ -1,0 +1,63 @@
+/* ==========================================================================
+   CRM v4 · Resultados e Origem dos leads: período, unidade e tabela
+   ========================================================================== */
+
+.crm-v4-root .v4-res__nota { padding: var(--v4-space-3) var(--v4-c-panel-pad); border-top: 1px solid var(--v4-border-divider); }
+.crm-v4-root .v4-res--atualizando { opacity: 0.6; transition: opacity var(--v4-dur-section) var(--v4-ease-out); }
+.crm-v4-root .v4-res__taxa { display: inline-flex; align-items: center; gap: var(--v4-space-1); }
+.crm-v4-root .v4-res__taxa--abaixo { color: var(--v4-warning); }
+.crm-v4-root .v4-res__taxa--acima { color: var(--v4-success); }
+.crm-v4-root .v4-res__taxa .v4-icon { width: 16px; height: 16px; }
+.crm-v4-root .v4-res__conta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--v4-space-2) var(--v4-space-3);
+}
+.crm-v4-root .v4-res__conta > .v4-field { flex: 1 1 220px; max-width: 320px; }
+.crm-v4-root .v4-res__conta > .v4-btn { margin-top: calc(var(--v4-lh-ui) + var(--v4-space-1)); }
+.crm-v4-root .v4-res__previsao { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) { display: grid; gap: var(--v4-space-3); }
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table th:first-child,
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table td:first-child { padding-left: 0; }
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table th:last-child,
+.crm-v4-root .v4-tela--resultados .v4-panel__body:not(.v4-panel__body--flush) > .v4-tablebox .v4-table td:last-child { padding-right: 0; }
+
+/* Gráfico de barras por dia (série real) com resumo em texto */
+.crm-v4-root .v4-barras { display: grid; gap: var(--v4-space-2); }
+.crm-v4-root .v4-barras__svg { display: block; width: 100%; height: 160px; overflow: visible; }
+.crm-v4-root .v4-barras__barra { fill: var(--v4-p-sand-400); }
+.crm-v4-root .v4-barras__barra.is-max { fill: var(--v4-text-1); }
+.crm-v4-root .v4-barras__base { stroke: var(--v4-control-border); stroke-width: 1; }
+.crm-v4-root .v4-barras__media { stroke: var(--v4-info); stroke-width: 1; stroke-dasharray: 4 4; }
+.crm-v4-root .v4-barras__eixo {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--v4-space-2);
+  color: var(--v4-text-3);
+  font-size: var(--v4-fs-meta);
+  line-height: var(--v4-lh-meta);
+  font-variant-numeric: tabular-nums;
+}
+.crm-v4-root .v4-barras__legenda { display: flex; flex-wrap: wrap; gap: var(--v4-space-1) var(--v4-space-4); }
+.crm-v4-root .v4-barras__marca { display: inline-flex; align-items: center; gap: var(--v4-space-1); }
+.crm-v4-root .v4-barras__marca::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 0;
+  border-top: 1px dashed var(--v4-info);
+}
+.crm-v4-root .v4-origem__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--v4-space-2); }
+
+/* ==========================================================================
+   Grafite (data-visual="grafite"): tabelas no padrão de Pessoas (base-demais.css) e o único
+   gráfico (entradas por dia, série real) em tons da ardósia: barra no texto 3, maior no texto 1.
+   ========================================================================== */
+.crm-v4-root[data-visual="grafite"] .v4-barras__barra { fill: var(--v4-text-3); }
+.crm-v4-root[data-visual="grafite"] .v4-barras__barra.is-max { fill: var(--v4-text-1); }
+.crm-v4-root[data-visual="grafite"] .v4-barras__media,
+.crm-v4-root[data-visual="grafite"] .v4-barras__marca::before { stroke: var(--v4-text-2); border-top-color: var(--v4-text-2); }
+.crm-v4-root[data-visual="grafite"] .v4-barras__base { stroke: var(--v4-border-divider); }
+/* Nota abaixo da tabela: na folha sólida, separada por um fio */
+.crm-v4-root[data-visual="grafite"] .v4-res__nota { padding-block: var(--v4-space-3); }

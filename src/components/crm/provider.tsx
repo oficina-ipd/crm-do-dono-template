@@ -52,8 +52,20 @@ export function useCRM(): CRM {
   return c;
 }
 
-export function CRMProvider({ repo, estadoInicial, children, aoLigar, aoDiscar }: { repo: RepositorioCRM; estadoInicial: EstadoCRM; children: React.ReactNode; aoLigar: (contatoId: string) => void; aoDiscar: () => void }) {
-  const toast = useToast();
+/** Como o provedor avisa sucesso e erro. Sem `avisar`, usa o aviso do design system antigo. */
+export type AvisarCRM = (texto: string, tom: "sucesso" | "erro") => void;
+
+export function CRMProvider({ repo, estadoInicial, children, aoLigar, aoDiscar, avisar }: { repo: RepositorioCRM; estadoInicial: EstadoCRM; children: React.ReactNode; aoLigar: (contatoId: string) => void; aoDiscar: () => void; avisar?: AvisarCRM }) {
+  const toastDs = useToast();
+  const avisarRef = React.useRef(avisar);
+  avisarRef.current = avisar;
+  const toast = React.useMemo(
+    () => ({
+      ok: (t: string) => (avisarRef.current ? avisarRef.current(t, "sucesso") : toastDs.push(t)),
+      erro: (t: string) => (avisarRef.current ? avisarRef.current(t, "erro") : toastDs.push(t)),
+    }),
+    [toastDs],
+  );
   const [estado, setEstado] = React.useState(estadoInicial);
   const [agora, setAgora] = React.useState(() => new Date().toISOString());
   const [rota, setRota] = React.useState<Rota>(() => lerRota(window.location.hash));
@@ -77,10 +89,10 @@ export function CRMProvider({ repo, estadoInicial, children, aoLigar, aoDiscar }
       const novo = await repo.despachar(cmd);
       setEstado(novo);
       setAgora(new Date().toISOString());
-      if (avisoOk) toast.push(avisoOk);
+      if (avisoOk) toast.ok(avisoOk);
       return novo;
     } catch (e) {
-      toast.push(e instanceof ErroDeRegra ? e.message : `Não deu: ${(e as Error).message}`);
+      toast.erro(e instanceof ErroDeRegra ? e.message : `Não deu: ${(e as Error).message}`);
       return null;
     }
   }, [repo, toast]);

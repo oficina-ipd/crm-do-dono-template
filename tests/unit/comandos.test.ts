@@ -169,3 +169,17 @@ describe("cadastros", () => {
     expect(() => roda(base(), { tipo: "lancarGasto", gasto: { funilId: "perpetuo", criativoId: null, data: "22/10", valor: 10, visitas: 0 } })).toThrow();
   });
 });
+
+describe("reagendarTarefa", () => {
+  it("muda a data de vencimento e aceita tirar a data", () => {
+    const t = base().tarefas[0]!;
+    const s1 = roda(base(), { tipo: "reagendarTarefa", tarefaId: t.id, venceEm: "2026-10-25T13:00:00.000Z" });
+    expect(s1.tarefas.find((x) => x.id === t.id)!.venceEm).toBe("2026-10-25T13:00:00.000Z");
+    const s2 = roda(s1, { tipo: "reagendarTarefa", tarefaId: t.id, venceEm: null });
+    expect(s2.tarefas.find((x) => x.id === t.id)!.venceEm).toBeNull();
+  });
+  it("recusa data inválida", () => {
+    const t = base().tarefas[0]!;
+    expect(() => roda(base(), { tipo: "reagendarTarefa", tarefaId: t.id, venceEm: "amanhã" })).toThrow(ErroDeRegra);
+  });
+});

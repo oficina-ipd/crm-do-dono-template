@@ -1,0 +1,12 @@
+/* ==========================================================================
+   CRM v4 · Metas: meta por etapa contra o realizado (somente leitura)
+   ========================================================================== */
+
+.crm-v4-root .v4-metas__etapa { display: grid; gap: 2px; min-width: 200px; max-width: 46ch; }
+.crm-v4-root .v4-metas__como { display: grid; gap: var(--v4-space-2); max-width: 78ch; }
+.crm-v4-root .v4-metas__arquivo {
+  font-family: var(--v4-font-mono);
+  font-size: var(--v4-fs-meta);
+  overflow-wrap: anywhere;
+}
+.crm-v4-root .v4-tela--metas .v4-res__taxa .v4-icon { flex: none; }

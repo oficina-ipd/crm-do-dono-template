@@ -54,14 +54,18 @@ export const MCP_TOOLS: McpTool[] = [
     async handler() {
       return ok({
         telas: [
-          { id: "hoje", arquivo: "src/screens/Hoje.tsx", job: "fila do dia" },
-          { id: "funil", arquivo: "src/screens/FunilKanban.tsx", job: "kanban de oportunidades" },
-          { id: "conversas", arquivo: "src/screens/Conversas.tsx", job: "espelho WhatsApp" },
-          { id: "contatos", arquivo: "src/screens/Contatos.tsx", job: "leads e clientes" },
-          { id: "demandas", arquivo: "src/screens/Demandas.tsx", job: "CPL e funis de entrada" },
-          { id: "relance", arquivo: "src/crm-v3/relance.tsx", job: "reciclador de oportunidades (Ember)" },
-          { id: "agentes", arquivo: "src/screens/Agentes.tsx", job: "7 agentes e modos" },
-          { id: "integracoes", arquivo: "src/screens/Integracoes.tsx", job: "MCP, WhatsApp, tokens" },
+          { id: "fila", arquivo: "src/crm-grafite/telas/fila/index.tsx", job: "quem precisa de você, tarefas do dia e oportunidades paradas" },
+          { id: "conversas", arquivo: "src/crm-grafite/telas/conversas/index.tsx", job: "espelho WhatsApp, assumir/devolver e responder" },
+          { id: "ficha", arquivo: "src/crm-grafite/telas/ficha/index.tsx", job: "ficha da pessoa: conversa, linha do tempo, briefing, proposta" },
+          { id: "funil", arquivo: "src/crm-grafite/telas/funil/index.tsx", job: "quadro de oportunidades e taxa por etapa" },
+          { id: "pessoas", arquivo: "src/crm-grafite/telas/pessoas/index.tsx", job: "leads e clientes em tabela" },
+          { id: "tarefas", arquivo: "src/crm-grafite/telas/tarefas/index.tsx", job: "atrasadas, hoje e próximas" },
+          { id: "agentes", arquivo: "src/crm-grafite/telas/agentes/index.tsx", job: "sugestões do Pilot e os agentes" },
+          { id: "relance", arquivo: "src/crm-grafite/telas/relance/index.tsx", job: "reciclador de oportunidades (Ember)" },
+          { id: "resultados", arquivo: "src/crm-grafite/telas/resultados/index.tsx", job: "números do período e taxa por etapa" },
+          { id: "origem", arquivo: "src/crm-grafite/telas/origem/index.tsx", job: "de onde vêm os leads, CPL e gasto" },
+          { id: "integracoes", arquivo: "src/crm-grafite/telas/integrar/index.tsx", job: "WhatsApp, IA, MCP, chaves e dados" },
+          { id: "design", arquivo: "docs/DESIGN.md", job: "cores (src/crm-grafite/styles/tokens.css), componentes e regras do visual" },
         ],
         regras: "src/domain/rules.ts",
         reciclador: "src/domain/reciclador.ts",
@@ -449,6 +453,21 @@ export const MCP_TOOLS: McpTool[] = [
       if (!t) return err("Tarefa não encontrada.");
       ctx.audit("crm_tarefas_concluir", a);
       return ok({ status: "ok", id: a.id, feita: a.feita, texto: t.texto });
+    },
+  },
+  {
+    name: "crm_tarefas_reagendar",
+    description: "Muda a data de vencimento de uma tarefa (ISO 8601) ou tira a data (null).",
+    nivelMinimo: "escrita",
+    inputSchema: z.object({ id: z.string(), venceEm: z.string().datetime().nullable() }),
+    async handler(args, ctx) {
+      if (!nivelPodeEscrever(ctx.nivel)) return err("Token só de leitura.");
+      const a = z.object({ id: z.string(), venceEm: z.string().datetime().nullable() }).parse(args);
+      const estado = ctx.estado as EstadoCRM;
+      const t = estado.tarefas?.find((x) => x.id === a.id);
+      if (!t) return err("Tarefa não encontrada.");
+      ctx.audit("crm_tarefas_reagendar", a);
+      return ok({ status: "ok", id: a.id, venceEm: a.venceEm, texto: t.texto });
     },
   },
   {
