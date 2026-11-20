@@ -109,9 +109,19 @@ Etapas do seu negócio. O quadro ocupa a tela, cada coluna rola sozinha. "Mover 
 
 Uma tabela só, com etapa, última conversa, quem conduz e origem. Ordena por coluna, filtra, busca. O WhatsApp aparece mascarado; "Revelar" mostra um número por vez.
 
+### Ficha: tudo sobre a pessoa
+
+<img src="docs/screenshots/desktop-ficha.png" alt="Ficha da pessoa, com a conversa e o comportamento" width="860" />
+
+A conversa inteira de um lado e, do outro, o que você precisa para decidir: por que ela pediu uma pessoa, o **comportamento** (quente, morna ou fria; quando costuma escrever; quanto demora para responder), a próxima tarefa, os dados de contato com WhatsApp e e-mail mascarados, e o seu termômetro (frio, morno, quente).
+
+<img src="docs/screenshots/desktop-ficha-360.png" alt="Histórico 360 da pessoa, dia a dia" width="860" />
+
+A aba **Linha do tempo** é o histórico 360: conversas, propostas, pagamentos, etapas, tarefas e notas numa linha só, agrupada por dia, com filtro por tipo. Um dia só com mensagens nossas diz "sem resposta no dia".
+
 ### E mais
 
-- **Ficha da pessoa**: a conversa, o histórico 360 (tudo o que aconteceu com a pessoa, dia a dia, num lugar só), o comportamento dela (quente, morna ou fria; quando costuma escrever; quanto demora para responder), briefing, proposta, link de pagamento e termômetro.
+- **Ficha da pessoa**: também tem briefing, proposta e link de pagamento (veja acima).
 - **Tarefas**: atrasadas, hoje, próximas; concluir, reabrir e mudar data na própria linha.
 - **Agentes** e **Relance**: sete papéis claros (**Cláudio** conversa e não fecha; **Scout**, **Scribe**, **Ledger** que nunca cobra, **Pilot**, **Eco** e **Ember**, o reciclador de oportunidades). O Ember só manda mensagem com chave de IA, dentro dos seus freios (ritmo, janela comercial, opt-out e parada de emergência). Cláudio e Pilot só trabalham sozinhos se você ligar; vem tudo desligado. Veja [docs/AGENTES-AUTOMATICOS.md](docs/AGENTES-AUTOMATICOS.md).
 - **Resultados** e **Origem dos leads**: números do período, custo por lead e por venda, gasto por criativo.

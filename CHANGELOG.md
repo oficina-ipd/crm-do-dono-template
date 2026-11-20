@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.4.0 — 2026-11-20
+
+### Agentes (da branch `feat/agentes-v2`, antes no PR #4)
+
+- Núcleo dos seis agentes (Cláudio, Scout, Scribe, Ledger, Pilot, Eco) com prompts específicos e saídas validadas por esquema; saída inválida cai nas regras locais.
+- Freios em código: sem preço nem condição em Cláudio e Pilot (inclusive na saída do modelo), Ledger nunca cobra, Pilot respeita 48 h entre toques, teto de 14 dias e opt-out.
+- Auto-atendimento Cláudio + Scout no webhook (opt-in: `CRM_CLAUDIO_AUTO_REPLY=1`, chave de IA e sessão do WhatsApp), com janela comercial, anti-loop e passagem para uma pessoa em preço, pedido de humano ou nota 9 e 10.
+- Pilot por rotina (`/api/agents/pilot/tick`): só sugere; envia sozinho apenas com `CRM_PILOT_AUTO=1`. Registro de decisões em `/api/agents/log`. Veja `docs/AGENTES-AUTOMATICOS.md`.
+
+### Visual e telas (Grafite, 1.2.0 e 1.3.0)
+
+- Entram na `main` o visual Grafite em todas as telas, o Painel, o histórico 360 na Ficha e o login com e-mail e senha (detalhes nas versões 1.3.0 e 1.2.0 abaixo).
+
+### Documentação
+
+- Capturas novas, de uma build de produção, no visual atual: Painel, Fila, Conversas, Funil, Pessoas, Ficha e Ficha 360 (aba Linha do tempo).
+- README em português e em inglês com a seção da Ficha e do histórico 360.
+
 ## 1.3.0 — 2026-11-13
 
 ### Novidades do CRM da comunidade (IPD, 12 e 13/11/2026)

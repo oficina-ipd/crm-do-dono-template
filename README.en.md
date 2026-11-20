@@ -109,9 +109,19 @@ Your own stages, full-height board, "Move to…" from the card (menu or keyboard
 
 Leads and customers in one sortable, filterable table. WhatsApp numbers are masked; "Reveal" shows one at a time.
 
+### Contact page: everything about one person
+
+<img src="docs/screenshots/desktop-ficha.png" alt="Contact page with the conversation and behaviour summary" width="860" />
+
+The full conversation on one side and, on the other, what you need to decide: why they asked for a person, their **behaviour** (hot, warm or cold; when they usually write; how long they take to answer), the next task, masked WhatsApp and email, and your own temperature mark.
+
+<img src="docs/screenshots/desktop-ficha-360.png" alt="360 history of the contact, by day" width="860" />
+
+The **Timeline** tab is the 360 history: conversations, proposals, payments, stages, tasks and notes in one line, grouped by day, filterable by type.
+
 ### And also
 
-Contact page (conversation, 360 history by day, behaviour summary, briefing, proposal, payment link), email-and-password sign-in with My account (with Supabase), Tasks, Agents and Relance (the Ember opportunity recycler, which only sends with your AI key and inside your limits), Results, Lead sources, Settings (products, team, message templates, playbook, integrations), ⌘K search, solid mode and density.
+Briefing, proposal and payment link on the contact page, email-and-password sign-in with My account (with Supabase), Tasks, Agents and Relance (the Ember opportunity recycler, which only sends with your AI key and inside your limits), Results, Lead sources, Settings (products, team, message templates, playbook, integrations), ⌘K search, solid mode and density.
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "name": "crm-do-dono",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "CRM do dono · v3 instalável (IA para Donos). Contas + chaves e pronto. MCP-first.",
   "scripts": {
     "dev": "next dev",
